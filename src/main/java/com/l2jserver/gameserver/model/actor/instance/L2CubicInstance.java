@@ -363,6 +363,7 @@ public final class L2CubicInstance implements IIdentifiable {
 	}
 	
 	public void useCubicContinuous(Skill skill, List<L2Object> targets) {
+		int index = 0;
 		for (var object : targets) {
 			if ((object == null) || !object.isCharacter()) {
 				continue;
@@ -384,7 +385,7 @@ public final class L2CubicInstance implements IIdentifiable {
 			}
 			
 			// Apply effects
-			skill.applyEffects(_owner, target, false, false, true, 0);
+			skill.applyEffects(_owner, target, index++, false, false, true, 0);
 		}
 	}
 	
@@ -470,6 +471,7 @@ public final class L2CubicInstance implements IIdentifiable {
 	}
 	
 	public void useCubicDisabler(Skill skill, List<L2Object> targets) {
+		int index = 0;
 		for (var object : targets) {
 			if ((object == null) || !object.isCharacter()) {
 				continue;
@@ -485,7 +487,7 @@ public final class L2CubicInstance implements IIdentifiable {
 			if (skill.hasEffectType(L2EffectType.STUN, L2EffectType.ROOT, L2EffectType.AGGRESSION)) {
 				if (Formulas.calcCubicSkillSuccess(this, target, skill, shld)) {
 					// Apply effects
-					skill.applyEffects(_owner, target, false, false, true, 0);
+					skill.applyEffects(_owner, target, index++, false, false, true, 0);
 					
 					if (general().debug()) {
 						LOG.debug("Disablers: useCubicSkill() -> success");

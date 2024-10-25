@@ -950,17 +950,17 @@ public final class Skill implements IIdentifiable {
 	}
 	
 	/**
-	 * Method overload for {@link Skill#applyEffects(L2Character, L2Character, boolean, boolean, boolean, int)}.<br>
+	 * Method overload for {@link Skill#applyEffects(L2Character, L2Character, int, boolean, boolean, boolean, int)}.<br>
 	 * Simplify the calls.
 	 * @param effector the caster of the skill
 	 * @param effected the target of the effect
 	 */
 	public void applyEffects(L2Character effector, L2Character effected) {
-		applyEffects(effector, effected, false, false, true, 0);
+		applyEffects(effector, effected, -1, false, false, true, 0);
 	}
 	
 	/**
-	 * Method overload for {@link Skill#applyEffects(L2Character, L2Character, boolean, boolean, boolean, int)}.<br>
+	 * Method overload for {@link Skill#applyEffects(L2Character, L2Character, int, boolean, boolean, boolean, int)}.<br>
 	 * Simplify the calls, allowing abnormal time time customization.
 	 * @param effector the caster of the skill
 	 * @param effected the target of the effect
@@ -968,19 +968,20 @@ public final class Skill implements IIdentifiable {
 	 * @param abnormalTime custom abnormal time, if equal or lesser than zero will be ignored
 	 */
 	public void applyEffects(L2Character effector, L2Character effected, boolean instant, int abnormalTime) {
-		applyEffects(effector, effected, false, false, instant, abnormalTime);
+		applyEffects(effector, effected, -1, false, false, instant, abnormalTime);
 	}
 	
 	/**
 	 * Applies the effects from this skill to the target.
 	 * @param effector the caster of the skill
 	 * @param effected the target of the effect
+	 * @param index the index on a list of targets, single skill casts receive -1
 	 * @param self if {@code true} self-effects will be casted on the caster
 	 * @param passive if {@code true} passive effects will be applied to the effector
 	 * @param instant if {@code true} instant effects will be applied to the effected
 	 * @param abnormalTime custom abnormal time, if equal or lesser than zero will be ignored
 	 */
-	public void applyEffects(L2Character effector, L2Character effected, boolean self, boolean passive, boolean instant, int abnormalTime) {
+	public void applyEffects(L2Character effector, L2Character effected, int index, boolean self, boolean passive, boolean instant, int abnormalTime) {
 		// null targets cannot receive any effects.
 		if (effected == null) {
 			return;
@@ -1007,7 +1008,7 @@ public final class Skill implements IIdentifiable {
 		
 		boolean addContinuousEffects = !passive && (_operateType.isToggle() || (_operateType.isContinuous() && Formulas.calcEffectSuccess(effector, effected, this)));
 		if (!self && !passive) {
-			final BuffInfo info = new BuffInfo(effector, effected, this);
+			final var info = new BuffInfo(effector, effected, index, this);
 			
 			if (effector.isPlayer() && (getMaxSoulConsumeCount() > 0)) {
 				info.setCharges(effector.getActingPlayer().decreaseSouls(getMaxSoulConsumeCount()));
@@ -1149,7 +1150,7 @@ public final class Skill implements IIdentifiable {
 			if (caster.isAffectedBySkill(getId())) {
 				caster.stopSkillEffects(true, getId());
 			}
-			applyEffects(caster, caster, true, false, true, 0);
+			applyEffects(caster, caster, -1, true, false, true, 0);
 		}
 		
 		if (cubic == null) {

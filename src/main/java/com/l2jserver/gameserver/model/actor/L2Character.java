@@ -4401,7 +4401,7 @@ public abstract class L2Character extends L2Object implements ISkillsHolder, IDe
 			addStatFuncs(newSkill.getStatFuncs(null, this));
 			
 			if (newSkill.isPassive()) {
-				newSkill.applyEffects(this, this, false, true, false, 0);
+				newSkill.applyEffects(this, this, -1, false, true, false, 0);
 			}
 		}
 		return oldSkill;

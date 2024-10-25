@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -355,44 +355,32 @@ public final class L2World {
 	 * @return the visible objects in the radius
 	 */
 	public List<L2Object> getVisibleObjects(L2Object object, int radius) {
-		if ((object == null) || !object.isVisible()) {
-			return List.of();
-		}
-		
-		final int sqRadius = radius * radius;
-		final var result = new LinkedList<L2Object>();
-		for (var region : object.getWorldRegion().getSurroundingRegions()) {
-			// Go through visible objects of the selected region
-			for (var visibleObject : region.getVisibleObjects().values()) {
-				if ((visibleObject == null) || visibleObject.equals(object)) {
-					continue; // skip our own character
-				}
-				
-				if (sqRadius > object.calculateDistance(visibleObject, false, true)) {
-					result.add(visibleObject);
-				}
-			}
-		}
-		return result;
+		return getVisibleObjects(object, radius, true);
 	}
 	
 	/**
-	 * Gets the visible objects to the object taking the target as point of origin.
-	 * @param object the object to check visibility
-	 * @param target the origin
+	 * Gets the visible objects around a given object.
+	 * @param object the origin
 	 * @param radius the radius to check
+	 * @param excludeTarget if the target should be excluded
 	 * @return the visible objects in the radius
 	 */
-	public List<L2Object> getVisibleObjects(L2Object object, L2Object target, int radius) {
+	public List<L2Object> getVisibleObjects(L2Object object, int radius, boolean excludeTarget) {
+		return getVisibleObjectsStream(object, radius, excludeTarget).toList();
+	}
+	
+	public Stream<L2Object> getVisibleObjectsStream(L2Object object, int radius, boolean excludeTarget) {
+		if ((object == null) || !object.isVisible()) {
+			return Stream.of();
+		}
 		final int sqRadius = radius * radius;
-		return target.getWorldRegion()
+		return object.getWorldRegion()
 			.getSurroundingRegions()
 			.stream()
 			.flatMap(r -> r.getVisibleObjects().values().stream())
 			.filter(Objects::nonNull)
-			.filter(o -> !o.equals(object))
-			.filter(o -> sqRadius > target.calculateDistance(o, false, true))
-			.collect(Collectors.toList());
+			.filter(o -> !excludeTarget || !o.equals(object))
+			.filter(o -> sqRadius > object.calculateDistance(o, false, true));
 	}
 	
 	/**
