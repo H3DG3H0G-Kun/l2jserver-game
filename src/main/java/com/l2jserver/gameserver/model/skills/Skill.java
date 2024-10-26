@@ -754,7 +754,7 @@ public final class Skill implements IIdentifiable {
 	}
 	
 	public boolean isBad() {
-		return (_effectPoint < 0) && (targetType != TargetType.SELF);
+		return (_effectPoint < 0) && (targetType != TargetType.SELF) && (targetType != TargetType.SUMMON);
 	}
 	
 	public boolean checkCondition(L2Character activeChar, L2Object object, boolean itemOrWeapon) {

@@ -72,7 +72,7 @@ import com.l2jserver.gameserver.util.Util;
 
 /**
  * Affect Scope test.
- * @author Zoey76
+ * @author Zoey76, Kita
  * @version 2.6.3.0
  */
 @ExtendWith(MockitoExtension.class)
@@ -531,8 +531,8 @@ class AffectScopeTest {
 	}
 	
 	@Test
-	@DisplayName("Test POINT_BLANK scope.")
-	void testPointBlankScope() {
+	@DisplayName("Test POINT_BLANK scope using caster as point of origin.")
+	void testPointBlankScopeFromCaster() {
 		when(caster.isCharacter()).thenReturn(true);
 		when(skill.getAffectLimit()).thenReturn(AFFECT_LIMIT);
 		when(skill.getAffectObject()).thenReturn(affectObject);
@@ -548,6 +548,27 @@ class AffectScopeTest {
 		when(affectObject.affectObject(caster, summon)).thenReturn(true);
 		
 		assertEquals(List.of(caster, summon), POINT_BLANK.affectTargets(caster, caster, skill));
+	}
+	
+	@Test
+	@DisplayName("Test POINT_BLANK scope using summon as point of origin.")
+	void testPointBlankScopeFromSummon() {
+		when(summon.isCharacter()).thenReturn(true);
+		
+		when(skill.getAffectLimit()).thenReturn(AFFECT_LIMIT);
+		when(skill.getAffectObject()).thenReturn(affectObject);
+		when(skill.getAffectRange()).thenReturn(AFFECT_RANGE);
+		
+		when(L2World.getInstance()).thenReturn(world);
+		when(world.getVisibleObjectsStream(summon, AFFECT_RANGE, true)) //
+			.thenReturn(Stream.of(caster, summon, npc2, npc3));
+		
+		when(affectObject.affectObject(caster, caster)).thenReturn(false);
+		when(affectObject.affectObject(caster, summon)).thenReturn(false);
+		when(affectObject.affectObject(caster, npc2)).thenReturn(true);
+		when(affectObject.affectObject(caster, npc3)).thenReturn(true);
+		
+		assertEquals(List.of(npc2, npc3), POINT_BLANK.affectTargets(caster, summon, skill));
 	}
 	
 	@Test

@@ -382,7 +382,7 @@ public enum AffectScope {
 			final var affectLimit = skill.getAffectLimit();
 			return L2World.getInstance()
 				.getVisibleObjectsStream(target, skill.getAffectRange(), true)
-				.filter(c -> skill.getAffectObject().affectObject((L2Character) target, c))
+				.filter(c -> skill.getAffectObject().affectObject(caster, c))
 				.limit(affectLimit > 0 ? affectLimit : Integer.MAX_VALUE)
 				.toList();
 		}
