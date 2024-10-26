@@ -539,8 +539,8 @@ class AffectScopeTest {
 		when(skill.getAffectRange()).thenReturn(AFFECT_RANGE);
 		
 		when(L2World.getInstance()).thenReturn(world);
-		when(world.getVisibleObjects(caster, AFFECT_RANGE)) //
-			.thenReturn(List.of(caster, npc2, npc3, summon));
+		when(world.getVisibleObjectsStream(caster, AFFECT_RANGE, true)) //
+			.thenReturn(Stream.of(caster, npc2, npc3, summon));
 		
 		when(affectObject.affectObject(caster, caster)).thenReturn(true);
 		when(affectObject.affectObject(caster, npc2)).thenReturn(false);
@@ -558,7 +558,7 @@ class AffectScopeTest {
 		when(skill.getAffectObject()).thenReturn(affectObject);
 		
 		when(L2World.getInstance()).thenReturn(world);
-		when(world.getVisibleObjectsStream(target, AFFECT_RANGE, false)).thenReturn(Stream.of(object1, servitor, player2, player3, player4, player5, player6, player7, player8));
+		when(world.getVisibleObjectsStream(target, AFFECT_RANGE, true)).thenReturn(Stream.of(object1, servitor, player2, player3, player4, player5, player6, player7, player8));
 		
 		when(object1.isCharacter()).thenReturn(false);
 		
