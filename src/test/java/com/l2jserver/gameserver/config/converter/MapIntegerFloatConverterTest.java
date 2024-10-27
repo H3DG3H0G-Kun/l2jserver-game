@@ -30,17 +30,17 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Zoey76
  * @version 2.6.3.0
  */
-public class MapIntegerFloatConverterTest {
+class MapIntegerFloatConverterTest {
 	
 	private static final MapIntegerFloatConverter CONVERTER = new MapIntegerFloatConverter();
 	
 	@ParameterizedTest
 	@MethodSource("provideKeyValues")
-	public void convertTest(String keyValues, Map<Integer, Float> expected) {
+	void convertTest(String keyValues, Map<Integer, Float> expected) {
 		assertEquals(CONVERTER.convert(null, keyValues), expected);
 	}
 	
-	public static Object[][] provideKeyValues() {
+	private static Object[][] provideKeyValues() {
 		return new Object[][] {
 			{
 				"264,3600;265,3600;266,3600;267,3600",

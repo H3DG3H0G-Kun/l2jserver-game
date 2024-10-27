@@ -27,9 +27,9 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Quest test.
- * @author Noé Caratini aka Kita
+ * @author Kita (Noé Caratini)
  */
-public class QuestTest {
+class QuestTest {
 	
 	private Quest quest;
 	
@@ -39,21 +39,21 @@ public class QuestTest {
 	}
 	
 	@Test
-	public void shouldRegisterQuestItems() {
+	void shouldRegisterQuestItems() {
 		quest.registerQuestItems(1, 2);
 		
 		assertThat(quest.getRegisteredItemIds()).containsExactlyInAnyOrder(1, 2);
 	}
 	
 	@Test
-	public void shouldRegisterQuestItemsWithSet() {
+	void shouldRegisterQuestItemsWithSet() {
 		quest.registerQuestItems(Set.of(1, 2));
 		
 		assertThat(quest.getRegisteredItemIds()).containsExactlyInAnyOrder(1, 2);
 	}
 	
 	@Test
-	public void shouldAddToRegisteredQuestItemsIfCalledMultipleTimes() {
+	void shouldAddToRegisteredQuestItemsIfCalledMultipleTimes() {
 		quest.registerQuestItems(1, 2);
 		quest.registerQuestItems(3, 4);
 		quest.registerQuestItems(Set.of(5, 6));

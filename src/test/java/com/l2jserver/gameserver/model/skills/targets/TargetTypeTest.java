@@ -41,12 +41,12 @@ import com.l2jserver.gameserver.model.skills.Skill;
  * @author Noé Caratini aka Kita
  */
 @ExtendWith(MockitoExtension.class)
-public class TargetTypeTest {
+class TargetTypeTest {
 	@Mock
 	private Skill skill;
 
 	@Test
-	public void doorTreasureShouldReturnNullIfTargetIsNull() {
+	void doorTreasureShouldReturnNullIfTargetIsNull() {
 		final var caster = mock(L2Character.class);
 
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, null);
@@ -55,7 +55,7 @@ public class TargetTypeTest {
 	}
 	
 	@Test
-    public void doorTreasureShouldReturnNullIfTargetIsNotADoorOrChest() {
+    void doorTreasureShouldReturnNullIfTargetIsNotADoorOrChest() {
 		final var target = mock(L2Object.class);
         when(target.isDoor()).thenReturn(false);
 
@@ -67,7 +67,7 @@ public class TargetTypeTest {
     }
 	
 	@Test
-    public void doorTreasureShouldReturnTargetIfDoor() {
+    void doorTreasureShouldReturnTargetIfDoor() {
 		final var target = mock(L2Object.class);
         when(target.isDoor()).thenReturn(true);
 
@@ -79,7 +79,7 @@ public class TargetTypeTest {
     }
 	
 	@Test
-	public void doorTreasureShouldReturnTargetIfChest() {
+	void doorTreasureShouldReturnTargetIfChest() {
 		final var target = mock(L2ChestInstance.class);
 		final var caster = mock(L2Character.class);
 
@@ -89,7 +89,7 @@ public class TargetTypeTest {
 	}
 
 	@Test
-	public void testMonstersCanUseEnemyOnlySkillsOnPc() {
+	void testMonstersCanUseEnemyOnlySkillsOnPc() {
 		final var caster = mock(L2MonsterInstance.class);
 		when(caster.getObjectId()).thenReturn(1);
 		when(caster.isPlayable()).thenReturn(false);
@@ -106,7 +106,7 @@ public class TargetTypeTest {
 	}
 
 	@Test
-	public void testPvpChecksReachedForEnemyOnlySkills() {
+	void testPvpChecksReachedForEnemyOnlySkills() {
 		final var caster = mock(L2PcInstance.class);
 		when(caster.getObjectId()).thenReturn(1);
 		when(caster.isPlayable()).thenReturn(true);

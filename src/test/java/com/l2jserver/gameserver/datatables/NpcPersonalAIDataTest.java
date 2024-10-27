@@ -33,10 +33,10 @@ import com.l2jserver.gameserver.model.L2Spawn;
 
 /**
  * Npc Personal AI Data test.
- * @author Noé Caratini aka Kita
+ * @author Kita (Noé Caratini)
  */
 @ExtendWith(MockitoExtension.class)
-public class NpcPersonalAIDataTest {
+class NpcPersonalAIDataTest {
 	private static final String SPAWN1_NAME = "spawn1";
 	private static final String PARAM_1 = "param1";
 	private static final String PARAM_2 = "param2";
@@ -57,21 +57,21 @@ public class NpcPersonalAIDataTest {
     }
 	
 	@Test
-	public void shouldReturnNegativeAIValueForInvalidSpawnName() {
+	void shouldReturnNegativeAIValueForInvalidSpawnName() {
 		final int aiValue = aiData.getAIValue("invalid", "invalid");
 		
 		assertThat(aiValue).isNegative();
 	}
 	
 	@Test
-	public void shouldReturnNegativeAIValueForInvalidParamName() {
+	void shouldReturnNegativeAIValueForInvalidParamName() {
 		final int aiValue = aiData.getAIValue(SPAWN1_NAME, "invalid");
 		
 		assertThat(aiValue).isNegative();
 	}
 	
 	@Test
-	public void shouldReturnAIValue() {
+	void shouldReturnAIValue() {
 		final int aiValue1 = aiData.getAIValue(SPAWN1_NAME, PARAM_1);
 		final int aiValue2 = aiData.getAIValue(SPAWN1_NAME, PARAM_2);
 		

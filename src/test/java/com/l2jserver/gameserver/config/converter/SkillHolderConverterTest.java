@@ -28,19 +28,19 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Zoey76
  * @version 2.6.3.0
  */
-public class SkillHolderConverterTest {
+class SkillHolderConverterTest {
 	
 	private static final SkillHolderConverter CONVERTER = new SkillHolderConverter();
 	
 	@ParameterizedTest
 	@MethodSource("provideSkills")
-	public void convertTest(String input, int id, int level) {
+	void convertTest(String input, int id, int level) {
 		final var result = CONVERTER.convert(null, input);
 		assertEquals(result.getSkillId(), id);
 		assertEquals(result.getSkillLvl(), level);
 	}
 	
-	public static Object[][] provideSkills() {
+	private static Object[][] provideSkills() {
 		return new Object[][] {
 			{
 				"1504,1",

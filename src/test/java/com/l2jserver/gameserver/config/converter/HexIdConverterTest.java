@@ -30,17 +30,17 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Zoey76
  * @version 2.6.3.0
  */
-public class HexIdConverterTest {
+class HexIdConverterTest {
 	
 	private static final HexIdConverter CONVERTER = new HexIdConverter();
 	
 	@ParameterizedTest
 	@MethodSource("provideKeyValues")
-	public void convertTest(String hexId, BigInteger expected) {
+	void convertTest(String hexId, BigInteger expected) {
 		assertEquals(CONVERTER.convert(null, hexId), expected);
 	}
 	
-	public static Object[][] provideKeyValues() {
+	private static Object[][] provideKeyValues() {
 		return new Object[][] {
 			{
 				"-1eeb34fce0c64b610338d1269d8cfea4",

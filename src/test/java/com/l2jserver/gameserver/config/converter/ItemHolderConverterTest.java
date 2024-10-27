@@ -28,19 +28,19 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Zoey76
  * @version 2.6.3.0
  */
-public class ItemHolderConverterTest {
+class ItemHolderConverterTest {
 	
 	private static final ItemHolderConverter CONVERTER = new ItemHolderConverter();
 	
 	@ParameterizedTest
 	@MethodSource("provideItems")
-	public void convertTest(String input, int id, long count) {
+	void convertTest(String input, int id, long count) {
 		final var result = CONVERTER.convert(null, input);
 		assertEquals(result.getId(), id);
 		assertEquals(result.getCount(), count);
 	}
 	
-	public static Object[][] provideItems() {
+	private static Object[][] provideItems() {
 		return new Object[][] {
 			{
 				"57,100000",
