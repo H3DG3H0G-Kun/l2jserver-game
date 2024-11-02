@@ -1656,7 +1656,7 @@ public abstract class AbstractScript implements INamable {
 		L2TrapInstance trap = new L2TrapInstance(npcTemplate, instanceId, -1);
 		trap.setCurrentHp(trap.getMaxHp());
 		trap.setCurrentMp(trap.getMaxMp());
-		trap.setIsInvul(true);
+		trap.setIsMortal(false);
 		trap.setHeading(heading);
 		trap.spawnMe(x, y, z);
 		return trap;

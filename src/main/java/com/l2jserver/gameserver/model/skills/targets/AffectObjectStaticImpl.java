@@ -71,7 +71,7 @@ public enum AffectObjectStaticImpl implements AffectObject {
 	INVISIBLE {
 		@Override
 		public boolean affectObject(L2Character caster, L2Object object) {
-			return object.isInvisible();
+			return !object.isVisibleFor(caster) || object.isInvisible();
 		}
 	},
 	NONE {

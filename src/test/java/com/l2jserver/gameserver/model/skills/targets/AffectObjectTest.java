@@ -130,16 +130,25 @@ class AffectObjectTest {
 	}
 	
 	@Test
-	@DisplayName("Test affect object INVISIBLE, when object is visible.")
-	void testAffectObjectInvisibleVisibleObject() {
-		when(object.isInvisible()).thenReturn(false);
+	@DisplayName("Test affect object INVISIBLE, when object is visible for caster.")
+	void testInvisibleShouldNotAffectObjectsVisibleByCaster() {
+		when(object.isVisibleFor(caster)).thenReturn(true);
 		
 		assertFalse(INVISIBLE.affectObject(caster, object));
 	}
 	
 	@Test
+	@DisplayName("Test affect object INVISIBLE, when object is invisible for caster.")
+	void testInvisibleShouldAffectObjectsNotVisibleForCaster() {
+		when(object.isVisibleFor(caster)).thenReturn(false);
+		
+		assertTrue(INVISIBLE.affectObject(caster, object));
+	}
+	
+	@Test
 	@DisplayName("Test affect object INVISIBLE, when object is invisible.")
 	void testAffectObjectInvisibleInvisibleObject() {
+		when(object.isVisibleFor(caster)).thenReturn(true);
 		when(object.isInvisible()).thenReturn(true);
 		
 		assertTrue(INVISIBLE.affectObject(caster, object));

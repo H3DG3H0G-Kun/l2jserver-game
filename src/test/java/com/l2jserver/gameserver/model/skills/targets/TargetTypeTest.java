@@ -18,6 +18,7 @@
  */
 package com.l2jserver.gameserver.model.skills.targets;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,21 +35,25 @@ import com.l2jserver.gameserver.model.actor.L2Character;
 import com.l2jserver.gameserver.model.actor.instance.L2ChestInstance;
 import com.l2jserver.gameserver.model.actor.instance.L2MonsterInstance;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jserver.gameserver.model.actor.instance.L2TrapInstance;
 import com.l2jserver.gameserver.model.skills.Skill;
 
 /**
  * Target Type test.
- * @author Noé Caratini aka Kita
+ * @author Kita (Noé Caratini)
  */
 @ExtendWith(MockitoExtension.class)
 class TargetTypeTest {
+	
 	@Mock
 	private Skill skill;
-
+	@Mock
+	private L2Character caster;
+	@Mock
+	private L2Object target;
+	
 	@Test
 	void doorTreasureShouldReturnNullIfTargetIsNull() {
-		final var caster = mock(L2Character.class);
-
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, null);
 
 		assertNull(result);
@@ -56,10 +61,7 @@ class TargetTypeTest {
 	
 	@Test
     void doorTreasureShouldReturnNullIfTargetIsNotADoorOrChest() {
-		final var target = mock(L2Object.class);
         when(target.isDoor()).thenReturn(false);
-
-		final var caster = mock(L2Character.class);
 
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, target);
 
@@ -68,10 +70,7 @@ class TargetTypeTest {
 	
 	@Test
     void doorTreasureShouldReturnTargetIfDoor() {
-		final var target = mock(L2Object.class);
         when(target.isDoor()).thenReturn(true);
-
-		final var caster = mock(L2Character.class);
 
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, target);
 
@@ -81,8 +80,6 @@ class TargetTypeTest {
 	@Test
 	void doorTreasureShouldReturnTargetIfChest() {
 		final var target = mock(L2ChestInstance.class);
-		final var caster = mock(L2Character.class);
-
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, target);
 
 		assertEquals(target, result);
@@ -122,5 +119,35 @@ class TargetTypeTest {
 		final var result = TargetType.ENEMY_ONLY.getTarget(skill, caster, target);
 
 		assertNull(result);
+	}
+	
+	@Test
+	void testEnemyTypeShouldTargetAttackableTraps() {
+		when(caster.getObjectId()).thenReturn(1);
+		
+		final var trap = mock(L2TrapInstance.class);
+		when(trap.getObjectId()).thenReturn(2);
+		when(trap.isCharacter()).thenReturn(true);
+		when(trap.isNpc()).thenReturn(true);
+		when(trap.isAutoAttackable(caster)).thenReturn(true);
+		
+		final var result = TargetType.ENEMY.getTarget(skill, caster, trap);
+		
+		assertThat(result).isEqualTo(trap);
+	}
+	
+	@Test
+	void testEnemyTypeShouldNotTargetNonAttackableTraps() {
+		when(caster.getObjectId()).thenReturn(1);
+		
+		final var trap = mock(L2TrapInstance.class);
+		when(trap.getObjectId()).thenReturn(2);
+		when(trap.isCharacter()).thenReturn(true);
+		when(trap.isNpc()).thenReturn(true);
+		when(trap.isAutoAttackable(caster)).thenReturn(false);
+		
+		final var result = TargetType.ENEMY.getTarget(skill, caster, trap);
+		
+		assertThat(result).isNull();
 	}
 }

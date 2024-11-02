@@ -1476,14 +1476,14 @@ public class L2Npc extends L2Character {
 	}
 	
 	@Override
-	public boolean isVisibleFor(L2PcInstance player) {
+	public boolean isVisibleFor(L2Character character) {
 		if (hasListener(EventType.NPC_CAN_BE_SEEN)) {
-			final TerminateReturn term = EventDispatcher.getInstance().notifyEvent(new NpcCanBeSeen(this, player), this, TerminateReturn.class);
+			final TerminateReturn term = EventDispatcher.getInstance().notifyEvent(new NpcCanBeSeen(this, character), this, TerminateReturn.class);
 			if (term != null) {
 				return term.terminate();
 			}
 		}
-		return super.isVisibleFor(player);
+		return super.isVisibleFor(character);
 	}
 	
 	/**

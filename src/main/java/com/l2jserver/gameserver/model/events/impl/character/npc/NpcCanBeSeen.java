@@ -20,8 +20,8 @@ package com.l2jserver.gameserver.model.events.impl.character.npc;
 
 import static com.l2jserver.gameserver.model.events.EventType.NPC_CAN_BE_SEEN;
 
+import com.l2jserver.gameserver.model.actor.L2Character;
 import com.l2jserver.gameserver.model.actor.L2Npc;
-import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jserver.gameserver.model.events.EventType;
 import com.l2jserver.gameserver.model.events.impl.BaseEvent;
 
@@ -30,7 +30,7 @@ import com.l2jserver.gameserver.model.events.impl.BaseEvent;
  * @author UnAfraid
  * @author Zoey76
  */
-public record NpcCanBeSeen(L2Npc npc, L2PcInstance player) implements BaseEvent {
+public record NpcCanBeSeen(L2Npc npc, L2Character character) implements BaseEvent {
 	@Override
 	public EventType getType() {
 		return NPC_CAN_BE_SEEN;

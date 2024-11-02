@@ -42,6 +42,7 @@ import com.l2jserver.gameserver.model.actor.instance.L2ArtefactInstance;
 import com.l2jserver.gameserver.model.actor.instance.L2ChestInstance;
 import com.l2jserver.gameserver.model.actor.instance.L2DoorInstance;
 import com.l2jserver.gameserver.model.actor.instance.L2StaticObjectInstance;
+import com.l2jserver.gameserver.model.actor.instance.L2TrapInstance;
 import com.l2jserver.gameserver.model.effects.L2EffectType;
 import com.l2jserver.gameserver.model.holders.SkillUseHolder;
 import com.l2jserver.gameserver.model.items.instance.L2ItemInstance;
@@ -96,6 +97,9 @@ public enum TargetType {
 			
 			if (target.isNpc()) {
 				if (target.isAttackable()) {
+					return target;
+				}
+				if ((target instanceof L2TrapInstance trap) && trap.isAutoAttackable(caster)) {
 					return target;
 				}
 				caster.sendPacket(INCORRECT_TARGET);
