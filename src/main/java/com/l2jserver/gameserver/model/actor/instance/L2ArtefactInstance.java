@@ -27,8 +27,8 @@ import com.l2jserver.gameserver.network.serverpackets.ActionFailed;
 
 public final class L2ArtefactInstance extends L2Npc {
 	
-	public L2ArtefactInstance(L2NpcTemplate template) {
-		super(template);
+	public L2ArtefactInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2ArtefactInstance);
 	}
 	

@@ -29,8 +29,8 @@ import com.l2jserver.gameserver.network.serverpackets.NpcHtmlMessage;
  */
 public final class L2ObservationInstance extends L2Npc {
 	
-	public L2ObservationInstance(L2NpcTemplate template) {
-		super(template);
+	public L2ObservationInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2ObservationInstance);
 	}
 	

@@ -48,13 +48,13 @@ class NpcPersonalAIDataTest {
 	private NpcPersonalAIData aiData;
 	
 	@BeforeEach
-    void setUp() {
-        when(spawn.getName()).thenReturn(SPAWN1_NAME);
-
-        aiData = new NpcPersonalAIData();
-
-        aiData.storeData(spawn, SPAWN1_DATA);
-    }
+	void setUp() {
+		when(spawn.getName()).thenReturn(SPAWN1_NAME);
+		
+		aiData = new NpcPersonalAIData();
+		
+		aiData.storeData(spawn, SPAWN1_DATA);
+	}
 	
 	@Test
 	void shouldReturnNegativeAIValueForInvalidSpawnName() {

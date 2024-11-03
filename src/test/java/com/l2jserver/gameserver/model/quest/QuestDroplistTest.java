@@ -51,25 +51,25 @@ class QuestDroplistTest {
 	private L2Npc npc;
 	
 	@Test
-    void shouldBuildDroplistAndRetrieveInfo() {
-        when(npc.getId()).thenReturn(1);
-
-        QuestDroplist dropList = QuestDroplist.builder()
-                .addSingleDrop(1, QUEST_ITEM_1)
-                .build();
-
-        QuestDropInfo dropInfo = dropList.get(1);
-        assertThat(dropInfo).isNotNull();
-        assertThat(dropInfo.item()).isEqualTo(QUEST_ITEM_1);
-        assertThat(dropInfo.getLimit()).isEqualTo(QUEST_ITEM_1.getLimit());
-
-        QuestDropInfo dropInfo2 = dropList.get(npc);
-        assertThat(dropInfo2).isNotNull();
-        assertThat(dropInfo2.item()).isEqualTo(QUEST_ITEM_1);
-        assertThat(dropInfo2.getLimit()).isEqualTo(QUEST_ITEM_1.getLimit());
-
-        assertThat(dropList.getNpcIds()).containsExactly(1);
-    }
+	void shouldBuildDroplistAndRetrieveInfo() {
+		when(npc.getId()).thenReturn(1);
+		
+		QuestDroplist dropList = QuestDroplist.builder()
+			.addSingleDrop(1, QUEST_ITEM_1)
+			.build();
+		
+		QuestDropInfo dropInfo = dropList.get(1);
+		assertThat(dropInfo).isNotNull();
+		assertThat(dropInfo.item()).isEqualTo(QUEST_ITEM_1);
+		assertThat(dropInfo.getLimit()).isEqualTo(QUEST_ITEM_1.getLimit());
+		
+		QuestDropInfo dropInfo2 = dropList.get(npc);
+		assertThat(dropInfo2).isNotNull();
+		assertThat(dropInfo2.item()).isEqualTo(QUEST_ITEM_1);
+		assertThat(dropInfo2.getLimit()).isEqualTo(QUEST_ITEM_1.getLimit());
+		
+		assertThat(dropList.getNpcIds()).containsExactly(1);
+	}
 	
 	@Test
 	void shouldAddSingleDropWithAmount() {
@@ -725,26 +725,26 @@ class QuestDroplistTest {
 	}
 	
 	@Test
-    void shouldAddDropToExistingNpcAndRetrieveInfo() {
-        when(npc.getId()).thenReturn(1);
-
-        QuestDroplist dropList = QuestDroplist.builder()
-                .addSingleDrop(1, QUEST_ITEM_1)
-                .addSingleDrop(1, QUEST_ITEM_2)
-                .build();
-
-        QuestDropInfo dropInfo = dropList.get(1, QUEST_ITEM_1.getId());
-        assertThat(dropInfo).isNotNull();
-        assertThat(dropInfo.item()).isEqualTo(QUEST_ITEM_1);
-
-        QuestDropInfo dropInfo2 = dropList.get(1, QUEST_ITEM_2);
-        assertThat(dropInfo2).isNotNull();
-        assertThat(dropInfo2.item()).isEqualTo(QUEST_ITEM_2);
-
-        QuestDropInfo dropInfo3 = dropList.get(npc, QUEST_ITEM_2);
-        assertThat(dropInfo3).isNotNull();
-        assertThat(dropInfo3.item()).isEqualTo(QUEST_ITEM_2);
-    }
+	void shouldAddDropToExistingNpcAndRetrieveInfo() {
+		when(npc.getId()).thenReturn(1);
+		
+		QuestDroplist dropList = QuestDroplist.builder()
+			.addSingleDrop(1, QUEST_ITEM_1)
+			.addSingleDrop(1, QUEST_ITEM_2)
+			.build();
+		
+		QuestDropInfo dropInfo = dropList.get(1, QUEST_ITEM_1.getId());
+		assertThat(dropInfo).isNotNull();
+		assertThat(dropInfo.item()).isEqualTo(QUEST_ITEM_1);
+		
+		QuestDropInfo dropInfo2 = dropList.get(1, QUEST_ITEM_2);
+		assertThat(dropInfo2).isNotNull();
+		assertThat(dropInfo2.item()).isEqualTo(QUEST_ITEM_2);
+		
+		QuestDropInfo dropInfo3 = dropList.get(npc, QUEST_ITEM_2);
+		assertThat(dropInfo3).isNotNull();
+		assertThat(dropInfo3.item()).isEqualTo(QUEST_ITEM_2);
+	}
 	
 	@Test
 	void shouldReturnNullForInvalidKeys() {

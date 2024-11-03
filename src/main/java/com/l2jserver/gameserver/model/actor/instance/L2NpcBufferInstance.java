@@ -47,8 +47,8 @@ public class L2NpcBufferInstance extends L2Npc {
 	
 	private static final Map<Integer, Integer> pageVal = new HashMap<>();
 	
-	public L2NpcBufferInstance(L2NpcTemplate template) {
-		super(template);
+	public L2NpcBufferInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2NpcBufferInstance);
 	}
 	

@@ -38,8 +38,8 @@ public class L2MerchantInstance extends L2NpcInstance {
 	private static final Logger LOG = LoggerFactory.getLogger(L2MerchantInstance.class);
 	private MerchantPriceConfig _mpc;
 	
-	public L2MerchantInstance(L2NpcTemplate template) {
-		super(template);
+	public L2MerchantInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2MerchantInstance);
 	}
 	

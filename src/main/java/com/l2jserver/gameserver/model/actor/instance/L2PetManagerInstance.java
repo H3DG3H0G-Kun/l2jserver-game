@@ -28,8 +28,8 @@ import com.l2jserver.gameserver.util.Evolve;
 
 public class L2PetManagerInstance extends L2MerchantInstance {
 	
-	public L2PetManagerInstance(L2NpcTemplate template) {
-		super(template);
+	public L2PetManagerInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2PetManagerInstance);
 	}
 	

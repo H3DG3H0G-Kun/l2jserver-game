@@ -74,7 +74,8 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 					par.getPlayer().setOlympiadGameId(id);
 				}
 			} else {
-				_teamOne[i] = new Participant(IdFactory.getInstance().getNextId(), 1);
+				final var objectId = IdFactory.getInstance().getNextId();
+				_teamOne[i] = new Participant(objectId, 1);
 			}
 			
 			if (i < _teamTwoSize) {
@@ -84,7 +85,8 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 					par.getPlayer().setOlympiadGameId(id);
 				}
 			} else {
-				_teamTwo[i] = new Participant(IdFactory.getInstance().getNextId(), 2);
+				final var objectId = IdFactory.getInstance().getNextId();
+				_teamTwo[i] = new Participant(objectId, 2);
 			}
 		}
 	}

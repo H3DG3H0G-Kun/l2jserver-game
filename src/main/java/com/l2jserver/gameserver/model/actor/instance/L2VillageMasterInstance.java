@@ -65,8 +65,8 @@ import com.l2jserver.gameserver.util.StringUtil;
 public class L2VillageMasterInstance extends L2NpcInstance {
 	private static final Logger _log = Logger.getLogger(L2VillageMasterInstance.class.getName());
 	
-	public L2VillageMasterInstance(L2NpcTemplate template) {
-		super(template);
+	public L2VillageMasterInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2VillageMasterInstance);
 	}
 	

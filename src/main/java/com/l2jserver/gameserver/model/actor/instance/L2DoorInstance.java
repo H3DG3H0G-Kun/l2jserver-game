@@ -83,8 +83,8 @@ public class L2DoorInstance extends L2Character {
 	// used for autoclose on open
 	private Future<?> _autoCloseTask;
 	
-	public L2DoorInstance(L2DoorTemplate template) {
-		super(template);
+	public L2DoorInstance(int objectId, L2DoorTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2DoorInstance);
 		setIsInvul(false);
 		setLethalable(false);

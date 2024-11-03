@@ -30,8 +30,8 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
 public class L2ControllableMobInstance extends L2MonsterInstance {
 	private boolean isInvulnerable;
 	
-	public L2ControllableMobInstance(L2NpcTemplate template) {
-		super(template);
+	public L2ControllableMobInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2ControllableMobInstance);
 	}
 	

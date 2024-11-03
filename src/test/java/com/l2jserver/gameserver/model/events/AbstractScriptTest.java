@@ -94,22 +94,22 @@ class AbstractScriptTest {
 	}
 	
 	@Test
-    void shouldReturnFalseIfCalculateDropsResultIsNull() {
-        when(dropItem.calculateDrops(any(), any())).thenReturn(null);
-
-        boolean result = AbstractScript.giveItemRandomly(player, npc, player, dropItem, 0L, true);
-
-        assertThat(result).isFalse();
-    }
+	void shouldReturnFalseIfCalculateDropsResultIsNull() {
+		when(dropItem.calculateDrops(any(), any())).thenReturn(null);
+		
+		boolean result = AbstractScript.giveItemRandomly(player, npc, player, dropItem, 0L, true);
+		
+		assertThat(result).isFalse();
+	}
 	
 	@Test
-    void shouldReturnFalseIfCalculateDropsResultIsEmpty() {
-        when(dropItem.calculateDrops(any(), any())).thenReturn(Collections.emptyList());
-
-        boolean result = AbstractScript.giveItemRandomly(player, npc, player, dropItem, 0L, true);
-
-        assertThat(result).isFalse();
-    }
+	void shouldReturnFalseIfCalculateDropsResultIsEmpty() {
+		when(dropItem.calculateDrops(any(), any())).thenReturn(Collections.emptyList());
+		
+		boolean result = AbstractScript.giveItemRandomly(player, npc, player, dropItem, 0L, true);
+		
+		assertThat(result).isFalse();
+	}
 	
 	@Test
 	void shouldReturnFalseIfPlayerHasNoInventoryCapacity() {

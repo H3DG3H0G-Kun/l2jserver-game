@@ -157,8 +157,8 @@ public class L2Npc extends L2Character {
 	 * Creates a NPC.
 	 * @param template the NPC template
 	 */
-	public L2Npc(L2NpcTemplate template) {
-		super(template);
+	public L2Npc(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(L2Npc);
 		initCharStatusUpdateValues();
 		
@@ -183,8 +183,8 @@ public class L2Npc extends L2Character {
 	 * Creates a NPC.
 	 * @param npcId the NPC ID
 	 */
-	public L2Npc(int npcId) {
-		this(NpcData.getInstance().getTemplate(npcId));
+	public L2Npc(int objectId, int npcId) {
+		this(objectId, NpcData.getInstance().getTemplate(npcId));
 	}
 	
 	public int getSoulShotChance() {

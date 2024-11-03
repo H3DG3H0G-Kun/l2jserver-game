@@ -55,53 +55,53 @@ class TargetTypeTest {
 	@Test
 	void doorTreasureShouldReturnNullIfTargetIsNull() {
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, null);
-
+		
 		assertNull(result);
 	}
 	
 	@Test
-    void doorTreasureShouldReturnNullIfTargetIsNotADoorOrChest() {
-        when(target.isDoor()).thenReturn(false);
-
+	void doorTreasureShouldReturnNullIfTargetIsNotADoorOrChest() {
+		when(target.isDoor()).thenReturn(false);
+		
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, target);
-
+		
 		assertNull(result);
-    }
+	}
 	
 	@Test
-    void doorTreasureShouldReturnTargetIfDoor() {
-        when(target.isDoor()).thenReturn(true);
-
+	void doorTreasureShouldReturnTargetIfDoor() {
+		when(target.isDoor()).thenReturn(true);
+		
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, target);
-
+		
 		assertEquals(target, result);
-    }
+	}
 	
 	@Test
 	void doorTreasureShouldReturnTargetIfChest() {
 		final var target = mock(L2ChestInstance.class);
 		final var result = TargetType.DOOR_TREASURE.getTarget(skill, caster, target);
-
+		
 		assertEquals(target, result);
 	}
-
+	
 	@Test
 	void testMonstersCanUseEnemyOnlySkillsOnPc() {
 		final var caster = mock(L2MonsterInstance.class);
 		when(caster.getObjectId()).thenReturn(1);
 		when(caster.isPlayable()).thenReturn(false);
-
+		
 		final var target = mock(L2PcInstance.class);
 		when(target.isCharacter()).thenReturn(true);
 		when(target.isDead()).thenReturn(false);
 		when(target.getObjectId()).thenReturn(2);
 		when(target.isAutoAttackable(any())).thenReturn(true);
-
+		
 		final var result = TargetType.ENEMY_ONLY.getTarget(skill, caster, target);
-
+		
 		assertEquals(target, result);
 	}
-
+	
 	@Test
 	void testPvpChecksReachedForEnemyOnlySkills() {
 		final var caster = mock(L2PcInstance.class);
@@ -109,15 +109,15 @@ class TargetTypeTest {
 		when(caster.isPlayable()).thenReturn(true);
 		when(caster.getActingPlayer()).thenReturn(caster);
 		when(caster.isInOlympiadMode()).thenReturn(true);
-
+		
 		final var target = mock(L2PcInstance.class);
 		when(target.isCharacter()).thenReturn(true);
 		when(target.isDead()).thenReturn(false);
 		when(target.getObjectId()).thenReturn(2);
 		when(target.isAutoAttackable(any())).thenReturn(true);
-
+		
 		final var result = TargetType.ENEMY_ONLY.getTarget(skill, caster, target);
-
+		
 		assertNull(result);
 	}
 	

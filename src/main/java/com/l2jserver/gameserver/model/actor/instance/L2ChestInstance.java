@@ -30,8 +30,8 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
 public final class L2ChestInstance extends L2MonsterInstance {
 	private volatile boolean _specialDrop;
 	
-	public L2ChestInstance(L2NpcTemplate template) {
-		super(template);
+	public L2ChestInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2ChestInstance);
 		setIsNoRndWalk(true);
 		_specialDrop = false;

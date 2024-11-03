@@ -249,10 +249,9 @@ public final class SpawnTable implements IXmlReader {
 	 * @return count NPC instances, spawned by this spawn
 	 */
 	private int addSpawn(StatsSet spawnInfo, Map<String, Integer> AIData) {
-		L2Spawn spawnDat;
 		int ret = 0;
 		try {
-			spawnDat = new L2Spawn(spawnInfo.getInt("npcTemplateid"));
+			final var spawnDat = new L2Spawn(spawnInfo.getInt("npcTemplateid"));
 			spawnDat.setAmount(spawnInfo.getInt("count", 1));
 			spawnDat.setX(spawnInfo.getInt("x", 0));
 			spawnDat.setY(spawnInfo.getInt("y", 0));

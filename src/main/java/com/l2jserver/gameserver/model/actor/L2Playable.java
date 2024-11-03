@@ -56,12 +56,6 @@ public abstract class L2Playable extends L2Character {
 		setIsInvul(false);
 	}
 	
-	public L2Playable(L2CharTemplate template) {
-		super(template);
-		setInstanceType(InstanceType.L2Playable);
-		setIsInvul(false);
-	}
-	
 	@Override
 	public PlayableKnownList getKnownList() {
 		return (PlayableKnownList) super.getKnownList();

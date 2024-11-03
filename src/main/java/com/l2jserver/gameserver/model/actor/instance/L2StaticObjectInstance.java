@@ -49,8 +49,8 @@ public final class L2StaticObjectInstance extends L2Character {
 	private int _type = -1; // 0 - map signs, 1 - throne , 2 - arena signs, 3 - flagpole
 	private ShowTownMap _map;
 	
-	public L2StaticObjectInstance(L2CharTemplate template, int staticId) {
-		super(template);
+	public L2StaticObjectInstance(int objectId, L2CharTemplate template, int staticId) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2StaticObjectInstance);
 		_staticObjectId = staticId;
 	}

@@ -24,8 +24,8 @@ import com.l2jserver.gameserver.model.base.PlayerClass;
 
 public final class L2VillageMasterDElfInstance extends L2VillageMasterInstance {
 	
-	public L2VillageMasterDElfInstance(L2NpcTemplate template) {
-		super(template);
+	public L2VillageMasterDElfInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 	}
 	
 	@Override

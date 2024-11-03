@@ -280,7 +280,8 @@ public class CellPathFinding extends PathFinding {
 	}
 	
 	private void dropDebugItem(int itemId, int num, AbstractNodeLoc loc) {
-		final L2ItemInstance item = new L2ItemInstance(IdFactory.getInstance().getNextId(), itemId);
+		final var objectId = IdFactory.getInstance().getNextId();
+		final var item = new L2ItemInstance(objectId, itemId);
 		item.setCount(num);
 		item.spawnMe(loc.getX(), loc.getY(), loc.getZ());
 		_debugItems.add(item);

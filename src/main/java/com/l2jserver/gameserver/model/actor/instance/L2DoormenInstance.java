@@ -34,8 +34,8 @@ import com.l2jserver.gameserver.network.serverpackets.NpcHtmlMessage;
 public class L2DoormenInstance extends L2NpcInstance {
 	private static final Logger LOG = LoggerFactory.getLogger(L2DoormenInstance.class);
 	
-	public L2DoormenInstance(L2NpcTemplate template) {
-		super(template);
+	public L2DoormenInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2DoormenInstance);
 	}
 	

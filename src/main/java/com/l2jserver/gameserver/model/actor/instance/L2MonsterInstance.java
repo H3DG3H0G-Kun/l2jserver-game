@@ -43,8 +43,8 @@ public class L2MonsterInstance extends L2Attackable {
 	
 	protected ScheduledFuture<?> _maintenanceTask = null;
 	
-	public L2MonsterInstance(L2NpcTemplate template) {
-		super(template);
+	public L2MonsterInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2MonsterInstance);
 		setAutoAttackable(true);
 	}

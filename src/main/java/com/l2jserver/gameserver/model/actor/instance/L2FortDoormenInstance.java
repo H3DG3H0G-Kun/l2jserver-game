@@ -27,8 +27,8 @@ import com.l2jserver.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class L2FortDoormenInstance extends L2DoormenInstance {
 	
-	public L2FortDoormenInstance(L2NpcTemplate template) {
-		super(template);
+	public L2FortDoormenInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2FortDoormenInstance);
 	}
 	

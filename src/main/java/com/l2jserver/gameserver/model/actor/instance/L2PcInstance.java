@@ -695,16 +695,6 @@ public final class L2PcInstance extends L2Playable {
 	}
 	
 	/**
-	 * Creates a player.
-	 * @param classId the player class ID
-	 * @param accountName the account name
-	 * @param app the player appearance
-	 */
-	private L2PcInstance(int classId, String accountName, PcAppearance app) {
-		this(IdFactory.getInstance().getNextId(), classId, accountName, app);
-	}
-	
-	/**
 	 * Create a new L2PcInstance and add it in the characters table of the database.<br>
 	 * <B><U> Actions</U> :</B>
 	 * <ul>
@@ -720,7 +710,8 @@ public final class L2PcInstance extends L2Playable {
 	 */
 	public static L2PcInstance create(int classId, String accountName, String name, PcAppearance app) {
 		// Create a new L2PcInstance with an account name
-		L2PcInstance player = new L2PcInstance(classId, accountName, app);
+		final var objectId = IdFactory.getInstance().getNextId();
+		final var player = new L2PcInstance(objectId, classId, accountName, app);
 		// Set the name of the L2PcInstance
 		player.setName(name);
 		// Set Character's create time
@@ -2854,7 +2845,8 @@ public final class L2PcInstance extends L2Playable {
 				if (handler == null) {
 					LOG.warn("No item handler registered for Herb {}!", item);
 				} else {
-					handler.useItem(this, new L2ItemInstance(itemId), false);
+					final var objectId = IdFactory.getInstance().getNextId();
+					handler.useItem(this, new L2ItemInstance(objectId, itemId), false);
 				}
 			} else {
 				// Add the item to inventory

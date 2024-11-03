@@ -61,7 +61,6 @@ import com.l2jserver.gameserver.enums.InstanceType;
 import com.l2jserver.gameserver.enums.Race;
 import com.l2jserver.gameserver.enums.ShotType;
 import com.l2jserver.gameserver.enums.Team;
-import com.l2jserver.gameserver.idfactory.IdFactory;
 import com.l2jserver.gameserver.instancemanager.InstanceManager;
 import com.l2jserver.gameserver.instancemanager.MapRegionManager;
 import com.l2jserver.gameserver.instancemanager.TerritoryWarManager;
@@ -280,14 +279,6 @@ public abstract class L2Character extends L2Object implements ISkillsHolder, IDe
 	/** Future Skill Cast */
 	protected Future<?> _skillCast;
 	protected Future<?> _skillCast2;
-	
-	/**
-	 * Creates a creature.
-	 * @param template the creature template
-	 */
-	public L2Character(L2CharTemplate template) {
-		this(IdFactory.getInstance().getNextId(), template);
-	}
 	
 	/**
 	 * Constructor of L2Character.<br>

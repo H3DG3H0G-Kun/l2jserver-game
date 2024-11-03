@@ -25,8 +25,8 @@ import com.l2jserver.gameserver.network.serverpackets.ActionFailed;
 
 public final class L2FlyTerrainObjectInstance extends L2Npc {
 	
-	public L2FlyTerrainObjectInstance(L2NpcTemplate template) {
-		super(template);
+	public L2FlyTerrainObjectInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2FlyTerrainObjectInstance);
 		setIsFlying(true);
 	}

@@ -28,8 +28,8 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
 // of the target.  However, no additional tasks are needed, since they are all
 // handled by scripted AI.
 public class L2FeedableBeastInstance extends L2MonsterInstance {
-	public L2FeedableBeastInstance(L2NpcTemplate template) {
-		super(template);
+	public L2FeedableBeastInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2FeedableBeastInstance);
 	}
 }

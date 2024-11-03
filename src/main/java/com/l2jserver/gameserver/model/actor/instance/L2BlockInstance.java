@@ -36,8 +36,8 @@ import com.l2jserver.gameserver.network.serverpackets.ExCubeGameExtendedChangePo
 public class L2BlockInstance extends L2MonsterInstance {
 	private int _colorEffect;
 	
-	public L2BlockInstance(L2NpcTemplate template) {
-		super(template);
+	public L2BlockInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 	}
 	
 	/**

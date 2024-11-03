@@ -119,8 +119,8 @@ public class L2Attackable extends L2Npc {
 	 * Creates an attackable NPC.
 	 * @param template the attackable NPC template
 	 */
-	public L2Attackable(L2NpcTemplate template) {
-		super(template);
+	public L2Attackable(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2Attackable);
 		setIsInvul(false);
 		_mustGiveExpSp = true;

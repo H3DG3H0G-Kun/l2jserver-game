@@ -25,8 +25,8 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
 
 public class L2NpcInstance extends L2Npc {
 	
-	public L2NpcInstance(L2NpcTemplate template) {
-		super(template);
+	public L2NpcInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2NpcInstance);
 		setIsInvul(false);
 	}

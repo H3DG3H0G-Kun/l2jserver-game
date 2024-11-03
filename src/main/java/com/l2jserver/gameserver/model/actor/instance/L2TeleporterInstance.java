@@ -50,8 +50,8 @@ public final class L2TeleporterInstance extends L2Npc {
 	private static final int COND_OWNER = 2;
 	private static final int COND_REGULAR = 3;
 	
-	public L2TeleporterInstance(L2NpcTemplate template) {
-		super(template);
+	public L2TeleporterInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2TeleporterInstance);
 	}
 	

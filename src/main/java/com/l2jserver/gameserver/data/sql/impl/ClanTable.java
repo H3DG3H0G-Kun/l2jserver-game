@@ -162,8 +162,9 @@ public class ClanTable {
 			return null;
 		}
 		
-		L2Clan clan = new L2Clan(IdFactory.getInstance().getNextId(), clanName);
-		L2ClanMember leader = new L2ClanMember(clan, player);
+		final var objectId = IdFactory.getInstance().getNextId();
+		final var clan = new L2Clan(objectId, clanName);
+		final var leader = new L2ClanMember(clan, player);
 		clan.setLeader(leader);
 		leader.setPlayerInstance(player);
 		clan.store();

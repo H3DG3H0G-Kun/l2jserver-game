@@ -74,6 +74,9 @@ import com.l2jserver.gameserver.network.serverpackets.StopMove;
 import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
 import com.l2jserver.gameserver.taskmanager.DecayTaskManager;
 
+/**
+ * Pet.
+ */
 public class L2PetInstance extends L2Summon {
 	private static final Logger LOG = LoggerFactory.getLogger(L2PetInstance.class);
 	
@@ -98,8 +101,8 @@ public class L2PetInstance extends L2Summon {
 	 * @param owner the owner
 	 * @param control the summoning item
 	 */
-	public L2PetInstance(L2NpcTemplate template, L2PcInstance owner, L2ItemInstance control) {
-		this(template, owner, control, (byte) (template.getDisplayId() == 12564 ? owner.getLevel() : template.getLevel()));
+	public L2PetInstance(int objectId, L2NpcTemplate template, L2PcInstance owner, L2ItemInstance control) {
+		this(objectId, template, owner, control, (byte) (template.getDisplayId() == 12564 ? owner.getLevel() : template.getLevel()));
 	}
 	
 	/**
@@ -109,8 +112,8 @@ public class L2PetInstance extends L2Summon {
 	 * @param control the summoning item
 	 * @param level the level
 	 */
-	public L2PetInstance(L2NpcTemplate template, L2PcInstance owner, L2ItemInstance control, byte level) {
-		super(template, owner);
+	public L2PetInstance(int objectId, L2NpcTemplate template, L2PcInstance owner, L2ItemInstance control, byte level) {
+		super(objectId, template, owner);
 		setInstanceType(InstanceType.L2PetInstance);
 		
 		_controlObjectId = control.getObjectId();

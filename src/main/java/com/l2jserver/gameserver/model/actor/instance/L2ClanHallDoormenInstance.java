@@ -57,8 +57,8 @@ public class L2ClanHallDoormenInstance extends L2DoormenInstance {
 	 * Creates a clan hall doorman.
 	 * @param template the doorman NPC template
 	 */
-	public L2ClanHallDoormenInstance(L2NpcTemplate template) {
-		super(template);
+	public L2ClanHallDoormenInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2ClanHallDoormenInstance);
 	}
 	

@@ -39,8 +39,8 @@ public final class L2QuestGuardInstance extends L2GuardInstance {
 	 * Creates a quest guard.
 	 * @param template the quest guard NPC template
 	 */
-	public L2QuestGuardInstance(L2NpcTemplate template) {
-		super(template);
+	public L2QuestGuardInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2QuestGuardInstance);
 	}
 	

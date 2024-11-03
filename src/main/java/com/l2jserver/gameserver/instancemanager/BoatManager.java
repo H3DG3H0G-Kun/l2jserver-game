@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.l2jserver.gameserver.idfactory.IdFactory;
 import com.l2jserver.gameserver.model.L2World;
 import com.l2jserver.gameserver.model.StatsSet;
 import com.l2jserver.gameserver.model.VehiclePathPoint;
@@ -97,7 +98,8 @@ public class BoatManager {
 		npcDat.set("basePDef", 100);
 		npcDat.set("baseMDef", 100);
 		
-		final L2BoatInstance boat = new L2BoatInstance(new L2CharTemplate(npcDat));
+		final var objectId = IdFactory.getInstance().getNextId();
+		final var boat = new L2BoatInstance(objectId, new L2CharTemplate(npcDat));
 		boat.setHeading(heading);
 		boat.setXYZInvisible(x, y, z);
 		boat.spawnMe();

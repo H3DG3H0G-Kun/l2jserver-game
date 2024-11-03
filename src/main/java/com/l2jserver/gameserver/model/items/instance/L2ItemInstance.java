@@ -45,7 +45,6 @@ import com.l2jserver.gameserver.datatables.ItemTable;
 import com.l2jserver.gameserver.enums.InstanceType;
 import com.l2jserver.gameserver.enums.ItemLocation;
 import com.l2jserver.gameserver.enums.ShotType;
-import com.l2jserver.gameserver.idfactory.IdFactory;
 import com.l2jserver.gameserver.instancemanager.ItemsOnGroundManager;
 import com.l2jserver.gameserver.instancemanager.MercTicketManager;
 import com.l2jserver.gameserver.model.DropProtection;
@@ -232,15 +231,6 @@ public final class L2ItemInstance extends L2Object {
 		scheduleLifeTimeTask();
 		final var agathionInfo = AgathionRepository.getInstance().getByItemId(item.getId());
 		agathionEnergy = agathionInfo == null ? 0 : agathionInfo.getMaxEnergy();
-	}
-	
-	/**
-	 * Constructor overload.<br>
-	 * Sets the next free object ID in the ID factory.
-	 * @param itemId the item template ID
-	 */
-	public L2ItemInstance(int itemId) {
-		this(IdFactory.getInstance().getNextId(), itemId);
 	}
 	
 	@Override

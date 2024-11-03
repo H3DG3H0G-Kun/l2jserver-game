@@ -97,8 +97,8 @@ public abstract class L2Summon extends L2Playable {
 	 * @param template the summon NPC template
 	 * @param owner the owner
 	 */
-	public L2Summon(L2NpcTemplate template, L2PcInstance owner) {
-		super(template);
+	public L2Summon(int objectId, L2NpcTemplate template, L2PcInstance owner) {
+		super(objectId, template);
 		setInstanceType(L2Summon);
 		setInstanceId(owner.getInstanceId());
 		setShowSummonAnimation(true);

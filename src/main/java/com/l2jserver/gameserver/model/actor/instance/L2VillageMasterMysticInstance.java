@@ -25,8 +25,8 @@ import com.l2jserver.gameserver.model.base.PlayerClass;
 
 public final class L2VillageMasterMysticInstance extends L2VillageMasterInstance {
 	
-	public L2VillageMasterMysticInstance(L2NpcTemplate template) {
-		super(template);
+	public L2VillageMasterMysticInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 	}
 	
 	@Override

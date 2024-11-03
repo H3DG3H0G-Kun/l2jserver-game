@@ -42,8 +42,8 @@ public class L2ControlTowerInstance extends L2Tower {
 	 * Creates a control tower.
 	 * @param template the control tower NPC template
 	 */
-	public L2ControlTowerInstance(L2NpcTemplate template) {
-		super(template);
+	public L2ControlTowerInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2ControlTowerInstance);
 	}
 	

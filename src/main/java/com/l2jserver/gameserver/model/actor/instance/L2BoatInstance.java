@@ -33,8 +33,8 @@ import com.l2jserver.gameserver.network.serverpackets.VehicleStarted;
  */
 public class L2BoatInstance extends L2Vehicle {
 	
-	public L2BoatInstance(L2CharTemplate template) {
-		super(template);
+	public L2BoatInstance(int objectId, L2CharTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2BoatInstance);
 		setAI(new L2BoatAI(this));
 	}

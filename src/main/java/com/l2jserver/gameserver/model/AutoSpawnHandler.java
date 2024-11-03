@@ -163,9 +163,9 @@ public class AutoSpawnHandler {
 			}
 		}
 		
-		int newId = IdFactory.getInstance().getNextId();
-		newSpawn._objectId = newId;
-		_registeredSpawns.put(newId, newSpawn);
+		int objectId = IdFactory.getInstance().getNextId();
+		newSpawn._objectId = objectId;
+		_registeredSpawns.put(objectId, newSpawn);
 		
 		setSpawnActive(newSpawn, true);
 		return newSpawn;

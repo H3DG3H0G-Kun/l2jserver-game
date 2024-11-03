@@ -96,6 +96,7 @@ import com.l2jserver.gameserver.data.xml.impl.NpcData;
 import com.l2jserver.gameserver.datatables.ItemTable;
 import com.l2jserver.gameserver.enums.audio.IAudio;
 import com.l2jserver.gameserver.enums.audio.Sound;
+import com.l2jserver.gameserver.idfactory.IdFactory;
 import com.l2jserver.gameserver.instancemanager.CastleManager;
 import com.l2jserver.gameserver.instancemanager.FortManager;
 import com.l2jserver.gameserver.instancemanager.InstanceManager;
@@ -1618,7 +1619,7 @@ public abstract class AbstractScript implements INamable {
 				y += offset;
 			}
 			
-			final L2Spawn spawn = new L2Spawn(npcId);
+			final var spawn = new L2Spawn(npcId);
 			spawn.setInstanceId(instanceId);
 			spawn.setHeading(heading);
 			spawn.setX(x);
@@ -1626,7 +1627,7 @@ public abstract class AbstractScript implements INamable {
 			spawn.setZ(z);
 			spawn.stopRespawn();
 			
-			final L2Npc npc = spawn.spawnOne(isSummonSpawn);
+			final var npc = spawn.spawnOne(isSummonSpawn);
 			if (despawnDelay > 0) {
 				npc.scheduleDespawn(despawnDelay);
 			}
@@ -1652,8 +1653,9 @@ public abstract class AbstractScript implements INamable {
 	 * @return
 	 */
 	public L2TrapInstance addTrap(int trapId, int x, int y, int z, int heading, Skill skill, int instanceId) {
-		final L2NpcTemplate npcTemplate = NpcData.getInstance().getTemplate(trapId);
-		L2TrapInstance trap = new L2TrapInstance(npcTemplate, instanceId, -1);
+		final var template = NpcData.getInstance().getTemplate(trapId);
+		final var objectId = IdFactory.getInstance().getNextId();
+		final var trap = new L2TrapInstance(objectId, template, instanceId, -1);
 		trap.setCurrentHp(trap.getMaxHp());
 		trap.setCurrentMp(trap.getMaxMp());
 		trap.setIsMortal(false);

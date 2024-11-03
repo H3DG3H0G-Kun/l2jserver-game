@@ -44,6 +44,7 @@ import com.l2jserver.gameserver.ThreadPoolManager;
 import com.l2jserver.gameserver.data.xml.impl.DoorData;
 import com.l2jserver.gameserver.enums.InstanceReenterType;
 import com.l2jserver.gameserver.enums.InstanceRemoveBuffType;
+import com.l2jserver.gameserver.idfactory.IdFactory;
 import com.l2jserver.gameserver.instancemanager.InstanceManager;
 import com.l2jserver.gameserver.model.L2Spawn;
 import com.l2jserver.gameserver.model.L2World;
@@ -249,12 +250,14 @@ public final class Instance {
 			_log.warning("Door ID " + doorId + " already exists in instance " + getId());
 			return;
 		}
-		
-		final L2DoorInstance newdoor = new L2DoorInstance(new L2DoorTemplate(set));
-		newdoor.setInstanceId(getId());
-		newdoor.setCurrentHp(newdoor.getMaxHp());
-		newdoor.spawnMe(newdoor.getTemplate().getX(), newdoor.getTemplate().getY(), newdoor.getTemplate().getZ());
-		_doors.put(doorId, newdoor);
+
+		final var objectId = IdFactory.getInstance().getNextId();
+		final var template = new L2DoorTemplate(set);
+		final var door = new L2DoorInstance(objectId, template);
+		door.setInstanceId(getId());
+		door.setCurrentHp(door.getMaxHp());
+		door.spawnMe(door.getTemplate().getX(), door.getTemplate().getY(), door.getTemplate().getZ());
+		_doors.put(doorId, door);
 	}
 	
 	public List<Integer> getPlayers() {

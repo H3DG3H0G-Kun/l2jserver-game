@@ -23,8 +23,8 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
 
 public final class L2WarehouseInstance extends L2NpcInstance {
 	
-	public L2WarehouseInstance(L2NpcTemplate template) {
-		super(template);
+	public L2WarehouseInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2WarehouseInstance);
 	}
 	

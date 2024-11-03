@@ -195,7 +195,8 @@ public class ItemTable {
 	 */
 	public L2ItemInstance createItem(String process, int itemId, long count, L2PcInstance actor, Object reference) {
 		// Create and Init the L2ItemInstance corresponding to the Item Identifier
-		L2ItemInstance item = new L2ItemInstance(IdFactory.getInstance().getNextId(), itemId);
+		final var objectId = IdFactory.getInstance().getNextId();
+		final var item = new L2ItemInstance(objectId, itemId);
 		
 		if (process.equalsIgnoreCase("loot")) {
 			// loot privilege for raids

@@ -44,8 +44,8 @@ import com.l2jserver.gameserver.network.serverpackets.SocialAction;
 public class L2GuardInstance extends L2Attackable {
 	private static final Logger LOG = LoggerFactory.getLogger(L2GuardInstance.class);
 	
-	public L2GuardInstance(L2NpcTemplate template) {
-		super(template);
+	public L2GuardInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2GuardInstance);
 	}
 	

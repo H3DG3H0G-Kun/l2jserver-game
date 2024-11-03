@@ -66,17 +66,16 @@ public final class L2TrapInstance extends L2Npc {
 	/**
 	 * Creates a trap.
 	 * @param template the trap NPC template
-	 * @param instanceId the instance ID
 	 * @param lifeTime the life time
 	 */
-	public L2TrapInstance(L2NpcTemplate template, int instanceId, int lifeTime) {
-		super(template);
+	public L2TrapInstance(int objectId, L2NpcTemplate template, L2PcInstance owner, int instanceId, int lifeTime) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2TrapInstance);
 		setInstanceId(instanceId);
 		setName(template.getName());
 		setIsInvul(false);
 		
-		_owner = null;
+		_owner = owner;
 		_isTriggered = false;
 		_skill = getTemplate().getParameters().getObject("trap_skill", SkillHolder.class);
 		_hasLifeTime = lifeTime >= 0;
@@ -87,15 +86,12 @@ public final class L2TrapInstance extends L2Npc {
 		}
 	}
 	
-	/**
-	 * Creates a trap.
-	 * @param template the trap NPC template
-	 * @param owner the owner
-	 * @param lifeTime the life time
-	 */
-	public L2TrapInstance(L2NpcTemplate template, L2PcInstance owner, int lifeTime) {
-		this(template, owner.getInstanceId(), lifeTime);
-		_owner = owner;
+	public L2TrapInstance(int objectId, L2NpcTemplate template, L2PcInstance owner, int lifeTime) {
+		this(objectId, template, owner, owner.getInstanceId(), lifeTime);
+	}
+	
+	public L2TrapInstance(int objectId, L2NpcTemplate template, int instanceId, int lifeTime) {
+		this(objectId, template, null, instanceId, lifeTime);
 	}
 	
 	@Override
@@ -380,7 +376,7 @@ public final class L2TrapInstance extends L2Npc {
 	
 	@Override
 	public void updateAbnormalEffect() {
-	
+		
 	}
 	
 	public boolean hasLifeTime() {

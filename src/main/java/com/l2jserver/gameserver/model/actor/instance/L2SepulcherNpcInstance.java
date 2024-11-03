@@ -47,6 +47,7 @@ import com.l2jserver.gameserver.network.serverpackets.SocialAction;
 import com.l2jserver.gameserver.util.Util;
 
 /**
+ * Sepulcher.
  * @author sandman
  */
 public class L2SepulcherNpcInstance extends L2Npc {
@@ -58,8 +59,8 @@ public class L2SepulcherNpcInstance extends L2Npc {
 	private static final String HTML_FILE_PATH = "data/html/SepulcherNpc/";
 	private static final int HALLS_KEY = 7260;
 	
-	public L2SepulcherNpcInstance(L2NpcTemplate template) {
-		super(template);
+	public L2SepulcherNpcInstance(int objectId, L2NpcTemplate template) {
+		super(objectId, template);
 		setInstanceType(InstanceType.L2SepulcherNpcInstance);
 		setShowSummonAnimation(true);
 		

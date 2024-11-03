@@ -265,7 +265,7 @@ public final class L2SkillLearn {
 		}
 		return levelUpSp;
 	}
-
+	
 	@Override
 	public String toString() {
 		return _skillName + " (" + _skillId + ", " + _skillLvl + ")";

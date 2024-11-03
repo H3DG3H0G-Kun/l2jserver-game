@@ -32,8 +32,6 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.l2jserver.gameserver.idfactory.IdFactory;
-import com.l2jserver.gameserver.model.L2CommandChannel;
 import com.l2jserver.gameserver.model.L2Party;
 import com.l2jserver.gameserver.model.StatsSet;
 import com.l2jserver.gameserver.model.actor.L2Character;
@@ -47,8 +45,8 @@ import com.l2jserver.gameserver.model.events.EventDispatcher;
 @ExtendWith(MockitoExtension.class)
 class L2TrapInstanceTest {
 	
-	@Mock
-	private IdFactory idFactory;
+	private static final int OBJECT_ID = 1;
+	
 	@Mock
 	private EventDispatcher eventDispatcher;
 	@Mock
@@ -65,12 +63,10 @@ class L2TrapInstanceTest {
 	@Mock
 	private L2Party party;
 	
-	private static MockedStatic<IdFactory> mockedIdFactory;
 	private static MockedStatic<EventDispatcher> mockedEventDispatcher;
 	
 	@BeforeAll
 	static void init() {
-		mockedIdFactory = mockStatic(IdFactory.class);
 		mockedEventDispatcher = mockStatic(EventDispatcher.class);
 		
 		server().setProperty("DatapackRoot", "src/test/resources");
@@ -78,13 +74,11 @@ class L2TrapInstanceTest {
 	
 	@AfterAll
 	static void after() {
-		mockedIdFactory.close();
 		mockedEventDispatcher.close();
 	}
 	
 	@BeforeEach
 	void setUp() {
-		when(IdFactory.getInstance()).thenReturn(idFactory);
 		when(EventDispatcher.getInstance()).thenReturn(eventDispatcher);
 	}
 	
@@ -92,7 +86,7 @@ class L2TrapInstanceTest {
 	void testTrapIsNotVisibleForNullCharacter() {
 		when(template.getParameters()).thenReturn(statsSet);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isVisibleFor(null)).isFalse();
 	}
@@ -101,7 +95,7 @@ class L2TrapInstanceTest {
 	void testTrapIsNotVisibleForOtherCharacter() {
 		when(template.getParameters()).thenReturn(statsSet);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isVisibleFor(character)).isFalse();
 	}
@@ -111,7 +105,7 @@ class L2TrapInstanceTest {
 		when(template.getParameters()).thenReturn(statsSet);
 		when(owner.getPvpFlag()).thenReturn((byte) 1);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		trap.setDetected(character);
 		
 		assertThat(trap.isVisibleFor(character)).isTrue();
@@ -121,7 +115,7 @@ class L2TrapInstanceTest {
 	void testTrapIsNotVisibleWhenOwnerIsNull() {
 		when(template.getParameters()).thenReturn(statsSet);
 		
-		final var trap = new L2TrapInstance(template, 1, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, 1, 1000);
 		
 		assertThat(trap.isVisibleFor(character)).isFalse();
 	}
@@ -130,7 +124,7 @@ class L2TrapInstanceTest {
 	void testTrapIsVisibleForTheOwner() {
 		when(template.getParameters()).thenReturn(statsSet);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isVisibleFor(owner)).isTrue();
 	}
@@ -140,7 +134,7 @@ class L2TrapInstanceTest {
 		when(template.getParameters()).thenReturn(statsSet);
 		when(player.inObserverMode()).thenReturn(true);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isVisibleFor(player)).isFalse();
 	}
@@ -152,9 +146,9 @@ class L2TrapInstanceTest {
 		when(owner.getOlympiadSide()).thenReturn(0);
 		when(player.isInOlympiadMode()).thenReturn(true);
 		when(player.getOlympiadSide()).thenReturn(1);
-
-		final var trap = new L2TrapInstance(template, owner, 1000);
-
+		
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
+		
 		assertThat(trap.isVisibleFor(player)).isFalse();
 	}
 	
@@ -167,7 +161,7 @@ class L2TrapInstanceTest {
 		when(player.isInParty()).thenReturn(true);
 		when(player.getParty()).thenReturn(party);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isVisibleFor(player)).isTrue();
 	}
@@ -176,7 +170,7 @@ class L2TrapInstanceTest {
 	void testTrapIsNotAutoAttackableByNullCharacter() {
 		when(template.getParameters()).thenReturn(statsSet);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isAutoAttackable(null)).isFalse();
 	}
@@ -185,7 +179,7 @@ class L2TrapInstanceTest {
 	void testTrapIsNotAutoAttackableByOwner() {
 		when(template.getParameters()).thenReturn(statsSet);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isAutoAttackable(owner)).isFalse();
 	}
@@ -194,7 +188,7 @@ class L2TrapInstanceTest {
 	void testTrapIsNotAutoAttackableByCharacterThatHasNotDetectedIt() {
 		when(template.getParameters()).thenReturn(statsSet);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isAutoAttackable(character)).isFalse();
 	}
@@ -204,7 +198,7 @@ class L2TrapInstanceTest {
 		when(template.getParameters()).thenReturn(statsSet);
 		when(owner.getPvpFlag()).thenReturn((byte) 1);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		trap.setDetected(character);
 		
 		assertThat(trap.isAutoAttackable(character)).isTrue();
@@ -219,7 +213,7 @@ class L2TrapInstanceTest {
 		when(player.isInParty()).thenReturn(true);
 		when(player.getParty()).thenReturn(party);
 		
-		final var trap = new L2TrapInstance(template, owner, 1000);
+		final var trap = new L2TrapInstance(OBJECT_ID, template, owner, 1000);
 		
 		assertThat(trap.isAutoAttackable(player)).isFalse();
 	}
