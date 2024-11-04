@@ -6,13 +6,13 @@ pipelines:
          caches:
          - maven
          script:
-         - /bin/sh mvnw install
+         - /bin/sh mvnw clean install
          artifacts:
          - target/*.zip
    -  step:
          deployment: Production
          script:
-         -  pipe: atlassian/ftp-deploy:0.6.0
+         -  pipe: atlassian/ftp-deploy:0.7.1
             variables:
                USER: $FTP_USER
                PASSWORD: $FTP_PASSWORD
