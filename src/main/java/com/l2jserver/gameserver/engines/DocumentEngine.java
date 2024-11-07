@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +81,7 @@ public class DocumentEngine {
 		}
 	}
 	
-	public List<Skill> loadSkills(File file) {
+	private List<Skill> loadSkills(File file) {
 		if (file == null) {
 			LOG.warn("Skill file not found!");
 			return null;
@@ -87,19 +91,12 @@ public class DocumentEngine {
 		return doc.getSkills();
 	}
 	
-	public void loadAllSkills(final Map<Integer, Skill> allSkills) {
-		int count = 0;
-		for (File file : _skillFiles) {
-			List<Skill> s = loadSkills(file);
-			if (s == null) {
-				continue;
-			}
-			for (Skill skill : s) {
-				allSkills.put(SkillData.getSkillHashCode(skill), skill);
-				count++;
-			}
-		}
-		LOG.info("Loaded {} skill templates from XML files.", count);
+	public Map<Integer, Skill> loadAllSkills() {
+		return _skillFiles.parallelStream()
+			.map(this::loadSkills)
+			.filter(Objects::nonNull)
+			.flatMap(List::stream)
+			.collect(Collectors.toConcurrentMap(SkillData::getSkillHashCode, Function.identity()));
 	}
 	
 	/**

@@ -54,11 +54,12 @@ public final class SkillData {
 	}
 	
 	private void load() {
-		final Map<Integer, Skill> _temp = new HashMap<>();
-		DocumentEngine.getInstance().loadAllSkills(_temp);
+		final var start = System.currentTimeMillis();
+		
+		final var temp = DocumentEngine.getInstance().loadAllSkills();
 		
 		_skills.clear();
-		_skills.putAll(_temp);
+		_skills.putAll(temp);
 		
 		_skillMaxLevel.clear();
 		_enchantable.clear();
@@ -76,6 +77,8 @@ public final class SkillData {
 				_skillMaxLevel.put(skillId, skillLvl);
 			}
 		}
+		
+		LOG.info("Loaded {} skill templates from XML files in {}ms.", _skills.size(), System.currentTimeMillis() - start);
 	}
 	
 	/**
