@@ -118,6 +118,8 @@ public class ItemTable {
 	}
 	
 	private void load() {
+		final var start = System.currentTimeMillis();
+		
 		int highest = 0;
 		_armors.clear();
 		_etcItems.clear();
@@ -140,7 +142,7 @@ public class ItemTable {
 		LOG.info("Loaded {} Etc items.", _etcItems.size());
 		LOG.info("Loaded {} Armor items.", _armors.size());
 		LOG.info("Loaded {} Weapon items.", _weapons.size());
-		LOG.info("Loaded {} items in total.", (_etcItems.size() + _armors.size() + _weapons.size()));
+		LOG.info("Loaded {} items total in {}ms.", (_etcItems.size() + _armors.size() + _weapons.size()), System.currentTimeMillis() - start);
 	}
 	
 	/**

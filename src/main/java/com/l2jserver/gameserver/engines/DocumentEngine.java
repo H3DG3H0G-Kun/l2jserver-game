@@ -104,13 +104,15 @@ public class DocumentEngine {
 	 * @return List of {@link L2Item}
 	 */
 	public List<L2Item> loadItems() {
-		List<L2Item> list = new ArrayList<>();
-		for (File f : _itemFiles) {
-			DocumentItem document = new DocumentItem(f);
-			document.parse();
-			list.addAll(document.getItemList());
-		}
-		return list;
+		return _itemFiles.parallelStream()
+			.filter(Objects::nonNull)
+			.map(DocumentItem::new)
+			.map(doc -> {
+				doc.parse();
+				return doc.getItemList();
+			})
+			.flatMap(List::stream)
+			.toList();
 	}
 	
 	private static class SingletonHolder {
