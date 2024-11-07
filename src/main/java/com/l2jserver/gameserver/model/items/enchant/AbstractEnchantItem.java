@@ -103,7 +103,7 @@ public abstract class AbstractEnchantItem {
 	
 	/**
 	 * @param itemToEnchant the item to be enchanted
-	 * @param supportItem
+	 * @param supportItem the support item used when enchanting (can be null)
 	 * @return {@code true} if this support item can be used with the item to be enchanted, {@code false} otherwise
 	 */
 	public boolean isValid(L2ItemInstance itemToEnchant, EnchantSupportItem supportItem) {
@@ -113,14 +113,14 @@ public abstract class AbstractEnchantItem {
 			return false;
 		} else if (!isValidItemType(itemToEnchant.getItem().getType2())) {
 			return false;
-		} else if ((_maxEnchantLevel != 0) && (itemToEnchant.getEnchantLevel() >= _maxEnchantLevel)) {
+		} else if ((_maxEnchantLevel != 0) && (itemToEnchant.getEnchantLevel() > _maxEnchantLevel)) {
 			return false;
 		}
 		return _grade == itemToEnchant.getItem().getItemGradeSPlus();
 	}
 	
 	/**
-	 * @param type2
+	 * @param type2 the type2 of the item to be enchanted
 	 * @return {@code true} if current type2 is valid to be enchanted, {@code false} otherwise
 	 */
 	private boolean isValidItemType(ItemType2 type2) {
