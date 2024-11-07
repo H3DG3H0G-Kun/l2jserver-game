@@ -65,6 +65,14 @@ public final class L2WorldRegion {
 		_active = general().gridsAlwaysOn();
 	}
 	
+	public int getTileX() {
+		return _tileX;
+	}
+	
+	public int getTileY() {
+		return _tileY;
+	}
+	
 	public List<L2ZoneType> getZones() {
 		return _zones;
 	}

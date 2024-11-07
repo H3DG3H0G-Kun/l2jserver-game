@@ -22,8 +22,8 @@ import static com.l2jserver.gameserver.config.Configuration.general;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_LEARN_SKILL_REQUESTED;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_LOGIN;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_MENU_SELECTED;
-import static com.l2jserver.gameserver.model.events.EventType.PLAYER_SKILL_LEARNED;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_QUEST_ACCEPTED;
+import static com.l2jserver.gameserver.model.events.EventType.PLAYER_SKILL_LEARNED;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.NPC;
 
 import java.util.ArrayList;

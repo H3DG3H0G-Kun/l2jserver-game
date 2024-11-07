@@ -18,6 +18,8 @@
  */
 package com.l2jserver.gameserver.model.zone.form;
 
+import java.awt.Rectangle;
+
 import com.l2jserver.commons.util.Rnd;
 import com.l2jserver.gameserver.GeoData;
 import com.l2jserver.gameserver.model.itemcontainer.Inventory;
@@ -37,6 +39,12 @@ public class ZoneCylinder extends L2ZoneForm {
 		_z2 = z2;
 		_rad = rad;
 		_radS = rad * rad;
+	}
+	
+	@Override
+	public Rectangle getBoundingBox() {
+		final var diameter = _rad * 2;
+		return new Rectangle(_x - _rad, _y - _rad, diameter, diameter);
 	}
 	
 	@Override

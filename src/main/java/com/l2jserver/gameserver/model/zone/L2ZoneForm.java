@@ -18,6 +18,8 @@
  */
 package com.l2jserver.gameserver.model.zone;
 
+import java.awt.Rectangle;
+
 import com.l2jserver.gameserver.idfactory.IdFactory;
 import com.l2jserver.gameserver.instancemanager.ZoneManager;
 import com.l2jserver.gameserver.model.items.instance.L2ItemInstance;
@@ -28,6 +30,8 @@ import com.l2jserver.gameserver.model.items.instance.L2ItemInstance;
  */
 public abstract class L2ZoneForm {
 	protected static final int STEP = 10;
+	
+	public abstract Rectangle getBoundingBox();
 	
 	public abstract boolean isInsideZone(int x, int y, int z);
 	
