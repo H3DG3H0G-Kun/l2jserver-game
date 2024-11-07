@@ -18,8 +18,6 @@
  */
 package com.l2jserver.gameserver.model.items.enchant;
 
-import java.util.logging.Logger;
-
 import com.l2jserver.gameserver.datatables.ItemTable;
 import com.l2jserver.gameserver.model.StatsSet;
 import com.l2jserver.gameserver.model.items.L2Item;
@@ -34,7 +32,6 @@ import com.l2jserver.gameserver.util.Util;
  * @author UnAfraid
  */
 public abstract class AbstractEnchantItem {
-	protected static final Logger _log = Logger.getLogger(AbstractEnchantItem.class.getName());
 	
 	private static final ItemType[] ENCHANT_TYPES = new ItemType[] {
 		EtcItemType.ANCIENT_CRYSTAL_ENCHANT_AM,
