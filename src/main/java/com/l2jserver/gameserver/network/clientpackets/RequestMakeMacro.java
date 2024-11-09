@@ -23,6 +23,9 @@ import static com.l2jserver.gameserver.config.Configuration.general;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.enums.MacroType;
 import com.l2jserver.gameserver.model.Macro;
 import com.l2jserver.gameserver.model.MacroCmd;
@@ -30,6 +33,8 @@ import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jserver.gameserver.network.SystemMessageId;
 
 public final class RequestMakeMacro extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(RequestMakeMacro.class);
+	
 	private static final String _C__CD_REQUESTMAKEMACRO = "[C] CD RequestMakeMacro";
 	
 	private Macro _macro;
@@ -50,7 +55,7 @@ public final class RequestMakeMacro extends L2GameClientPacket {
 		}
 		
 		if (general().debug()) {
-			_log.info("Make macro id:" + _id + "\tname:" + _name + "\tdesc:" + _desc + "\tacronym:" + _acronym + "\ticon:" + _icon + "\tcount:" + _count);
+			LOG.info("Make macro id: {}\tname: {}\tdesc: {}\tacronym: {}\ticon: {}\tcount: {}", _id, _name, _desc, _acronym, _icon, _count);
 		}
 		
 		final List<MacroCmd> commands = new ArrayList<>(_count);

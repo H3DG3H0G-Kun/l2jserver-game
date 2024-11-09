@@ -22,7 +22,9 @@ import static com.l2jserver.gameserver.config.Configuration.olympiad;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.util.Rnd;
 import com.l2jserver.gameserver.enums.Team;
@@ -44,20 +46,22 @@ import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
  * @author DS
  */
 public class OlympiadGameTeams extends AbstractOlympiadGame {
-	public static final int MAX_TEAM_SIZE = 3;
+	private static final Logger LOG = LoggerFactory.getLogger(OlympiadGameTeams.class);
 	
-	protected boolean _teamOneDefaulted;
-	protected boolean _teamTwoDefaulted;
+	private static final int MAX_TEAM_SIZE = 3;
 	
-	protected int _damageT1 = 0;
-	protected int _damageT2 = 0;
+	private boolean _teamOneDefaulted;
+	private boolean _teamTwoDefaulted;
 	
-	protected final int _teamOneSize;
-	protected final int _teamTwoSize;
-	protected final Participant[] _teamOne;
-	protected final Participant[] _teamTwo;
+	private int _damageT1 = 0;
+	private int _damageT2 = 0;
 	
-	protected OlympiadGameTeams(int id, Participant[] teamOne, Participant[] teamTwo) {
+	private final int _teamOneSize;
+	private final int _teamTwoSize;
+	private final Participant[] _teamOne;
+	private final Participant[] _teamTwo;
+	
+	private OlympiadGameTeams(int id, Participant[] teamOne, Participant[] teamTwo) {
 		super(id);
 		
 		_teamOneSize = Math.min(teamOne.length, MAX_TEAM_SIZE);
@@ -91,13 +95,13 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 		}
 	}
 	
-	protected static final Participant[][] createListOfParticipants(List<List<Integer>> list) {
+	private static Participant[][] createListOfParticipants(List<List<Integer>> list) {
 		if ((list == null) || list.isEmpty() || (list.size() < 2)) {
 			return null;
 		}
 		
-		List<Integer> teamOne = null;
-		List<Integer> teamTwo = null;
+		List<Integer> teamOne;
+		List<Integer> teamTwo;
 		L2PcInstance player;
 		List<L2PcInstance> teamOnePlayers = new ArrayList<>(MAX_TEAM_SIZE);
 		List<L2PcInstance> teamTwoPlayers = new ArrayList<>(MAX_TEAM_SIZE);
@@ -269,7 +273,7 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 				result &= portPlayerToArena(_teamTwo[i], spawns.get(i + offset), _stadiumID);
 			}
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "", e);
+			LOG.warn(e.getMessage(), e);
 			return false;
 		}
 		return result;
@@ -513,7 +517,7 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 				}
 				stadium.broadcastPacket(result);
 			} catch (Exception e) {
-				_log.log(Level.WARNING, "Exception on validateWinner(): " + e.getMessage(), e);
+				LOG.warn("Exception on validateWinner(): {}", e.getMessage(), e);
 			}
 			return;
 		}
@@ -680,7 +684,7 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 					par.updateStat(getWeeklyMatchType(), 1);
 				}
 			} catch (Exception e) {
-				_log.log(Level.WARNING, "Exception on validateWinner(): " + e.getMessage(), e);
+				LOG.warn("Exception on validateWinner(): {}", e.getMessage(), e);
 			}
 			
 			if (winside == 1) {
@@ -812,7 +816,7 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 			}
 			stadium.broadcastPacket(result);
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Exception on validateWinner(): " + e.getMessage(), e);
+			LOG.warn("Exception on validateWinner(): {}", e.getMessage(), e);
 		}
 	}
 	
@@ -892,7 +896,7 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 			
 			return _teamOneDefaulted || _teamTwoDefaulted;
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Exception on checkDefaulted(): " + e.getMessage(), e);
+			LOG.warn("Exception on checkDefaulted(): {}", e.getMessage(), e);
 			return true;
 		}
 	}
@@ -903,7 +907,7 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 		_damageT2 = 0;
 	}
 	
-	protected final boolean teamOneAllDisconnected() {
+	private boolean teamOneAllDisconnected() {
 		for (int i = _teamOneSize; --i >= 0;) {
 			if (!_teamOne[i].isDisconnected()) {
 				return false;
@@ -913,7 +917,7 @@ public class OlympiadGameTeams extends AbstractOlympiadGame {
 		return true;
 	}
 	
-	protected final boolean teamTwoAllDisconnected() {
+	private boolean teamTwoAllDisconnected() {
 		for (int i = _teamTwoSize; --i >= 0;) {
 			if (!_teamTwo[i].isDisconnected()) {
 				return false;

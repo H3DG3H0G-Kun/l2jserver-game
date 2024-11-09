@@ -21,6 +21,9 @@ package com.l2jserver.gameserver.network.clientpackets;
 import static com.l2jserver.gameserver.config.Configuration.character;
 import static java.util.concurrent.TimeUnit.DAYS;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.model.ClanPrivilege;
 import com.l2jserver.gameserver.model.L2Clan;
 import com.l2jserver.gameserver.model.L2ClanMember;
@@ -33,6 +36,8 @@ import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
  * @since 2005/03/27 15:29:30
  */
 public final class RequestOustPledgeMember extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(RequestOustPledgeMember.class);
+	
 	private static final String _C__29_REQUESTOUSTPLEDGEMEMBER = "[C] 29 RequestOustPledgeMember";
 	
 	private String _target;
@@ -65,7 +70,7 @@ public final class RequestOustPledgeMember extends L2GameClientPacket {
 		
 		L2ClanMember member = clan.getClanMember(_target);
 		if (member == null) {
-			_log.warning("Target (" + _target + ") is not member of the clan");
+			LOG.warn("Target ({}) is not member of the clan", _target);
 			return;
 		}
 		if (member.isOnline() && member.getPlayerInstance().isInCombat()) {

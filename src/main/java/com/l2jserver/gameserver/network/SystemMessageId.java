@@ -1,18 +1,18 @@
 /*
  * Copyright © 2004-2024 L2J Server
- * 
+ *
  * This file is part of L2J Server.
- * 
+ *
  * L2J Server is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * L2J Server is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,11 +28,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -47,8 +47,13 @@ import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
  * @author Forsaiken
  * @author Zealar
  */
+@SuppressWarnings({
+	"unused",
+	"JavadocLinkAsPlainText"
+})
 public final class SystemMessageId {
-	private static final Logger _log = Logger.getLogger(SystemMessageId.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(SystemMessageId.class);
+	
 	private static final SMLocalisation[] EMPTY_SML_ARRAY = new SMLocalisation[0];
 	public static final SystemMessageId[] EMPTY_ARRAY = new SystemMessageId[0];
 	
@@ -15259,7 +15264,7 @@ public final class SystemMessageId {
 					smId.setParamCount(parseMessageParameters(field.getName()));
 					VALUES.put(smId.getId(), smId);
 				} catch (final Exception e) {
-					_log.log(Level.WARNING, "SystemMessageId: Failed field access for '" + field.getName() + "'", e);
+					LOG.warn("Failed field access for '{}'", field.getName(), e);
 				}
 			}
 		}
@@ -15306,7 +15311,7 @@ public final class SystemMessageId {
 		}
 		
 		if (!customs().multiLangSystemMessageEnable()) {
-			_log.log(Level.INFO, "SystemMessageId: MultiLanguage disabled.");
+			LOG.info("MultiLanguage disabled.");
 			return;
 		}
 		
@@ -15321,7 +15326,7 @@ public final class SystemMessageId {
 				continue;
 			}
 			
-			_log.log(Level.INFO, "SystemMessageId: Loading localisation for '" + lang + "'");
+			LOG.info("Loading localisation for '{}'", lang);
 			
 			try {
 				Document doc = factory.newDocumentBuilder().parse(file);
@@ -15338,20 +15343,20 @@ public final class SystemMessageId {
 									node = nnmb.getNamedItem("name");
 									smId = getSystemMessageId(node.getNodeValue());
 									if (smId == null) {
-										_log.log(Level.WARNING, "SystemMessageId: Unknown SMID '" + node.getNodeValue() + "', lang '" + lang + "'.");
+										LOG.warn("Unknown SMID '{}', lang '{}'.", node.getNodeValue(), lang);
 										continue;
 									}
 								}
 								
 								node = nnmb.getNamedItem("text");
 								if (node == null) {
-									_log.log(Level.WARNING, "SystemMessageId: No text defined for SMID '" + smId + "', lang '" + lang + "'.");
+									LOG.warn("No text defined for SMID '{}', lang '{}'.", smId, lang);
 									continue;
 								}
 								
 								String text = node.getNodeValue();
 								if (text.isEmpty() || (text.length() > 255)) {
-									_log.log(Level.WARNING, "SystemMessageId: Invalid text defined for SMID '" + smId + "' (to long or empty), lang '" + lang + "'.");
+									LOG.warn("Invalid text defined for SMID '{}' (to long or empty), lang '{}'.", smId, lang);
 									continue;
 								}
 								
@@ -15361,7 +15366,7 @@ public final class SystemMessageId {
 					}
 				}
 			} catch (final Exception e) {
-				_log.log(Level.SEVERE, "SystemMessageId: Failed loading '" + file + "'", e);
+				LOG.error("SystemMessageId: Failed loading '{}'", file, e);
 			}
 		}
 	}

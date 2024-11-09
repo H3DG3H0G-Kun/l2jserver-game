@@ -20,8 +20,9 @@ package com.l2jserver.gameserver.model.events;
 
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.gameserver.ThreadPoolManager;
 import com.l2jserver.gameserver.model.events.impl.BaseEvent;
@@ -32,9 +33,9 @@ import com.l2jserver.gameserver.model.events.returns.AbstractEventReturn;
  * @author UnAfraid
  */
 public final class EventDispatcher {
-	private static final Logger _log = Logger.getLogger(EventDispatcher.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(EventDispatcher.class);
 	
-	protected EventDispatcher() {
+	private EventDispatcher() {
 	}
 	
 	public <T extends AbstractEventReturn> T notifyEvent(BaseEvent event) {
@@ -53,7 +54,7 @@ public final class EventDispatcher {
 		try {
 			return Containers.Global().hasListener(event.getType()) || ((container != null) && container.hasListener(event.getType())) ? notifyEventImpl(event, container, callbackClass) : null;
 		} catch (Exception e) {
-			_log.log(Level.WARNING, getClass().getSimpleName() + ": Couldn't notify event " + event.getClass().getSimpleName(), e);
+			LOG.warn("Couldn't notify event {}", event.getClass().getSimpleName(), e);
 		}
 		return null;
 	}
@@ -138,7 +139,7 @@ public final class EventDispatcher {
 			
 			return callback;
 		} catch (Exception e) {
-			_log.log(Level.WARNING, getClass().getSimpleName() + ": Couldn't notify event " + event.getClass().getSimpleName(), e);
+			LOG.warn("Couldn't notify event {}", event.getClass().getSimpleName(), e);
 		}
 		return null;
 	}
@@ -193,7 +194,7 @@ public final class EventDispatcher {
 					break;
 				}
 			} catch (Exception e) {
-				_log.log(Level.WARNING, getClass().getSimpleName() + ": Exception during notification of event: " + event.getClass().getSimpleName() + " listener: " + listener.getClass().getSimpleName(), e);
+				LOG.warn("Exception during notification of event: {} listener: {}", event.getClass().getSimpleName(), listener.getClass().getSimpleName(), e);
 			}
 		}
 		

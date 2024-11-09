@@ -18,6 +18,9 @@
  */
 package com.l2jserver.gameserver.network.serverpackets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.model.L2Clan;
 import com.l2jserver.gameserver.model.L2Clan.SubPledge;
 
@@ -25,6 +28,8 @@ import com.l2jserver.gameserver.model.L2Clan.SubPledge;
  * @author -Wooden-
  */
 public class PledgeReceiveSubPledgeCreated extends L2GameServerPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(PledgeReceiveSubPledgeCreated.class);
+	
 	private final SubPledge _subPledge;
 	private final L2Clan _clan;
 	
@@ -49,7 +54,7 @@ public class PledgeReceiveSubPledgeCreated extends L2GameServerPacket {
 		if ((_subPledge.getId() == L2Clan.SUBUNIT_ACADEMY) || (LeaderId == 0)) {
 			return "";
 		} else if (_clan.getClanMember(LeaderId) == null) {
-			_log.warning("SubPledgeLeader: " + LeaderId + " is missing from clan: " + _clan.getName() + "[" + _clan.getId() + "]");
+			LOG.warn("SubPledgeLeader: {} is missing from clan: {}[{}]", LeaderId, _clan.getName(), _clan.getId());
 			return "";
 		} else {
 			return _clan.getClanMember(LeaderId).getName();

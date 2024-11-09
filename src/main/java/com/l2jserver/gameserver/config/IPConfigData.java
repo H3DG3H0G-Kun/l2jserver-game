@@ -62,7 +62,7 @@ public class IPConfigData implements IXmlReader {
 	
 	@Override
 	public void load() {
-		GameServer.printSection("Network Configuration");
+		GameServer.startTimedSection("Network Configuration");
 		final File f = new File(IP_CONFIG_FILE);
 		if (f.exists()) {
 			LOG.info("Using existing ipconfig.xml.");

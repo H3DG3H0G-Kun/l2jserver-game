@@ -171,7 +171,7 @@ public final class MercTicketManager {
 							itemId = ITEM_IDS[i];
 							// create the ticket in the gameworld
 							final var objectId = IdFactory.getInstance().getNextId();
-							final var dropticket = new L2ItemInstance(objectId , itemId);
+							final var dropticket = new L2ItemInstance(objectId, itemId);
 							dropticket.setItemLocation(ItemLocation.VOID);
 							dropticket.dropMe(null, x, y, z);
 							dropticket.setDropTime(0); // avoids it from being removed by the auto item destroyer

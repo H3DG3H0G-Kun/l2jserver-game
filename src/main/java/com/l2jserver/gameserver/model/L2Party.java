@@ -31,8 +31,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.util.Rnd;
 import com.l2jserver.gameserver.GameTimeController;
@@ -72,8 +73,7 @@ import com.l2jserver.gameserver.util.Util;
  * @author nuocnam
  */
 public class L2Party extends AbstractPlayerGroup {
-	
-	private static final Logger _log = Logger.getLogger(L2Party.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(L2Party.class);
 	
 	private static final int MAXIMUM_LEVEL_DIFFERENCE = 9;
 	
@@ -99,7 +99,7 @@ public class L2Party extends AbstractPlayerGroup {
 	private L2CommandChannel _commandChannel = null;
 	private DimensionalRift _dr;
 	private Future<?> _positionBroadcastTask = null;
-	protected PartyMemberPosition _positionPacket;
+	private PartyMemberPosition _positionPacket;
 	private boolean _disbanding = false;
 	
 	/**
@@ -171,9 +171,6 @@ public class L2Party extends AbstractPlayerGroup {
 	
 	/**
 	 * get next item looter
-	 * @param ItemId
-	 * @param target
-	 * @return
 	 */
 	private L2PcInstance getCheckedNextLooter(int ItemId, L2Character target) {
 		for (int i = 0; i < getMemberCount(); i++) {
@@ -196,11 +193,6 @@ public class L2Party extends AbstractPlayerGroup {
 	
 	/**
 	 * get next item looter
-	 * @param player
-	 * @param ItemId
-	 * @param spoil
-	 * @param target
-	 * @return
 	 */
 	private L2PcInstance getActualLooter(L2PcInstance player, int ItemId, boolean spoil, L2Character target) {
 		L2PcInstance looter = null;
@@ -242,9 +234,6 @@ public class L2Party extends AbstractPlayerGroup {
 	
 	/**
 	 * Send a Server->Client packet to all other L2PcInstance of the Party.<BR>
-	 * <BR>
-	 * @param player
-	 * @param msg
 	 */
 	public void broadcastToPartyMembers(L2PcInstance player, L2GameServerPacket msg) {
 		for (L2PcInstance member : getMembers()) {
@@ -256,7 +245,6 @@ public class L2Party extends AbstractPlayerGroup {
 	
 	/**
 	 * adds new member to party
-	 * @param player
 	 */
 	public void addPartyMember(L2PcInstance player) {
 		if (getMembers().contains(player)) {
@@ -374,7 +362,7 @@ public class L2Party extends AbstractPlayerGroup {
 					player.getSkillChannelized().abortChannelization();
 				}
 			} catch (Exception e) {
-				_log.log(Level.WARNING, "", e);
+				LOG.warn(e.getMessage(), e);
 			}
 			
 			SystemMessage msg;
@@ -495,8 +483,6 @@ public class L2Party extends AbstractPlayerGroup {
 	
 	/**
 	 * finds a player in the party by name
-	 * @param name
-	 * @return
 	 */
 	private L2PcInstance getPlayerByName(String name) {
 		for (L2PcInstance member : getMembers()) {
@@ -520,8 +506,6 @@ public class L2Party extends AbstractPlayerGroup {
 	
 	/**
 	 * distribute item(s) to party members
-	 * @param player
-	 * @param item
 	 */
 	public void distributeItem(L2PcInstance player, L2ItemInstance item) {
 		if (isItemToEvenlyDistribute(item.getId())) {
@@ -863,7 +847,7 @@ public class L2Party extends AbstractPlayerGroup {
 	 */
 	@Override
 	public L2PcInstance getLeader() {
-		return _members.get(0);
+		return _members.getFirst();
 	}
 	
 	public synchronized void requestLootChange(PartyDistributionType partyDistributionType) {
@@ -901,7 +885,7 @@ public class L2Party extends AbstractPlayerGroup {
 		}
 	}
 	
-	protected synchronized void finishLootRequest(boolean success) {
+	private synchronized void finishLootRequest(boolean success) {
 		if (_changeRequestDistributionType == null) {
 			return;
 		}

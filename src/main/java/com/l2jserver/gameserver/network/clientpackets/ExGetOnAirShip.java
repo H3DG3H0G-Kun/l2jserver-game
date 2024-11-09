@@ -18,11 +18,16 @@
  */
 package com.l2jserver.gameserver.network.clientpackets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Format: (c) dddd d: dx d: dy d: dz d: AirShip id ??
  * @author -Wooden-
  */
 public class ExGetOnAirShip extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(ExGetOnAirShip.class);
+	
 	private static final String _C__D0_36_EXGETONAIRSHIP = "[C] D0:36 ExGetOnAirShip";
 	
 	private int _x;
@@ -40,10 +45,10 @@ public class ExGetOnAirShip extends L2GameClientPacket {
 	
 	@Override
 	protected void runImpl() {
-		_log.info("[T1:ExGetOnAirShip] x: " + _x);
-		_log.info("[T1:ExGetOnAirShip] y: " + _y);
-		_log.info("[T1:ExGetOnAirShip] z: " + _z);
-		_log.info("[T1:ExGetOnAirShip] ship ID: " + _shipId);
+		LOG.info("x: {}", _x);
+		LOG.info("y: {}", _y);
+		LOG.info("z: {}", _z);
+		LOG.info("ship ID: {}", _shipId);
 	}
 	
 	@Override

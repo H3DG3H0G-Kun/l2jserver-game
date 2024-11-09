@@ -21,8 +21,9 @@ package com.l2jserver.gameserver.model.quest;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.database.ConnectionFactory;
 import com.l2jserver.gameserver.enums.QuestType;
@@ -48,8 +49,7 @@ import com.l2jserver.gameserver.util.Util;
  * @author Luis Arias
  */
 public final class QuestState {
-	
-	private static final Logger _log = Logger.getLogger(QuestState.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(QuestState.class);
 	
 	/** The name of the quest of this QuestState */
 	private final String _questName;
@@ -234,7 +234,7 @@ public final class QuestState {
 				}
 				setCond(Integer.parseInt(val), previousVal);
 			} catch (Exception e) {
-				_log.log(Level.WARNING, _player.getName() + ", " + getQuestName() + " cond [" + val + "] is not an integer.  Value stored, but no packet was sent: " + e.getMessage(), e);
+				LOG.warn("{}, {} cond [{}] is not an integer. Value stored, but no packet was sent: {}", _player.getName(), getQuestName(), val, e.getMessage(), e);
 			}
 		}
 		
@@ -356,7 +356,7 @@ public final class QuestState {
 			ps.setString(3, value);
 			ps.executeUpdate();
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Could not insert player's global quest variable: " + e.getMessage(), e);
+			LOG.warn("Could not insert player's global quest variable: {}", e.getMessage(), e);
 		}
 	}
 	
@@ -382,7 +382,7 @@ public final class QuestState {
 				}
 			}
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Could not load player's global quest variable: " + e.getMessage(), e);
+			LOG.warn("Could not load player's global quest variable: {}", e.getMessage(), e);
 		}
 		return result;
 	}
@@ -398,7 +398,7 @@ public final class QuestState {
 			ps.setString(2, var);
 			ps.executeUpdate();
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "could not delete player's global quest variable; charId = " + _player.getObjectId() + ", variable name = " + var + ". Exception: " + e.getMessage(), e);
+			LOG.warn("Could not delete player's global quest variable; charId = {}, variable name = {}. Exception: {}", _player.getObjectId(), var, e.getMessage(), e);
 		}
 	}
 	
@@ -431,7 +431,7 @@ public final class QuestState {
 		try {
 			varint = Integer.parseInt(variable);
 		} catch (NumberFormatException nfe) {
-			_log.log(Level.INFO, "Quest " + getQuestName() + ", method getInt(" + var + "), tried to parse a non-integer value (" + variable + "). Char Id: " + _player.getObjectId(), nfe);
+			LOG.warn("Quest {}, method getInt({}), tried to parse a non-integer value ({}). Char Id: {}", getQuestName(), var, variable, _player.getObjectId(), nfe);
 		}
 		
 		return varint;

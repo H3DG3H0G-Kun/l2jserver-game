@@ -19,7 +19,9 @@
 package com.l2jserver.gameserver.model.stats.functions;
 
 import java.lang.reflect.Constructor;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.gameserver.enums.StatFunction;
 import com.l2jserver.gameserver.model.actor.L2Character;
@@ -34,7 +36,7 @@ import com.l2jserver.gameserver.model.stats.Stats;
  * @author Zoey76
  */
 public final class FuncTemplate {
-	private static final Logger LOG = Logger.getLogger(FuncTemplate.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(FuncTemplate.class);
 	
 	private final Condition _attachCond;
 	private final Condition _applyCond;
@@ -133,7 +135,7 @@ public final class FuncTemplate {
 		try {
 			return (AbstractFunction) _constructor.newInstance(_stat, _order, owner, _value, _applyCond);
 		} catch (Exception e) {
-			LOG.warning(FuncTemplate.class.getSimpleName() + ": " + e.getMessage());
+			LOG.warn(e.getMessage(), e);
 		}
 		return null;
 	}

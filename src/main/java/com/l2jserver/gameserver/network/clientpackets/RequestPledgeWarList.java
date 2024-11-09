@@ -39,8 +39,8 @@ public final class RequestPledgeWarList extends L2GameClientPacket {
 	
 	@Override
 	protected void runImpl() {
-		// _log.info("C5: RequestPledgeWarList d:"+_unk1);
-		// _log.info("C5: RequestPledgeWarList d:"+_tab);
+		// LOG.info("C5: RequestPledgeWarList d:"+_unk1);
+		// LOG.info("C5: RequestPledgeWarList d:"+_tab);
 		L2PcInstance activeChar = getClient().getActiveChar();
 		if (activeChar == null) {
 			return;

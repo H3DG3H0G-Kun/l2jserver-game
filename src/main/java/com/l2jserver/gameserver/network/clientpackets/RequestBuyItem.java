@@ -26,6 +26,9 @@ import static com.l2jserver.gameserver.model.actor.L2Npc.INTERACTION_DISTANCE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.data.xml.impl.BuyListData;
 import com.l2jserver.gameserver.model.L2Object;
 import com.l2jserver.gameserver.model.actor.L2Character;
@@ -42,6 +45,8 @@ import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
 import com.l2jserver.gameserver.util.Util;
 
 public final class RequestBuyItem extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(RequestBuyItem.class);
+	
 	private static final String _C__40_REQUESTBUYITEM = "[C] 40 RequestBuyItem";
 	
 	private static final int BATCH_LENGTH = 12;
@@ -155,7 +160,7 @@ public final class RequestBuyItem extends L2GameClientPacket {
 			}
 			
 			if (price < 0) {
-				_log.warning("ERROR, no price found .. wrong buylist ??");
+				LOG.warn("ERROR, no price found .. wrong buylist ??");
 				sendPacket(ActionFailed.STATIC_PACKET);
 				return;
 			}

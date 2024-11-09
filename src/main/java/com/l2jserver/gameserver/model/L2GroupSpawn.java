@@ -20,7 +20,8 @@ package com.l2jserver.gameserver.model;
 
 import static com.l2jserver.gameserver.config.Configuration.general;
 
-import java.util.logging.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.util.Rnd;
 import com.l2jserver.gameserver.data.sql.impl.TerritoryTable;
@@ -33,6 +34,9 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
  * @author littlecrow
  */
 public class L2GroupSpawn extends L2Spawn {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(L2GroupSpawn.class);
+	
 	private final L2NpcTemplate _template;
 	
 	public L2GroupSpawn(L2NpcTemplate mobTemplate) throws SecurityException, ClassNotFoundException, NoSuchMethodException {
@@ -68,7 +72,7 @@ public class L2GroupSpawn extends L2Spawn {
 				newLocY = getY();
 				newLocZ = getZ();
 			}
-
+			
 			final var objectId = IdFactory.getInstance().getNextId();
 			final var mob = new L2ControllableMobInstance(objectId, _template);
 			mob.setCurrentHpMp(mob.getMaxHp(), mob.getMaxMp());
@@ -84,12 +88,12 @@ public class L2GroupSpawn extends L2Spawn {
 			mob.onSpawn();
 			
 			if (general().debug()) {
-				_log.finest("Spawned Mob Id: " + _template.getId() + " ,at: X: " + mob.getX() + " Y: " + mob.getY() + " Z: " + mob.getZ());
+				LOG.trace("Spawned Mob Id: {} ,at: X: {} Y: {} Z: {}", _template.getId(), mob.getX(), mob.getY(), mob.getZ());
 			}
 			return mob;
 			
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "NPC class not found: " + e.getMessage(), e);
+			LOG.warn("NPC class not found: {}", e.getMessage(), e);
 			return null;
 		}
 	}

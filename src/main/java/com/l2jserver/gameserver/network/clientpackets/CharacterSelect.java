@@ -45,6 +45,7 @@ import com.l2jserver.gameserver.network.serverpackets.SSQInfo;
 import com.l2jserver.gameserver.network.serverpackets.ServerClose;
 
 public class CharacterSelect extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(CharacterSelect.class);
 	
 	private static final String _C__12_CHARACTERSELECT = "[C] 12 CharacterSelect";
 	
@@ -118,7 +119,7 @@ public class CharacterSelect extends L2GameClientPacket {
 					
 					// The L2PcInstance must be created here, so that it can be attached to the L2GameClient
 					if (general().debug()) {
-						_log.fine("selected slot:" + _charSlot);
+						LOG.debug("Selected slot: {}", _charSlot);
 					}
 					
 					// load up character from disk

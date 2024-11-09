@@ -22,7 +22,9 @@ import static com.l2jserver.gameserver.config.Configuration.customs;
 
 import java.io.PrintStream;
 import java.util.Arrays;
-import java.util.logging.Level;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.gameserver.data.xml.impl.DoorData;
 import com.l2jserver.gameserver.data.xml.impl.NpcData;
@@ -52,6 +54,8 @@ import com.l2jserver.gameserver.network.SystemMessageId.SMLocalisation;
  */
 @SuppressWarnings("unchecked")
 public abstract class AbstractMessagePacket<T extends AbstractMessagePacket<?>> extends L2GameServerPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractMessagePacket.class);
+	
 	private static final SMParam[] EMPTY_PARAM_ARRAY = new SMParam[0];
 	
 	private static final class SMParam {
@@ -131,7 +135,7 @@ public abstract class AbstractMessagePacket<T extends AbstractMessagePacket<?>> 
 		if (_paramIndex >= _params.length) {
 			_params = Arrays.copyOf(_params, _paramIndex + 1);
 			_smId.setParamCount(_paramIndex + 1);
-			_log.log(Level.INFO, "Wrong parameter count '" + (_paramIndex + 1) + "' for SystemMessageId: " + _smId);
+			LOG.info("Wrong parameter count '{}' for SystemMessageId: {}", _paramIndex + 1, _smId);
 		}
 		
 		_params[_paramIndex++] = param;

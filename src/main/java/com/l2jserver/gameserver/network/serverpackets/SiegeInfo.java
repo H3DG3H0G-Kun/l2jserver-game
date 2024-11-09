@@ -22,6 +22,9 @@ import static com.l2jserver.gameserver.config.Configuration.castle;
 
 import java.util.Calendar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.data.sql.impl.ClanTable;
 import com.l2jserver.gameserver.instancemanager.ClanHallSiegeManager;
 import com.l2jserver.gameserver.model.L2Clan;
@@ -46,6 +49,8 @@ import com.l2jserver.gameserver.model.entity.ClanHall;
  * @author KenM
  */
 public class SiegeInfo extends L2GameServerPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(SiegeInfo.class);
+	
 	private Castle _castle;
 	private ClanHall _hall;
 	
@@ -80,7 +85,7 @@ public class SiegeInfo extends L2GameServerPacket {
 					writeD(owner.getAllyId()); // Ally ID
 					writeS(owner.getAllyName()); // Ally Name
 				} else {
-					_log.warning("Null owner for castle: " + _castle.getName());
+					LOG.warn("Null owner for castle: {}", _castle.getName());
 				}
 			} else {
 				writeS(""); // Clan Name
@@ -121,7 +126,7 @@ public class SiegeInfo extends L2GameServerPacket {
 					writeD(owner.getAllyId()); // Ally ID
 					writeS(owner.getAllyName()); // Ally Name
 				} else {
-					_log.warning("Null owner for siegable hall: " + _hall.getName());
+					LOG.warn("Null owner for siegable hall: {}", _hall.getName());
 				}
 			} else {
 				writeS(""); // Clan Name

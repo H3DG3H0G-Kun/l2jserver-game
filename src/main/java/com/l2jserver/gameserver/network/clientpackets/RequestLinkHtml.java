@@ -21,6 +21,9 @@ package com.l2jserver.gameserver.network.clientpackets;
 
 import static com.l2jserver.gameserver.model.actor.L2Npc.INTERACTION_DISTANCE;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.network.serverpackets.NpcHtmlMessage;
 import com.l2jserver.gameserver.util.Util;
 
@@ -30,6 +33,8 @@ import com.l2jserver.gameserver.util.Util;
  * @author HorridoJoho
  */
 public final class RequestLinkHtml extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(RequestLinkHtml.class);
+	
 	private static final String _C__22_REQUESTLINKHTML = "[C] 22 RequestLinkHtml";
 	private String _link;
 	
@@ -46,18 +51,18 @@ public final class RequestLinkHtml extends L2GameClientPacket {
 		}
 		
 		if (_link.isEmpty()) {
-			_log.warning("Player " + actor.getName() + " sent empty html link!");
+			LOG.warn("Player {} sent empty html link!", actor.getName());
 			return;
 		}
 		
 		if (_link.contains("..")) {
-			_log.warning("Player " + actor.getName() + " sent invalid html link: link " + _link);
+			LOG.warn("Player {} sent invalid html link: link {}", actor.getName(), _link);
 			return;
 		}
 		
 		int htmlObjectId = actor.validateHtmlAction("link " + _link);
 		if (htmlObjectId == -1) {
-			_log.warning("Player " + actor.getName() + " sent non cached  html link: link " + _link);
+			LOG.warn("Player {} sent non cached  html link: link {}", actor.getName(), _link);
 			return;
 		}
 		

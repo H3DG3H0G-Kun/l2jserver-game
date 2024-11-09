@@ -42,6 +42,9 @@ import static com.l2jserver.gameserver.network.SystemMessageId.YOUR_SPONSOR_C1_H
 
 import java.util.Base64;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.LoginServerThread;
 import com.l2jserver.gameserver.SevenSigns;
 import com.l2jserver.gameserver.cache.HtmCache;
@@ -111,6 +114,8 @@ import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
  * <p>
  */
 public class EnterWorld extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(EnterWorld.class);
+	
 	private static final String _C__11_ENTERWORLD = "[C] 11 EnterWorld";
 	
 	private static final double MIN_HP = 0.5;
@@ -139,7 +144,7 @@ public class EnterWorld extends L2GameClientPacket {
 	protected void runImpl() {
 		final L2PcInstance activeChar = getActiveChar();
 		if (activeChar == null) {
-			_log.warning("EnterWorld failed! activeChar returned 'null'.");
+			LOG.warn("EnterWorld failed! activeChar returned 'null'.");
 			getClient().closeNow();
 			return;
 		}
@@ -165,7 +170,7 @@ public class EnterWorld extends L2GameClientPacket {
 		
 		if (general().debug()) {
 			if (L2World.getInstance().findObject(activeChar.getObjectId()) != null) {
-				_log.warning("User already exists in Object ID map! User " + activeChar.getName() + " is a character clone.");
+				LOG.warn("User already exists in Object ID map! User {} is a character clone.", activeChar.getName());
 			}
 		}
 		

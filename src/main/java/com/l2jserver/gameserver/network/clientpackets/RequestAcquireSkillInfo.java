@@ -86,11 +86,11 @@ public final class RequestAcquireSkillInfo extends L2GameClientPacket {
 			}
 		}
 		
-		if (_skillType == AcquireSkillType.PLEDGE && !activeChar.isClanLeader()) {
+		if ((_skillType == AcquireSkillType.PLEDGE) && !activeChar.isClanLeader()) {
 			return;
 		}
 		
-		if (_skillType == AcquireSkillType.SUBPLEDGE && (!activeChar.isClanLeader() || !activeChar.hasClanPrivilege(ClanPrivilege.CL_TROOPS_FAME))) {
+		if ((_skillType == AcquireSkillType.SUBPLEDGE) && (!activeChar.isClanLeader() || !activeChar.hasClanPrivilege(ClanPrivilege.CL_TROOPS_FAME))) {
 			return;
 		}
 		

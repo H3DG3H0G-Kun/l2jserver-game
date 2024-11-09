@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
-import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +49,7 @@ import com.l2jserver.gameserver.util.Broadcast;
  * @author godson
  */
 public class Olympiad extends ListenersContainer {
-	
-	private static final java.util.logging.Logger _log = java.util.logging.Logger.getLogger(Olympiad.class.getName());
-	
+	private static final Logger LOG = LoggerFactory.getLogger(Olympiad.class);
 	private static final Logger LOG_OLYMPIAD = LoggerFactory.getLogger("olympiad");
 	
 	private static final Map<Integer, StatsSet> NOBLES = new ConcurrentHashMap<>();
@@ -123,8 +120,8 @@ public class Olympiad extends ListenersContainer {
 	private static final int COMP_START = olympiad().getStartHour();
 	private static final int COMP_MIN = olympiad().getStartMinute();
 	private static final long COMP_PERIOD = olympiad().getCompetitionPeriod();
-	protected static final long WEEKLY_PERIOD = olympiad().getWeeklyPeriod();
-	protected static final long VALIDATION_PERIOD = olympiad().getValidationPeriod();
+	private static final long WEEKLY_PERIOD = olympiad().getWeeklyPeriod();
+	private static final long VALIDATION_PERIOD = olympiad().getValidationPeriod();
 	
 	protected static final int DEFAULT_POINTS = olympiad().getStartPoints();
 	protected static final int WEEKLY_POINTS = olympiad().getWeeklyPoints();
@@ -142,28 +139,28 @@ public class Olympiad extends ListenersContainer {
 	public static final String COMP_DONE_WEEK_NON_CLASSED = "competitions_done_week_non_classed";
 	public static final String COMP_DONE_WEEK_TEAM = "competitions_done_week_team";
 	
-	protected long _olympiadEnd;
-	protected long _validationEnd;
+	private long _olympiadEnd;
+	private long _validationEnd;
 	
 	/**
 	 * The current period of the olympiad.<br>
 	 * <b>0 -</b> Competition period<br>
 	 * <b>1 -</b> Validation Period
 	 */
-	protected int _period;
-	protected long _nextWeeklyChange;
-	protected int _currentCycle;
+	private int _period;
+	private long _nextWeeklyChange;
+	private int _currentCycle;
 	private long _compEnd;
 	private Calendar _compStart;
 	protected static boolean _inCompPeriod;
 	protected static boolean _compStarted = false;
-	protected ScheduledFuture<?> _scheduledCompStart;
-	protected ScheduledFuture<?> _scheduledCompEnd;
-	protected ScheduledFuture<?> _scheduledOlympiadEnd;
-	protected ScheduledFuture<?> _scheduledWeeklyTask;
-	protected ScheduledFuture<?> _scheduledValidationTask;
-	protected ScheduledFuture<?> _gameManager = null;
-	protected ScheduledFuture<?> _gameAnnouncer = null;
+	private ScheduledFuture<?> _scheduledCompStart;
+	private ScheduledFuture<?> _scheduledCompEnd;
+	private ScheduledFuture<?> _scheduledOlympiadEnd;
+	private ScheduledFuture<?> _scheduledWeeklyTask;
+	private ScheduledFuture<?> _scheduledValidationTask;
+	private ScheduledFuture<?> _gameManager = null;
+	private ScheduledFuture<?> _gameAnnouncer = null;
 	
 	protected Olympiad() {
 		load();
@@ -189,11 +186,11 @@ public class Olympiad extends ListenersContainer {
 				loaded = true;
 			}
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Error loading olympiad data from database: ", e);
+			LOG.warn("Error loading olympiad data from database: ", e);
 		}
 		
 		if (!loaded) {
-			_log.log(Level.INFO, "Failed to load data from database, trying to load from file.");
+			LOG.info("Failed to load data from database, trying to load from file.");
 			
 			if (olympiad().getCurrentCycle() != null) {
 				_currentCycle = olympiad().getCurrentCycle();
@@ -224,7 +221,7 @@ public class Olympiad extends ListenersContainer {
 				}
 				break;
 			default:
-				_log.warning("Omg something went wrong in loading!! Period = " + _period);
+				LOG.warn("Omg something went wrong in loading!! Period = {}", _period);
 				return;
 		}
 		
@@ -250,15 +247,15 @@ public class Olympiad extends ListenersContainer {
 				addNobleStats(rs.getInt(CHAR_ID), statData);
 			}
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Error loading noblesse data from database: ", e);
+			LOG.warn("Error loading noblesse data from database: ", e);
 		}
 		
 		synchronized (this) {
-			_log.info("Loading Olympiad System....");
+			LOG.info("Loading Olympiad System....");
 			if (_period == 0) {
-				_log.info("Currently in Olympiad Period");
+				LOG.info("Currently in Olympiad Period");
 			} else {
-				_log.info("Currently in Validation Period");
+				LOG.info("Currently in Validation Period");
 			}
 			
 			long milliToEnd;
@@ -268,20 +265,20 @@ public class Olympiad extends ListenersContainer {
 				milliToEnd = getMillisToValidationEnd();
 			}
 			
-			_log.info("" + (milliToEnd / 60000) + " minutes until period ends");
+			LOG.info("{} minutes until period ends", milliToEnd / 60000);
 			
 			if (_period == 0) {
 				milliToEnd = getMillisToWeekChange();
 				
-				_log.info("Next weekly change is in " + (milliToEnd / 60000) + " minutes");
+				LOG.info("Next weekly change is in {} minutes", milliToEnd / 60000);
 			}
 		}
 		
-		_log.info("Loaded " + NOBLES.size() + " Nobles");
+		LOG.info("Loaded {} Nobles", NOBLES.size());
 		
 	}
 	
-	public void loadNoblesRank() {
+	private void loadNoblesRank() {
 		NOBLES_RANK.clear();
 		Map<Integer, Integer> tmpPlace = new HashMap<>();
 		try (var con = ConnectionFactory.getInstance().getConnection();
@@ -292,7 +289,7 @@ public class Olympiad extends ListenersContainer {
 				tmpPlace.put(rs.getInt(CHAR_ID), place++);
 			}
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Error loading noblesse data from database for Ranking: ", e);
+			LOG.warn("Error loading noblesse data from database for Ranking: ", e);
 		}
 		
 		int rank1 = (int) Math.round(tmpPlace.size() * 0.01);
@@ -409,9 +406,9 @@ public class Olympiad extends ListenersContainer {
 			int numHours = (int) Math.floor(countDown % 24);
 			int numDays = (int) Math.floor((countDown - numHours) / 24);
 			
-			_log.info("Competition Period Starts in " + numDays + " days, " + numHours + " hours and " + numMins + " mins.");
+			LOG.info("Competition Period Starts in {} days, {} hours and {} mins.", numDays, numHours, numMins);
 			
-			_log.info("Event starts/started : " + _compStart.getTime());
+			LOG.info("Event starts/started : {}", _compStart.getTime());
 		}
 		
 		_scheduledCompStart = ThreadPoolManager.getInstance().scheduleGeneral(() -> {
@@ -422,9 +419,11 @@ public class Olympiad extends ListenersContainer {
 			_inCompPeriod = true;
 			
 			Broadcast.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.THE_OLYMPIAD_GAME_HAS_STARTED));
-			_log.info("Olympiad Game Started");
+			LOG.info("Olympiad Game Started");
 			
-			LOG_OLYMPIAD.info("Result,Player1,Player2,Player1 HP,Player2 HP,Player1 Damage,Player2 Damage,Points,Classed");
+			if (olympiad().logFights()) {
+				LOG_OLYMPIAD.info("Result,Player1,Player2,Player1 HP,Player2 HP,Player1 Damage,Player2 Damage,Points,Classed");
+			}
 			
 			_gameManager = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(OlympiadGameManager.getInstance(), 30000, 30000);
 			if (olympiad().announceGames()) {
@@ -442,7 +441,7 @@ public class Olympiad extends ListenersContainer {
 				}
 				_inCompPeriod = false;
 				Broadcast.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.THE_OLYMPIAD_GAME_HAS_ENDED));
-				_log.info("Olympiad Game Ended");
+				LOG.info("Olympiad Game Ended");
 				
 				while (OlympiadGameManager.getInstance().isBattleStarted()) // cleared in game manager
 				{
@@ -484,7 +483,7 @@ public class Olympiad extends ListenersContainer {
 		_scheduledOlympiadEnd = ThreadPoolManager.getInstance().scheduleGeneral(new OlympiadEndTask(HEROES_TO_BE), 0);
 	}
 	
-	protected long getMillisToValidationEnd() {
+	private long getMillisToValidationEnd() {
 		if (_validationEnd > Calendar.getInstance().getTimeInMillis()) {
 			return (_validationEnd - Calendar.getInstance().getTimeInMillis());
 		}
@@ -495,7 +494,7 @@ public class Olympiad extends ListenersContainer {
 		return (_period != 0);
 	}
 	
-	protected void setNewOlympiadEnd() {
+	private void setNewOlympiadEnd() {
 		SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.OLYMPIAD_PERIOD_S1_HAS_STARTED);
 		sm.addInt(_currentCycle);
 		
@@ -538,7 +537,7 @@ public class Olympiad extends ListenersContainer {
 		_compStart.add(Calendar.HOUR_OF_DAY, 24);
 		_compEnd = _compStart.getTimeInMillis() + COMP_PERIOD;
 		
-		_log.info("New Schedule @ " + _compStart.getTime());
+		LOG.info("New Schedule @ " + _compStart.getTime());
 		
 		return (_compStart.getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
 	}
@@ -559,16 +558,16 @@ public class Olympiad extends ListenersContainer {
 	private void scheduleWeeklyChange() {
 		_scheduledWeeklyTask = ThreadPoolManager.getInstance().scheduleGeneralAtFixedRate(() -> {
 			addWeeklyPoints();
-			_log.info("Added weekly points to nobles");
+			LOG.info("Added weekly points to nobles");
 			resetWeeklyMatches();
-			_log.info("Reset weekly matches to nobles");
+			LOG.info("Reset weekly matches to nobles");
 			
 			Calendar nextChange = Calendar.getInstance();
 			_nextWeeklyChange = nextChange.getTimeInMillis() + WEEKLY_PERIOD;
 		}, getMillisToWeekChange(), WEEKLY_PERIOD);
 	}
 	
-	protected synchronized void addWeeklyPoints() {
+	private synchronized void addWeeklyPoints() {
 		if (_period == 1) {
 			return;
 		}
@@ -584,7 +583,7 @@ public class Olympiad extends ListenersContainer {
 	/**
 	 * Resets number of matches, classed matches, non classed matches, team matches done by noble characters in the week.
 	 */
-	protected synchronized void resetWeeklyMatches() {
+	private synchronized void resetWeeklyMatches() {
 		if (_period == 1) {
 			return;
 		}
@@ -612,7 +611,7 @@ public class Olympiad extends ListenersContainer {
 	/**
 	 * Save noblesse data to database
 	 */
-	protected synchronized void saveNobleData() {
+	private synchronized void saveNobleData() {
 		if (NOBLES.isEmpty()) {
 			return;
 		}
@@ -669,7 +668,7 @@ public class Olympiad extends ListenersContainer {
 				}
 			}
 		} catch (Exception e) {
-			_log.log(Level.SEVERE, "Failed to save noblesse data to database: ", e);
+			LOG.error("Failed to save noblesse data to database: ", e);
 		}
 	}
 	
@@ -693,7 +692,7 @@ public class Olympiad extends ListenersContainer {
 			ps.setLong(10, _nextWeeklyChange);
 			ps.execute();
 		} catch (Exception e) {
-			_log.log(Level.SEVERE, "Failed to save olympiad data to database: ", e);
+			LOG.error("Failed to save olympiad data to database: ", e);
 		}
 		
 		//@formatter:off
@@ -716,18 +715,18 @@ public class Olympiad extends ListenersContainer {
 		//@formatter:on
 	}
 	
-	protected void updateMonthlyData() {
+	private void updateMonthlyData() {
 		try (var con = ConnectionFactory.getInstance().getConnection();
 			var s1 = con.createStatement();
 			var s2 = con.createStatement()) {
 			s1.executeUpdate(OLYMPIAD_MONTH_CLEAR);
 			s2.executeUpdate(OLYMPIAD_MONTH_CREATE);
 		} catch (Exception e) {
-			_log.log(Level.SEVERE, "Failed to update monthly noblesse data: ", e);
+			LOG.error("Failed to update monthly noblesse data: ", e);
 		}
 	}
 	
-	protected void sortHeroesToBe() {
+	private void sortHeroesToBe() {
 		if (_period != 1) {
 			return;
 		}
@@ -772,7 +771,7 @@ public class Olympiad extends ListenersContainer {
 			switch (soulHounds.size()) {
 				case 1 -> {
 					hero = new StatsSet();
-					StatsSet winner = soulHounds.get(0);
+					StatsSet winner = soulHounds.getFirst();
 					hero.set(CLASS_ID, winner.getInt(CLASS_ID));
 					hero.set(CHAR_ID, winner.getInt(CHAR_ID));
 					hero.set(CHAR_NAME, winner.getString(CHAR_NAME));
@@ -821,7 +820,7 @@ public class Olympiad extends ListenersContainer {
 				}
 			}
 		} catch (Exception e) {
-			_log.warning("Couldn't load heroes from DB");
+			LOG.warn("Couldn't load heroes from DB");
 		}
 	}
 	
@@ -837,7 +836,7 @@ public class Olympiad extends ListenersContainer {
 				}
 			}
 		} catch (Exception e) {
-			_log.warning("Couldn't load olympiad leaders from DB!");
+			LOG.warn("Couldn't load olympiad leaders from DB!");
 		}
 		return names;
 	}
@@ -892,7 +891,7 @@ public class Olympiad extends ListenersContainer {
 				}
 			}
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Could not load last olympiad points:", e);
+			LOG.warn("Could not load last olympiad points:", e);
 		}
 		return result;
 	}
@@ -1002,12 +1001,12 @@ public class Olympiad extends ListenersContainer {
 		return Math.max(olympiad().getMaxWeeklyMatchesTeam() - getCompetitionDoneWeekTeam(objId), 0);
 	}
 	
-	protected void deleteNobles() {
+	private void deleteNobles() {
 		try (var con = ConnectionFactory.getInstance().getConnection();
 			var s = con.createStatement()) {
 			s.executeUpdate(OLYMPIAD_DELETE_ALL);
 		} catch (Exception e) {
-			_log.warning("Couldn't delete nobles from DB!");
+			LOG.warn("Couldn't delete nobles from DB!");
 		}
 		NOBLES.clear();
 	}

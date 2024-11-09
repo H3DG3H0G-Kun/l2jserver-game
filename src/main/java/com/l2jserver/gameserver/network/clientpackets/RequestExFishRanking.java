@@ -18,11 +18,16 @@
  */
 package com.l2jserver.gameserver.network.clientpackets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Format: (ch) just a trigger
  * @author -Wooden-
  */
 public final class RequestExFishRanking extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(RequestExFishRanking.class);
+	
 	private static final String _C__D0_18_REQUESTEXFISHRANKING = "[C] D0:18 RequestExFishRanking";
 	
 	@Override
@@ -32,7 +37,7 @@ public final class RequestExFishRanking extends L2GameClientPacket {
 	
 	@Override
 	protected void runImpl() {
-		_log.info("C5: RequestExFishRanking");
+		LOG.info(_C__D0_18_REQUESTEXFISHRANKING);
 	}
 	
 	@Override

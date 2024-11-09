@@ -29,7 +29,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.util.Rnd;
 import com.l2jserver.gameserver.GeoData;
@@ -70,7 +72,7 @@ import com.l2jserver.gameserver.network.SystemMessageId;
 import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
 
 public final class Skill implements IIdentifiable {
-	private static final Logger _log = Logger.getLogger(Skill.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(Skill.class);
 	
 	/** Skill ID. */
 	private final int _id;
@@ -239,7 +241,7 @@ public final class Skill implements IIdentifiable {
 		final var skillReuse = character().getSkillReuse().get(_id);
 		if (character().modifySkillReuse() && (skillReuse != null)) {
 			if (general().debug()) {
-				_log.info("*** Skill " + _name + " (" + _level + ") changed reuse from " + set.getInt("reuseDelay", 0) + " to " + skillReuse + " seconds.");
+				LOG.info("*** Skill {} ({}) changed reuse from {} to {} seconds.", _name, _level, set.getInt("reuseDelay", 0), skillReuse);
 			}
 			_reuseDelay = skillReuse;
 		} else {
@@ -255,7 +257,7 @@ public final class Skill implements IIdentifiable {
 					try {
 						_rideState.add(MountType.valueOf(s));
 					} catch (Exception e) {
-						_log.warning("Bad data in rideState for skill " + this + " !\n" + e);
+						LOG.warn("Bad data in rideState for skill {}!", this, e);
 					}
 				}
 			}
@@ -301,7 +303,7 @@ public final class Skill implements IIdentifiable {
 		String capsuled_items = set.getString("capsuled_items_skill", null);
 		if (capsuled_items != null) {
 			if (capsuled_items.isEmpty()) {
-				_log.warning("Empty Extractable Item Skill data in Skill Id: " + _id);
+				LOG.warn("Empty Extractable Item Skill data in Skill Id: {}", _id);
 			}
 			
 			_extractableItems = parseExtractableSkill(_id, _level, capsuled_items);
@@ -459,7 +461,6 @@ public final class Skill implements IIdentifiable {
 	
 	/**
 	 * Return custom minimum skill/effect chance.
-	 * @return
 	 */
 	public int getMinChance() {
 		return _minChance;
@@ -467,7 +468,6 @@ public final class Skill implements IIdentifiable {
 	
 	/**
 	 * Return custom maximum skill/effect chance.
-	 * @return
 	 */
 	public int getMaxChance() {
 		return _maxChance;
@@ -475,7 +475,6 @@ public final class Skill implements IIdentifiable {
 	
 	/**
 	 * Return true if skill effects should be removed on any action except movement
-	 * @return
 	 */
 	public boolean isRemovedOnAnyActionExceptMove() {
 		return (_abnormalType == AbnormalType.INVINCIBILITY) || (_abnormalType == AbnormalType.HIDE);
@@ -497,7 +496,6 @@ public final class Skill implements IIdentifiable {
 	
 	/**
 	 * Return the additional effect Id.
-	 * @return
 	 */
 	public int getChannelingSkillId() {
 		return _channelingSkillId;
@@ -505,7 +503,6 @@ public final class Skill implements IIdentifiable {
 	
 	/**
 	 * Return true if character should attack target after skill
-	 * @return
 	 */
 	public boolean nextActionIsAttack() {
 		return _nextActionIsAttack;
@@ -554,7 +551,6 @@ public final class Skill implements IIdentifiable {
 	
 	/**
 	 * Return skill basicProperty base stat (STR, INT ...).
-	 * @return
 	 */
 	public BaseStats getBasicProperty() {
 		return _basicProperty;
@@ -1002,7 +998,7 @@ public final class Skill implements IIdentifiable {
 		}
 		
 		if (effected.isInvulAgainst(getId(), getLevel())) {
-			effected.sendDebugMessage("Skill " + toString() + " has been ignored (invul against)");
+			effected.sendDebugMessage("Skill " + this + " has been ignored (invul against)");
 			return;
 		}
 		
@@ -1257,7 +1253,7 @@ public final class Skill implements IIdentifiable {
 		for (String prodList : prodLists) {
 			prodData = prodList.split(",");
 			if (prodData.length < 3) {
-				_log.warning("Extractable skills data: Error in Skill Id: " + skillId + " Level: " + skillLvl + " -> wrong separator!");
+				LOG.warn("Extractable skills data: Error in Skill Id: {} Level: {} -> wrong separator!", skillId, skillLvl);
 			}
 			List<ItemHolder> items = null;
 			double chance = 0;
@@ -1268,19 +1264,19 @@ public final class Skill implements IIdentifiable {
 					final int prodId = Integer.parseInt(prodData[j]);
 					final int quantity = Integer.parseInt(prodData[j + 1]);
 					if ((prodId <= 0) || (quantity <= 0)) {
-						_log.warning("Extractable skills data: Error in Skill Id: " + skillId + " Level: " + skillLvl + " wrong production Id: " + prodId + " or wrong quantity: " + quantity + "!");
+						LOG.warn("Extractable skills data: Error in Skill Id: {} Level: {} wrong production Id: {} or wrong quantity: {}!", skillId, skillLvl, prodId, quantity);
 					}
 					items.add(new ItemHolder(prodId, quantity));
 				}
 				chance = Double.parseDouble(prodData[length]);
 			} catch (Exception e) {
-				_log.warning("Extractable skills data: Error in Skill Id: " + skillId + " Level: " + skillLvl + " -> incomplete/invalid production data or wrong separator!");
+				LOG.warn("Extractable skills data: Error in Skill Id: {} Level: {} -> incomplete/invalid production data or wrong separator!", skillId, skillLvl);
 			}
 			products.add(new L2ExtractableProductItem(items, chance));
 		}
 		
 		if (products.isEmpty()) {
-			_log.warning("Extractable skills data: Error in Skill Id: " + skillId + " Level: " + skillLvl + " -> There are no production items!");
+			LOG.warn("Extractable skills data: Error in Skill Id: {} Level: {} -> There are no production items!", skillId, skillLvl);
 		}
 		return new L2ExtractableSkill(SkillData.getSkillHashCode(skillId, skillLvl), products);
 	}
@@ -1320,15 +1316,15 @@ public final class Skill implements IIdentifiable {
 			}
 			
 			if (avesEvent != null) {
-				_abnormalVisualEffectsEvent = avesEvent.toArray(new AbnormalVisualEffect[avesEvent.size()]);
+				_abnormalVisualEffectsEvent = avesEvent.toArray(new AbnormalVisualEffect[0]);
 			}
 			
 			if (avesSpecial != null) {
-				_abnormalVisualEffectsSpecial = avesSpecial.toArray(new AbnormalVisualEffect[avesSpecial.size()]);
+				_abnormalVisualEffectsSpecial = avesSpecial.toArray(new AbnormalVisualEffect[0]);
 			}
 			
 			if (aves != null) {
-				_abnormalVisualEffects = aves.toArray(new AbnormalVisualEffect[aves.size()]);
+				_abnormalVisualEffects = aves.toArray(new AbnormalVisualEffect[0]);
 			}
 		}
 	}
@@ -1358,7 +1354,7 @@ public final class Skill implements IIdentifiable {
 						}
 					}
 					
-					Byte[] effectTypesArray = effectTypesSet.toArray(new Byte[effectTypesSet.size()]);
+					Byte[] effectTypesArray = effectTypesSet.toArray(new Byte[0]);
 					Arrays.sort(effectTypesArray);
 					_effectTypes = effectTypesArray;
 				}

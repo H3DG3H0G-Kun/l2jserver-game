@@ -27,7 +27,9 @@ import static java.util.concurrent.TimeUnit.DAYS;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.gameserver.data.sql.impl.ClanTable;
 import com.l2jserver.gameserver.data.xml.impl.ClassListData;
@@ -63,7 +65,7 @@ import com.l2jserver.gameserver.util.StringUtil;
  * @since 2005/03/29 23:15:15
  */
 public class L2VillageMasterInstance extends L2NpcInstance {
-	private static final Logger _log = Logger.getLogger(L2VillageMasterInstance.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(L2VillageMasterInstance.class);
 	
 	public L2VillageMasterInstance(int objectId, L2NpcTemplate template) {
 		super(objectId, template);
@@ -253,7 +255,7 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 						}
 					}
 				} catch (Exception NumberFormatException) {
-					_log.warning(L2VillageMasterInstance.class.getName() + ": Wrong numeric values for command " + command);
+					LOG.warn("Wrong numeric values for command {}", command);
 				}
 				
 				Set<PlayerClass> subsAvailable;
@@ -312,7 +314,7 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 								}
 							}
 							
-							if (content2.length() > 0) {
+							if (!content2.isEmpty()) {
 								html.setFile(player.getHtmlPrefix(), "data/html/villagemaster/SubClass_Change.htm");
 								html.replace("%list%", content2.toString());
 							} else {
@@ -363,15 +365,11 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 					case 4: // Add Subclass - Action (Subclass 4 x[x])
 						// If the character is less than level 75 on any of their previously chosen classes then disallow them to change to their most recently added sub-class choice.
 						if (!player.getFloodProtectors().getSubclass().tryPerformAction("add subclass")) {
-							_log.warning(L2VillageMasterInstance.class.getName() + ": Player " + player.getName() + " has performed a subclass change too fast");
+							LOG.warn("Player {} has performed a subclass change too fast", player.getName());
 							return;
 						}
 						
-						boolean allowAddition = true;
-						
-						if (player.getTotalSubClasses() >= character().getMaxSubclass()) {
-							allowAddition = false;
-						}
+						boolean allowAddition = player.getTotalSubClasses() < character().getMaxSubclass();
 						
 						if (player.getLevel() < 75) {
 							allowAddition = false;
@@ -414,7 +412,7 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 					case 5: // Change Class - Action
 						// If the character is less than level 75 on any of their previously chosen classes then disallow them to change to their most recently added sub-class choice. Note: paramOne = classIndex
 						if (!player.getFloodProtectors().getSubclass().tryPerformAction("change class")) {
-							_log.warning(L2VillageMasterInstance.class.getName() + ": Player " + player.getName() + " has performed a subclass change too fast");
+							LOG.warn("Player {} has performed a subclass change too fast", player.getName());
 							return;
 						}
 						
@@ -470,7 +468,7 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 					case 7: // Change Subclass - Action
 						// Warning: the information about this subclass will be removed from the subclass list even if false!
 						if (!player.getFloodProtectors().getSubclass().tryPerformAction("change class")) {
-							_log.warning(L2VillageMasterInstance.class.getName() + ": Player " + player.getName() + " has performed a subclass change too fast");
+							LOG.warn("Player {} has performed a subclass change too fast", player.getName());
 							return;
 						}
 						
@@ -524,8 +522,6 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 	
 	/**
 	 * Returns list of available subclasses Base class and already used subclasses removed
-	 * @param player
-	 * @return
 	 */
 	private Set<PlayerClass> getAvailableSubClasses(L2PcInstance player) {
 		// get player base class
@@ -582,9 +578,6 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 	
 	/**
 	 * Check new subclass classId for validity (villagemaster race/type, is not contains in previous subclasses, is contains in allowed subclasses) Base class not added into allowed subclasses.
-	 * @param player
-	 * @param classId
-	 * @return
 	 */
 	private boolean isValidNewSubClass(L2PcInstance player, int classId) {
 		if (!checkVillageMaster(classId)) {
@@ -640,8 +633,6 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 	
 	/**
 	 * Returns true if this classId allowed for master
-	 * @param classId
-	 * @return
 	 */
 	public final boolean checkVillageMaster(int classId) {
 		return checkVillageMaster(PlayerClass.values()[classId]);
@@ -649,10 +640,8 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 	
 	/**
 	 * Returns true if this PlayerClass is allowed for master
-	 * @param pclass
-	 * @return
 	 */
-	public final boolean checkVillageMaster(PlayerClass pclass) {
+	private boolean checkVillageMaster(PlayerClass pclass) {
 		if (character().subclassEverywhere()) {
 			return true;
 		}
@@ -887,7 +876,6 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 	
 	/**
 	 * this displays PledgeSkillList to the player.
-	 * @param player
 	 */
 	public static void showPledgeSkillList(L2PcInstance player) {
 		// TODO(Zoey76): Unhardcode in Clan script.
@@ -900,7 +888,7 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 		}
 		
 		final var skills = SkillTreesData.getInstance().getAvailablePledgeSkills(player.getClan());
-		if (skills.size() == 0) {
+		if (skills.isEmpty()) {
 			if (player.getClan().getLevel() < 8) {
 				final var sm = SystemMessage.getSystemMessage(DO_NOT_HAVE_FURTHER_SKILLS_TO_LEARN_S1);
 				if (player.getClan().getLevel() < 5) {

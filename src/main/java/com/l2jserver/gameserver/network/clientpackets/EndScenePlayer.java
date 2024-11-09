@@ -18,12 +18,17 @@
  */
 package com.l2jserver.gameserver.network.clientpackets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * @author JIV
  */
 public final class EndScenePlayer extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(EndScenePlayer.class);
+	
 	private static final String _C__D0_5B_ENDSCENEPLAYER = "[C] D0:5B EndScenePlayer";
 	
 	private int _movieId;
@@ -43,7 +48,7 @@ public final class EndScenePlayer extends L2GameClientPacket {
 			return;
 		}
 		if (activeChar.getMovieId() != _movieId) {
-			_log.warning("Player " + getClient() + " sent EndScenePlayer with wrong movie id: " + _movieId);
+			LOG.warn("Player {} sent EndScenePlayer with wrong movie id: {}", getClient(), _movieId);
 			return;
 		}
 		activeChar.setMovieId(0);

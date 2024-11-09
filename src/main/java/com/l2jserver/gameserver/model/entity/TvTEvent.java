@@ -24,8 +24,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.util.Rnd;
 import com.l2jserver.gameserver.cache.HtmCache;
@@ -72,7 +73,8 @@ public class TvTEvent {
 		REWARDING
 	}
 	
-	protected static final Logger _log = Logger.getLogger(TvTEvent.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(TvTEvent.class);
+	
 	/** html path **/
 	private static final String HTML_PATH = "com/l2jserver/datapack/custom/events/TvT/TvTManager/";
 	/** The teams of the TvTEvent. */
@@ -120,7 +122,7 @@ public class TvTEvent {
 			_lastNpcSpawn.spawnMe(_npcSpawn.getLastSpawn().getX(), _npcSpawn.getLastSpawn().getY(), _npcSpawn.getLastSpawn().getZ());
 			_lastNpcSpawn.broadcastPacket(new MagicSkillUse(_lastNpcSpawn, _lastNpcSpawn, 1034, 1, 1, 1));
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "TvTEventEngine[TvTEvent.startParticipation()]: exception: " + e.getMessage(), e);
+			LOG.warn("TvTEventEngine[TvTEvent.startParticipation()]: exception: {}", e.getMessage(), e);
 			return false;
 		}
 		
@@ -241,7 +243,7 @@ public class TvTEvent {
 				InstanceManager.getInstance().getInstance(_TvTEventInstance).setEmptyDestroyTime(tvt().getStartLeaveTeleportDelay() + 60000L);
 			} catch (Exception e) {
 				_TvTEventInstance = 0;
-				_log.log(Level.WARNING, "TvTEventEngine[TvTEvent.createDynamicInstance]: exception: " + e.getMessage(), e);
+				LOG.warn("TvTEventEngine[TvTEvent.createDynamicInstance]: exception: {}", e.getMessage(), e);
 			}
 		}
 		

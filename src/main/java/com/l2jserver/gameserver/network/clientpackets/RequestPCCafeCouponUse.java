@@ -18,11 +18,16 @@
  */
 package com.l2jserver.gameserver.network.clientpackets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Format: (ch) S
  * @author -Wooden-
  */
 public final class RequestPCCafeCouponUse extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(RequestPCCafeCouponUse.class);
+	
 	private static final String _C__D0_19_REQUESTPCCAFECOUPONUSE = "[C] D0:19 RequestPCCafeCouponUse";
 	private String _str;
 	
@@ -35,7 +40,7 @@ public final class RequestPCCafeCouponUse extends L2GameClientPacket {
 	
 	@Override
 	protected void runImpl() {
-		_log.info("C5: RequestPCCafeCouponUse: S: " + _str);
+		LOG.info("C5: RequestPCCafeCouponUse: S: {}", _str);
 	}
 	
 	@Override

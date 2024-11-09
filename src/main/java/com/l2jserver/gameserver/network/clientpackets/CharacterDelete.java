@@ -20,7 +20,8 @@ package com.l2jserver.gameserver.network.clientpackets;
 
 import static com.l2jserver.gameserver.config.Configuration.general;
 
-import java.util.logging.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.gameserver.model.CharSelectInfoPackage;
 import com.l2jserver.gameserver.model.events.Containers;
@@ -34,6 +35,8 @@ import com.l2jserver.gameserver.network.serverpackets.CharSelectionInfo;
  * @since 2005/03/27 15:29:30
  */
 public final class CharacterDelete extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(CharacterDelete.class);
+	
 	private static final String _C__0C_CHARACTERDELETE = "[C] 0D CharacterDelete";
 	
 	private int _charSlot;
@@ -51,7 +54,7 @@ public final class CharacterDelete extends L2GameClientPacket {
 		}
 		
 		if (general().debug()) {
-			_log.fine("deleting slot:" + _charSlot);
+			LOG.debug("Deleting slot: {}", _charSlot);
 		}
 		
 		try {
@@ -74,7 +77,7 @@ public final class CharacterDelete extends L2GameClientPacket {
 					break;
 			}
 		} catch (Exception e) {
-			_log.log(Level.SEVERE, "Error:", e);
+			LOG.error("Error:", e);
 		}
 		
 		CharSelectionInfo cl = new CharSelectionInfo(getClient().getAccountName(), getClient().getSessionId().playOkID1, 0);

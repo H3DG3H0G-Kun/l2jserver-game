@@ -254,7 +254,7 @@ public final class L2TrapInstance extends L2Npc {
 	
 	@Override
 	public boolean isAutoAttackable(L2Character attacker) {
-		if (attacker == null || attacker == _owner || isOwnerInSameParty(attacker)) {
+		if ((attacker == null) || (attacker == _owner) || isOwnerInSameParty(attacker)) {
 			return false;
 		}
 		

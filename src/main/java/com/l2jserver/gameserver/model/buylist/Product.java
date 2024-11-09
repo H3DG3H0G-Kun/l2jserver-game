@@ -21,8 +21,9 @@ package com.l2jserver.gameserver.model.buylist;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.database.ConnectionFactory;
 import com.l2jserver.gameserver.ThreadPoolManager;
@@ -32,8 +33,7 @@ import com.l2jserver.gameserver.model.items.L2Item;
  * @author NosBit
  */
 public final class Product {
-	
-	private static final Logger _log = Logger.getLogger(Product.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(Product.class);
 	
 	private final int _buyListId;
 	
@@ -156,7 +156,7 @@ public final class Product {
 			}
 			ps.executeUpdate();
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Failed to save Product buylist_id:" + getBuyListId() + " item_id:" + getItemId(), e);
+			LOG.warn("Failed to save Product buylist_id:{} item_id:{}", getBuyListId(), getItemId(), e);
 		}
 	}
 }

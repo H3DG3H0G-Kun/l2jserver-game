@@ -21,7 +21,9 @@ package com.l2jserver.gameserver.network.clientpackets;
 import static com.l2jserver.gameserver.config.Configuration.general;
 
 import java.util.StringTokenizer;
-import java.util.logging.Level;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.l2jserver.gameserver.ai.CtrlIntention;
 import com.l2jserver.gameserver.data.xml.impl.AdminData;
@@ -54,6 +56,8 @@ import com.l2jserver.gameserver.util.Util;
  * @author HorridoJoho
  */
 public final class RequestBypassToServer extends L2GameClientPacket {
+	private static final Logger LOG = LoggerFactory.getLogger(RequestBypassToServer.class);
+	
 	private static final String _C__23_REQUESTBYPASSTOSERVER = "[C] 23 RequestBypassToServer";
 	// FIXME: This is for compatibility, will be changed when bypass functionality got an overhaul by NosBit
 	private static final String[] _possibleNonHtmlCommands = {
@@ -83,7 +87,7 @@ public final class RequestBypassToServer extends L2GameClientPacket {
 		}
 		
 		if (_command.isEmpty()) {
-			_log.warning("Player " + activeChar.getName() + " sent empty bypass!");
+			LOG.warn("Player {} sent empty bypass!", activeChar.getName());
 			activeChar.logout();
 			return;
 		}
@@ -100,7 +104,7 @@ public final class RequestBypassToServer extends L2GameClientPacket {
 		if (requiresBypassValidation) {
 			bypassOriginId = activeChar.validateHtmlAction(_command);
 			if (bypassOriginId == -1) {
-				_log.warning("Player " + activeChar.getName() + " sent non cached bypass: '" + _command + "'");
+				LOG.warn("Player {} sent non cached bypass: '{}'", activeChar.getName(), _command);
 				return;
 			}
 			
@@ -124,13 +128,13 @@ public final class RequestBypassToServer extends L2GameClientPacket {
 					if (activeChar.isGM()) {
 						activeChar.sendMessage("The command " + command.substring(6) + " does not exist!");
 					}
-					_log.warning(activeChar + " requested not registered admin command '" + command + "'");
+					LOG.warn("{} requested not registered admin command '{}'", activeChar, command);
 					return;
 				}
 				
 				if (!AdminData.getInstance().hasAccess(command, activeChar.getAccessLevel())) {
 					activeChar.sendMessage("You don't have the access rights to use this command!");
-					_log.warning("Character " + activeChar.getName() + " tried to use admin command " + command + ", without proper access level!");
+					LOG.warn("Character {} tried to use admin command {}, without proper access level!", activeChar.getName(), command);
 					return;
 				}
 				
@@ -184,7 +188,7 @@ public final class RequestBypassToServer extends L2GameClientPacket {
 					
 					activeChar.sendPacket(ActionFailed.STATIC_PACKET);
 				} catch (NumberFormatException nfe) {
-					_log.log(Level.WARNING, "NFE for command [" + _command + "]", nfe);
+					LOG.warn("NFE for command [{}]", _command, nfe);
 				}
 			} else if (_command.startsWith("_match")) {
 				String params = _command.substring(_command.indexOf("?") + 1);
@@ -233,11 +237,11 @@ public final class RequestBypassToServer extends L2GameClientPacket {
 						handler.useBypass(_command, activeChar, null);
 					}
 				} else {
-					_log.warning(getClient() + " sent not handled RequestBypassToServer: [" + _command + "]");
+					LOG.warn("{} sent not handled RequestBypassToServer: [{}]", getClient(), _command);
 				}
 			}
 		} catch (Exception e) {
-			_log.log(Level.WARNING, "Exception processing bypass from player " + activeChar.getName() + ": " + _command, e);
+			LOG.warn("Exception processing bypass from player {}: {}", activeChar.getName(), _command, e);
 			
 			if (activeChar.isGM()) {
 				StringBuilder sb = new StringBuilder(200);
@@ -259,9 +263,6 @@ public final class RequestBypassToServer extends L2GameClientPacket {
 		EventDispatcher.getInstance().notifyEventAsync(new PlayerBypass(activeChar, _command), activeChar);
 	}
 	
-	/**
-	 * @param activeChar
-	 */
 	private static void comeHere(L2PcInstance activeChar) {
 		L2Object obj = activeChar.getTarget();
 		if (obj == null) {
