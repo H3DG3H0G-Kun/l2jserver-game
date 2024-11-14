@@ -81,7 +81,11 @@ public class PetDAOMySQLImpl implements PetDAO {
 			ps.setInt(1, control.getObjectId());
 			try (var rs = ps.executeQuery()) {
 				final var objectId = IdFactory.getInstance().getNextId();
-				final var pet = !rs.next() ? new L2PetInstance(objectId, template, owner, control) : new L2PetInstance(objectId, template, owner, control, rs.getByte("level"));
+				if (!rs.next()) {
+					return new L2PetInstance(objectId, template, owner, control);
+				}
+				
+				final var pet = new L2PetInstance(objectId, template, owner, control, rs.getByte("level"));
 				pet.setRespawned(true);
 				pet.setName(rs.getString("name"));
 				

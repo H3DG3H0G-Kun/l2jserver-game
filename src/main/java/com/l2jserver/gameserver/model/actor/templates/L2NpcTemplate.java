@@ -464,4 +464,9 @@ public final class L2NpcTemplate extends L2CharTemplate implements IIdentifiable
 	public double getCollisionHeightGrown() {
 		return _collisionHeightGrown;
 	}
+	
+	@Override
+	public String toString() {
+		return getName() + " [" + getId() + "]";
+	}
 }

@@ -226,9 +226,9 @@ public class L2PetInstance extends L2Summon {
 		if (L2World.getInstance().getPet(owner.getObjectId()) != null) {
 			return null; // owner has a pet listed in world
 		}
-		final L2PetData data = PetDataTable.getInstance().getPetData(template.getId());
 		
-		final L2PetInstance pet = DAOFactory.getInstance().getPetDAO().load(control, template, owner);
+		final var data = PetDataTable.getInstance().getPetData(template.getId());
+		final var pet = DAOFactory.getInstance().getPetDAO().load(control, template, owner);
 		if (pet != null) {
 			pet.setTitle(owner.getName());
 			if (data.isSyncLevel() && (pet.getLevel() != owner.getLevel())) {
