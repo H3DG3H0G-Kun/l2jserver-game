@@ -172,7 +172,6 @@ public final class GameServer {
 	
 	public static final Calendar dateTimeServerStarted = Calendar.getInstance();
 	
-	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public GameServer() throws Exception {
 		
 		final var serverLoadStart = startTimedSection("Database");

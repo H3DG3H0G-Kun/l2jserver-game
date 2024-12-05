@@ -41,16 +41,13 @@ import com.l2jserver.gameserver.model.clientstrings.Builder;
 import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
 
 /**
+ * System Message Id.
  * @author Noctarius
  * @author Nille02
  * @author crion
  * @author Forsaiken
  * @author Zealar
  */
-@SuppressWarnings({
-	"unused",
-	"JavadocLinkAsPlainText"
-})
 public final class SystemMessageId {
 	private static final Logger LOG = LoggerFactory.getLogger(SystemMessageId.class);
 	

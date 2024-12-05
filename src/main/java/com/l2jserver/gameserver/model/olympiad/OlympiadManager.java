@@ -141,7 +141,7 @@ public class OlympiadManager {
 	}
 	
 	private boolean isInCompetition(L2PcInstance noble, L2PcInstance player, boolean showMessage) {
-		if (!Olympiad._inCompPeriod) {
+		if (!Olympiad.getInstance().inCompPeriod()) {
 			return false;
 		}
 		
@@ -181,7 +181,7 @@ public class OlympiadManager {
 	}
 	
 	public final boolean registerNoble(L2PcInstance player, CompetitionType type) {
-		if (!Olympiad._inCompPeriod) {
+		if (!Olympiad.getInstance().inCompPeriod()) {
 			player.sendPacket(SystemMessageId.THE_OLYMPIAD_GAME_IS_NOT_CURRENTLY_IN_PROGRESS);
 			return false;
 		}
@@ -287,7 +287,7 @@ public class OlympiadManager {
 	}
 	
 	public final boolean unRegisterNoble(L2PcInstance noble) {
-		if (!Olympiad._inCompPeriod) {
+		if (!Olympiad.getInstance().inCompPeriod()) {
 			noble.sendPacket(SystemMessageId.THE_OLYMPIAD_GAME_IS_NOT_CURRENTLY_IN_PROGRESS);
 			return false;
 		}

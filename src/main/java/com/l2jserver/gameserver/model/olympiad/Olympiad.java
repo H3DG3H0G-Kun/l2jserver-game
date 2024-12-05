@@ -152,13 +152,9 @@ public class Olympiad extends ListenersContainer {
 	private int _currentCycle;
 	private long _compEnd;
 	private Calendar _compStart;
-	protected static boolean _inCompPeriod;
-	protected static boolean _compStarted = false;
-	private ScheduledFuture<?> _scheduledCompStart;
-	private ScheduledFuture<?> _scheduledCompEnd;
+	private static boolean _inCompPeriod;
 	private ScheduledFuture<?> _scheduledOlympiadEnd;
 	private ScheduledFuture<?> _scheduledWeeklyTask;
-	private ScheduledFuture<?> _scheduledValidationTask;
 	private ScheduledFuture<?> _gameManager = null;
 	private ScheduledFuture<?> _gameAnnouncer = null;
 	
@@ -212,7 +208,7 @@ public class Olympiad extends ListenersContainer {
 			case 1:
 				if (_validationEnd > Calendar.getInstance().getTimeInMillis()) {
 					loadNoblesRank();
-					_scheduledValidationTask = ThreadPoolManager.getInstance().scheduleGeneral(new ValidationEndTask(), getMillisToValidationEnd());
+					ThreadPoolManager.getInstance().scheduleGeneral(new ValidationEndTask(), getMillisToValidationEnd());
 				} else {
 					_currentCycle++;
 					_period = 0;
@@ -369,7 +365,7 @@ public class Olympiad extends ListenersContainer {
 			_validationEnd = validationEnd.getTimeInMillis() + VALIDATION_PERIOD;
 			
 			loadNoblesRank();
-			_scheduledValidationTask = ThreadPoolManager.getInstance().scheduleGeneral(new ValidationEndTask(), getMillisToValidationEnd());
+			ThreadPoolManager.getInstance().scheduleGeneral(new ValidationEndTask(), getMillisToValidationEnd());
 		}
 	}
 	
@@ -411,7 +407,7 @@ public class Olympiad extends ListenersContainer {
 			LOG.info("Event starts/started : {}", _compStart.getTime());
 		}
 		
-		_scheduledCompStart = ThreadPoolManager.getInstance().scheduleGeneral(() -> {
+		ThreadPoolManager.getInstance().scheduleGeneral(() -> {
 			if (isOlympiadEnd()) {
 				return;
 			}
@@ -435,7 +431,7 @@ public class Olympiad extends ListenersContainer {
 				ThreadPoolManager.getInstance().scheduleGeneral(() -> Broadcast.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.OLYMPIAD_REGISTRATION_PERIOD_ENDED)), regEnd);
 			}
 			
-			_scheduledCompEnd = ThreadPoolManager.getInstance().scheduleGeneral(() -> {
+			ThreadPoolManager.getInstance().scheduleGeneral(() -> {
 				if (isOlympiadEnd()) {
 					return;
 				}
