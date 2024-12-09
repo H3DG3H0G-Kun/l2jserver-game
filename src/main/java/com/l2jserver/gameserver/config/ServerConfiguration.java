@@ -51,28 +51,28 @@ import com.l2jserver.gameserver.idfactory.IdFactoryType;
 public interface ServerConfiguration extends Mutable, Reloadable {
 	
 	@Key("EnableUPnP")
-	Boolean enableUPnP();
+	boolean enableUPnP();
 	
 	@Key("LoginHost")
 	String getLoginHost();
 	
 	@Key("LoginPort")
-	Integer getLoginPort();
+	int getLoginPort();
 	
 	@Key("Host")
 	String getHost();
 	
 	@Key("Port")
-	Integer getPort();
+	int getPort();
 	
 	@Key("RequestServerId")
-	Integer getRequestServerId();
+	int getRequestServerId();
 	
 	@Key("AcceptAlternateId")
-	Boolean acceptAlternateId();
+	boolean acceptAlternateId();
 	
 	@Key("ReserveHostOnLogin")
-	Boolean reserveHostOnLogin();
+	boolean reserveHostOnLogin();
 	
 	@Key("DatapackRoot")
 	@ConverterClass(FileConverter.class)
@@ -82,7 +82,7 @@ public interface ServerConfiguration extends Mutable, Reloadable {
 	File getScriptRoot();
 	
 	@Key("MaxOnlineUsers")
-	Integer getMaxOnlineUsers();
+	int getMaxOnlineUsers();
 	
 	@Key("AllowedProtocolRevisions")
 	Set<Integer> getAllowedProtocolRevisions();
@@ -91,7 +91,7 @@ public interface ServerConfiguration extends Mutable, Reloadable {
 	IdFactoryType getIdFactory();
 	
 	@Key("BadIdChecking")
-	Boolean badIdChecking();
+	boolean badIdChecking();
 	
 	@Key("L2J_HOME")
 	String getL2jHome();

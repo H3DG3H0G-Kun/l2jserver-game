@@ -44,10 +44,10 @@ import org.aeonbits.owner.Reloadable;
 public interface TelnetConfiguration extends Reloadable {
 	
 	@Key("EnableTelnet")
-	Boolean isEnabled();
+	boolean isEnabled();
 	
 	@Key("Port")
-	Integer getPort();
+	int getPort();
 	
 	@Key("Password")
 	String getPassword();

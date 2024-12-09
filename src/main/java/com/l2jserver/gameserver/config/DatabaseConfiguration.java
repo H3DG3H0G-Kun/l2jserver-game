@@ -51,8 +51,8 @@ public interface DatabaseConfiguration extends Reloadable {
 	String getPassword();
 	
 	@Key("MaxConnections")
-	Integer getMaxConnections();
+	int getMaxConnections();
 	
 	@Key("MaxIdleTime")
-	Integer getMaxIdleTime();
+	int getMaxIdleTime();
 }

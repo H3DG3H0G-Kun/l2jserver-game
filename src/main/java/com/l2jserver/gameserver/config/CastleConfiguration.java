@@ -47,92 +47,92 @@ public interface CastleConfiguration extends Reloadable {
 	List<Integer> getSiegeHourList();
 	
 	@Key("TeleportFunctionFeeRatio")
-	Long getTeleportFunctionFeeRatio();
+	long getTeleportFunctionFeeRatio();
 	
 	@Key("TeleportFunctionFeeLvl1")
-	Integer getTeleportFunctionFeeLvl1();
+	int getTeleportFunctionFeeLvl1();
 	
 	@Key("TeleportFunctionFeeLvl2")
-	Integer getTeleportFunctionFeeLvl2();
+	int getTeleportFunctionFeeLvl2();
 	
 	@Key("SupportFunctionFeeRatio")
-	Long getSupportFunctionFeeRatio();
+	long getSupportFunctionFeeRatio();
 	
 	@Key("SupportFeeLvl1")
-	Integer getSupportFeeLvl1();
+	int getSupportFeeLvl1();
 	
 	@Key("SupportFeeLvl2")
-	Integer getSupportFeeLvl2();
+	int getSupportFeeLvl2();
 	
 	@Key("MpRegenerationFunctionFeeRatio")
-	Long getMpRegenerationFunctionFeeRatio();
+	long getMpRegenerationFunctionFeeRatio();
 	
 	@Key("MpRegenerationFeeLvl1")
-	Integer getMpRegenerationFeeLvl1();
+	int getMpRegenerationFeeLvl1();
 	
 	@Key("MpRegenerationFeeLvl2")
-	Integer getMpRegenerationFeeLvl2();
+	int getMpRegenerationFeeLvl2();
 	
 	@Key("HpRegenerationFunctionFeeRatio")
-	Long getHpRegenerationFunctionFeeRatio();
+	long getHpRegenerationFunctionFeeRatio();
 	
 	@Key("HpRegenerationFeeLvl1")
-	Integer getHpRegenerationFeeLvl1();
+	int getHpRegenerationFeeLvl1();
 	
 	@Key("HpRegenerationFeeLvl2")
-	Integer getHpRegenerationFeeLvl2();
+	int getHpRegenerationFeeLvl2();
 	
 	@Key("ExpRegenerationFunctionFeeRatio")
-	Long getExpRegenerationFunctionFeeRatio();
+	long getExpRegenerationFunctionFeeRatio();
 	
 	@Key("ExpRegenerationFeeLvl1")
-	Integer getExpRegenerationFeeLvl1();
+	int getExpRegenerationFeeLvl1();
 	
 	@Key("ExpRegenerationFeeLvl2")
-	Integer getExpRegenerationFeeLvl2();
+	int getExpRegenerationFeeLvl2();
 	
 	@Key("OuterDoorUpgradePriceLvl2")
-	Integer getOuterDoorUpgradePriceLvl2();
+	int getOuterDoorUpgradePriceLvl2();
 	
 	@Key("OuterDoorUpgradePriceLvl3")
-	Integer getOuterDoorUpgradePriceLvl3();
+	int getOuterDoorUpgradePriceLvl3();
 	
 	@Key("OuterDoorUpgradePriceLvl5")
-	Integer getOuterDoorUpgradePriceLvl5();
+	int getOuterDoorUpgradePriceLvl5();
 	
 	@Key("InnerDoorUpgradePriceLvl2")
-	Integer getInnerDoorUpgradePriceLvl2();
+	int getInnerDoorUpgradePriceLvl2();
 	
 	@Key("InnerDoorUpgradePriceLvl3")
-	Integer getInnerDoorUpgradePriceLvl3();
+	int getInnerDoorUpgradePriceLvl3();
 	
 	@Key("InnerDoorUpgradePriceLvl5")
-	Integer getInnerDoorUpgradePriceLvl5();
+	int getInnerDoorUpgradePriceLvl5();
 	
 	@Key("WallUpgradePriceLvl2")
-	Integer getWallUpgradePriceLvl2();
+	int getWallUpgradePriceLvl2();
 	
 	@Key("WallUpgradePriceLvl3")
-	Integer getWallUpgradePriceLvl3();
+	int getWallUpgradePriceLvl3();
 	
 	@Key("WallUpgradePriceLvl5")
-	Integer getWallUpgradePriceLvl5();
+	int getWallUpgradePriceLvl5();
 	
 	@Key("TrapUpgradePriceLvl1")
-	Integer getTrapUpgradePriceLvl1();
+	int getTrapUpgradePriceLvl1();
 	
 	@Key("TrapUpgradePriceLvl2")
-	Integer getTrapUpgradePriceLvl2();
+	int getTrapUpgradePriceLvl2();
 	
 	@Key("TrapUpgradePriceLvl3")
-	Integer getTrapUpgradePriceLvl3();
+	int getTrapUpgradePriceLvl3();
 	
 	@Key("TrapUpgradePriceLvl4")
-	Integer getTrapUpgradePriceLvl4();
+	int getTrapUpgradePriceLvl4();
 	
 	@Key("AllowRideWyvernAlways")
-	Boolean allowRideWyvernAlways();
+	boolean allowRideWyvernAlways();
 	
 	@Key("AllowRideWyvernDuringSiege")
-	Boolean allowRideWyvernDuringSiege();
+	boolean allowRideWyvernDuringSiege();
 }

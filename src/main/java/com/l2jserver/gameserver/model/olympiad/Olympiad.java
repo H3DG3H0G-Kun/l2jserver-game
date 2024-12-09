@@ -117,15 +117,6 @@ public class Olympiad extends ListenersContainer {
 		134
 	};
 	
-	private static final int COMP_START = olympiad().getStartHour();
-	private static final int COMP_MIN = olympiad().getStartMinute();
-	private static final long COMP_PERIOD = olympiad().getCompetitionPeriod();
-	private static final long WEEKLY_PERIOD = olympiad().getWeeklyPeriod();
-	private static final long VALIDATION_PERIOD = olympiad().getValidationPeriod();
-	
-	protected static final int DEFAULT_POINTS = olympiad().getStartPoints();
-	protected static final int WEEKLY_POINTS = olympiad().getWeeklyPoints();
-	
 	public static final String CHAR_ID = "charId";
 	public static final String CLASS_ID = "class_id";
 	public static final String CHAR_NAME = "char_name";
@@ -319,9 +310,9 @@ public class Olympiad extends ListenersContainer {
 		}
 		
 		_compStart = Calendar.getInstance();
-		_compStart.set(Calendar.HOUR_OF_DAY, COMP_START);
-		_compStart.set(Calendar.MINUTE, COMP_MIN);
-		_compEnd = _compStart.getTimeInMillis() + COMP_PERIOD;
+		_compStart.set(Calendar.HOUR_OF_DAY, olympiad().getStartHour());
+		_compStart.set(Calendar.MINUTE, olympiad().getStartMinute());
+		_compEnd = _compStart.getTimeInMillis() + olympiad().getCompetitionPeriod();
 		
 		if (_scheduledOlympiadEnd != null) {
 			_scheduledOlympiadEnd.cancel(true);
@@ -362,7 +353,7 @@ public class Olympiad extends ListenersContainer {
 			updateMonthlyData();
 			
 			Calendar validationEnd = Calendar.getInstance();
-			_validationEnd = validationEnd.getTimeInMillis() + VALIDATION_PERIOD;
+			_validationEnd = validationEnd.getTimeInMillis() + olympiad().getValidationPeriod();
 			
 			loadNoblesRank();
 			ThreadPoolManager.getInstance().scheduleGeneral(new ValidationEndTask(), getMillisToValidationEnd());
@@ -506,7 +497,7 @@ public class Olympiad extends ListenersContainer {
 		_olympiadEnd = currentTime.getTimeInMillis();
 		
 		Calendar nextChange = Calendar.getInstance();
-		_nextWeeklyChange = nextChange.getTimeInMillis() + WEEKLY_PERIOD;
+		_nextWeeklyChange = nextChange.getTimeInMillis() + olympiad().getWeeklyPeriod();
 		scheduleWeeklyChange();
 	}
 	
@@ -528,10 +519,10 @@ public class Olympiad extends ListenersContainer {
 	
 	private long setNewCompBegin() {
 		_compStart = Calendar.getInstance();
-		_compStart.set(Calendar.HOUR_OF_DAY, COMP_START);
-		_compStart.set(Calendar.MINUTE, COMP_MIN);
+		_compStart.set(Calendar.HOUR_OF_DAY, olympiad().getStartHour());
+		_compStart.set(Calendar.MINUTE, olympiad().getStartMinute());
 		_compStart.add(Calendar.HOUR_OF_DAY, 24);
-		_compEnd = _compStart.getTimeInMillis() + COMP_PERIOD;
+		_compEnd = _compStart.getTimeInMillis() + olympiad().getCompetitionPeriod();
 		
 		LOG.info("New Schedule @ " + _compStart.getTime());
 		
@@ -559,8 +550,8 @@ public class Olympiad extends ListenersContainer {
 			LOG.info("Reset weekly matches to nobles");
 			
 			Calendar nextChange = Calendar.getInstance();
-			_nextWeeklyChange = nextChange.getTimeInMillis() + WEEKLY_PERIOD;
-		}, getMillisToWeekChange(), WEEKLY_PERIOD);
+			_nextWeeklyChange = nextChange.getTimeInMillis() + olympiad().getWeeklyPeriod();
+		}, getMillisToWeekChange(), olympiad().getWeeklyPeriod());
 	}
 	
 	private synchronized void addWeeklyPoints() {
@@ -571,7 +562,7 @@ public class Olympiad extends ListenersContainer {
 		int currentPoints;
 		for (StatsSet nobleInfo : NOBLES.values()) {
 			currentPoints = nobleInfo.getInt(POINTS);
-			currentPoints += WEEKLY_POINTS;
+			currentPoints += olympiad().getWeeklyPoints();
 			nobleInfo.set(POINTS, currentPoints);
 		}
 	}

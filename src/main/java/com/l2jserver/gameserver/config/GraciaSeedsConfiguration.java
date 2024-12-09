@@ -44,9 +44,9 @@ import com.l2jserver.gameserver.config.converter.Minutes2MillisecondsConverter;
 public interface GraciaSeedsConfiguration extends Reloadable {
 	
 	@Key("TiatKillCountForNextState")
-	Integer getTiatKillCountForNextState();
+	int getTiatKillCountForNextState();
 	
 	@Key("Stage2Length")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	Integer getStage2Length();
+	int getStage2Length();
 }

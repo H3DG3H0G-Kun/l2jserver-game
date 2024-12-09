@@ -42,17 +42,17 @@ import org.aeonbits.owner.Reloadable;
 public interface MMOConfiguration extends Reloadable {
 	
 	@Key("SleepTime")
-	Integer getSleepTime();
+	int getSleepTime();
 	
 	@Key("MaxSendPerPass")
-	Integer getMaxSendPerPass();
+	int getMaxSendPerPass();
 	
 	@Key("MaxReadPerPass")
-	Integer getMaxReadPerPass();
+	int getMaxReadPerPass();
 	
 	@Key("HelperBufferCount")
-	Integer getHelperBufferCount();
+	int getHelperBufferCount();
 	
 	@Key("TcpNoDelay")
-	Boolean isTcpNoDelay();
+	boolean isTcpNoDelay();
 }

@@ -43,7 +43,7 @@ import org.aeonbits.owner.Reloadable;
 public interface DiscordConfiguration extends Mutable, Reloadable {
 	
 	@Key("BotEnable")
-	Boolean enableBot();
+	boolean enableBot();
 	
 	@Key("BotPrefix")
 	String getPrefix();

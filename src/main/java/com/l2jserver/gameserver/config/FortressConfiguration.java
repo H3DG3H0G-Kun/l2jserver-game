@@ -44,63 +44,63 @@ import com.l2jserver.gameserver.config.converter.Minutes2MillisecondsConverter;
 public interface FortressConfiguration extends Reloadable {
 	
 	@Key("TeleportFunctionFeeRatio")
-	Long getTeleportFunctionFeeRatio();
+	long getTeleportFunctionFeeRatio();
 	
 	@Key("TeleportFunctionFeeLvl1")
-	Integer getTeleportFunctionFeeLvl1();
+	int getTeleportFunctionFeeLvl1();
 	
 	@Key("TeleportFunctionFeeLvl2")
-	Integer getTeleportFunctionFeeLvl2();
+	int getTeleportFunctionFeeLvl2();
 	
 	@Key("SupportFunctionFeeRatio")
-	Long getSupportFunctionFeeRatio();
+	long getSupportFunctionFeeRatio();
 	
 	@Key("SupportFeeLvl1")
-	Integer getSupportFeeLvl1();
+	int getSupportFeeLvl1();
 	
 	@Key("SupportFeeLvl2")
-	Integer getSupportFeeLvl2();
+	int getSupportFeeLvl2();
 	
 	@Key("MpRegenerationFunctionFeeRatio")
-	Long getMpRegenerationFunctionFeeRatio();
+	long getMpRegenerationFunctionFeeRatio();
 	
 	@Key("MpRegenerationFeeLvl1")
-	Integer getMpRegenerationFeeLvl1();
+	int getMpRegenerationFeeLvl1();
 	
 	@Key("MpRegenerationFeeLvl2")
-	Integer getMpRegenerationFeeLvl2();
+	int getMpRegenerationFeeLvl2();
 	
 	@Key("HpRegenerationFunctionFeeRatio")
-	Long getHpRegenerationFunctionFeeRatio();
+	long getHpRegenerationFunctionFeeRatio();
 	
 	@Key("HpRegenerationFeeLvl1")
-	Integer getHpRegenerationFeeLvl1();
+	int getHpRegenerationFeeLvl1();
 	
 	@Key("HpRegenerationFeeLvl2")
-	Integer getHpRegenerationFeeLvl2();
+	int getHpRegenerationFeeLvl2();
 	
 	@Key("ExpRegenerationFunctionFeeRatio")
-	Long getExpRegenerationFunctionFeeRatio();
+	long getExpRegenerationFunctionFeeRatio();
 	
 	@Key("ExpRegenerationFeeLvl1")
-	Integer getExpRegenerationFeeLvl1();
+	int getExpRegenerationFeeLvl1();
 	
 	@Key("ExpRegenerationFeeLvl2")
-	Integer getExpRegenerationFeeLvl2();
+	int getExpRegenerationFeeLvl2();
 	
 	@Key("PeriodicUpdateFrequency")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	Integer getPeriodicUpdateFrequency();
+	int getPeriodicUpdateFrequency();
 	
 	@Key("BloodOathCount")
-	Integer getBloodOathCount();
+	int getBloodOathCount();
 	
 	@Key("MaxSupplyLevel")
-	Integer getMaxSupplyLevel();
+	int getMaxSupplyLevel();
 	
 	@Key("FeeForCastle")
-	Integer getFeeForCastle();
+	int getFeeForCastle();
 	
 	@Key("MaxKeepTime")
-	Integer getMaxKeepTime();
+	int getMaxKeepTime();
 }

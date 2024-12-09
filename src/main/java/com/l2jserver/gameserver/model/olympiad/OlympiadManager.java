@@ -421,7 +421,7 @@ public class OlympiadManager {
 			statDat = new StatsSet();
 			statDat.set(Olympiad.CLASS_ID, noble.getBaseClass());
 			statDat.set(Olympiad.CHAR_NAME, noble.getName());
-			statDat.set(Olympiad.POINTS, Olympiad.DEFAULT_POINTS);
+			statDat.set(Olympiad.POINTS, olympiad().getStartPoints());
 			statDat.set(Olympiad.COMP_DONE, 0);
 			statDat.set(Olympiad.COMP_WON, 0);
 			statDat.set(Olympiad.COMP_LOST, 0);

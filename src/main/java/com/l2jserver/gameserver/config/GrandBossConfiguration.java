@@ -47,69 +47,88 @@ public interface GrandBossConfiguration extends Reloadable {
 	
 	@Key("AntharasWaitTime")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	Integer getAntharasWaitTime();
+	int getAntharasWaitTime();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfAntharasSpawn")
-	Integer getIntervalOfAntharasSpawn();
+	int getIntervalOfAntharasSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfAntharasSpawn")
-	Integer getRandomOfAntharasSpawn();
+	int getRandomOfAntharasSpawn();
 	
 	@Key("ValakasWaitTime")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	Integer getValakasWaitTime();
+	int getValakasWaitTime();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfValakasSpawn")
-	Integer getIntervalOfValakasSpawn();
+	int getIntervalOfValakasSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfValakasSpawn")
-	Integer getRandomOfValakasSpawn();
+	int getRandomOfValakasSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfBaiumSpawn")
-	Integer getIntervalOfBaiumSpawn();
+	int getIntervalOfBaiumSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfBaiumSpawn")
-	Integer getRandomOfBaiumSpawn();
+	int getRandomOfBaiumSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfCoreSpawn")
-	Integer getIntervalOfCoreSpawn();
+	int getIntervalOfCoreSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfCoreSpawn")
-	Integer getRandomOfCoreSpawn();
+	int getRandomOfCoreSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfOrfenSpawn")
-	Integer getIntervalOfOrfenSpawn();
+	int getIntervalOfOrfenSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfOrfenSpawn")
-	Integer getRandomOfOrfenSpawn();
+	int getRandomOfOrfenSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfQueenAntSpawn")
-	Integer getIntervalOfQueenAntSpawn();
+	int getIntervalOfQueenAntSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfQueenAntSpawn")
-	Integer getRandomOfQueenAntSpawn();
+	int getRandomOfQueenAntSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfBelethSpawn")
-	Integer getIntervalOfBelethSpawn();
+	int getIntervalOfBelethSpawn();
 	
+	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfBelethSpawn")
-	Integer getRandomOfBelethSpawn();
+	int getRandomOfBelethSpawn();
 	
 	@Key("BelethMinPlayers")
-	Integer getBelethMinPlayers();
+	int getBelethMinPlayers();
 	
+	// TODO(Zoey76): Implement AllowZakenWithoutParty configuration.
 	@Key("AllowZakenWithoutParty")
-	Boolean getAllowZakenWithoutParty();
+	boolean getAllowZakenWithoutParty();
 	
+	// TODO(Zoey76): Implement ZakenMinPlayers configuration.
 	@Key("ZakenMinPlayers")
 	List<Integer> getZakenMinPlayers();
 	
+	// TODO(Zoey76): Implement ZakenMaxPlayers configuration.
 	@Key("ZakenMaxPlayers")
 	List<Integer> getZakenMaxPlayers();
 	
+	// TODO(Zoey76): Implement ZakenMinPlayerLevel configuration.
 	@Key("ZakenMinPlayerLevel")
 	List<Integer> getZakenMinPlayerLevel();
 	
+	// TODO(Zoey76): Implement ZakenCanBeRevealedByAOESpells configuration.
 	@Key("ZakenCanBeRevealedByAOESpells")
-	Boolean getZakenCanBeRevealedByAoeSPells();
+	boolean getZakenCanBeRevealedByAoeSPells();
 }

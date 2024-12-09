@@ -42,173 +42,174 @@ import org.aeonbits.owner.Reloadable;
 public interface ClanHallConfiguration extends Reloadable {
 	
 	@Key("TeleportFunctionFeeRatio")
-	Long getTeleportFunctionFeeRatio();
+	long getTeleportFunctionFeeRatio();
 	
 	@Key("TeleportFunctionFeeLvl1")
-	Integer getTeleportFunctionFeeLvl1();
+	int getTeleportFunctionFeeLvl1();
 	
 	@Key("TeleportFunctionFeeLvl2")
-	Integer getTeleportFunctionFeeLvl2();
+	int getTeleportFunctionFeeLvl2();
 	
 	@Key("SupportFunctionFeeRatio")
-	Long getSupportFunctionFeeRatio();
+	long getSupportFunctionFeeRatio();
 	
 	@Key("SupportFeeLvl1")
-	Integer getSupportFeeLvl1();
+	int getSupportFeeLvl1();
 	
 	@Key("SupportFeeLvl2")
-	Integer getSupportFeeLvl2();
+	int getSupportFeeLvl2();
 	
 	@Key("SupportFeeLvl3")
-	Integer getSupportFeeLvl3();
+	int getSupportFeeLvl3();
 	
 	@Key("SupportFeeLvl4")
-	Integer getSupportFeeLvl4();
+	int getSupportFeeLvl4();
 	
 	@Key("SupportFeeLvl5")
-	Integer getSupportFeeLvl5();
+	int getSupportFeeLvl5();
 	
 	@Key("SupportFeeLvl6")
-	Integer getSupportFeeLvl6();
+	int getSupportFeeLvl6();
 	
 	@Key("SupportFeeLvl7")
-	Integer getSupportFeeLvl7();
+	int getSupportFeeLvl7();
 	
 	@Key("SupportFeeLvl8")
-	Integer getSupportFeeLvl8();
+	int getSupportFeeLvl8();
 	
 	@Key("MpRegenerationFunctionFeeRatio")
-	Long getMpRegenerationFunctionFeeRatio();
+	long getMpRegenerationFunctionFeeRatio();
 	
 	@Key("MpRegenerationFeeLvl1")
-	Integer getMpRegenerationFeeLvl1();
+	int getMpRegenerationFeeLvl1();
 	
 	@Key("MpRegenerationFeeLvl2")
-	Integer getMpRegenerationFeeLvl2();
+	int getMpRegenerationFeeLvl2();
 	
 	@Key("MpRegenerationFeeLvl3")
-	Integer getMpRegenerationFeeLvl3();
+	int getMpRegenerationFeeLvl3();
 	
 	@Key("MpRegenerationFeeLvl4")
-	Integer getMpRegenerationFeeLvl4();
+	int getMpRegenerationFeeLvl4();
 	
 	@Key("MpRegenerationFeeLvl5")
-	Integer getMpRegenerationFeeLvl5();
+	int getMpRegenerationFeeLvl5();
 	
 	@Key("HpRegenerationFunctionFeeRatio")
-	Long getHpRegenerationFunctionFeeRatio();
+	long getHpRegenerationFunctionFeeRatio();
 	
 	@Key("HpRegenerationFeeLvl1")
-	Integer getHpRegenerationFeeLvl1();
+	int getHpRegenerationFeeLvl1();
 	
 	@Key("HpRegenerationFeeLvl2")
-	Integer getHpRegenerationFeeLvl2();
+	int getHpRegenerationFeeLvl2();
 	
 	@Key("HpRegenerationFeeLvl3")
-	Integer getHpRegenerationFeeLvl3();
+	int getHpRegenerationFeeLvl3();
 	
 	@Key("HpRegenerationFeeLvl4")
-	Integer getHpRegenerationFeeLvl4();
+	int getHpRegenerationFeeLvl4();
 	
 	@Key("HpRegenerationFeeLvl5")
-	Integer getHpRegenerationFeeLvl5();
+	int getHpRegenerationFeeLvl5();
 	
 	@Key("HpRegenerationFeeLvl6")
-	Integer getHpRegenerationFeeLvl6();
+	int getHpRegenerationFeeLvl6();
 	
 	@Key("HpRegenerationFeeLvl7")
-	Integer getHpRegenerationFeeLvl7();
+	int getHpRegenerationFeeLvl7();
 	
 	@Key("HpRegenerationFeeLvl8")
-	Integer getHpRegenerationFeeLvl8();
+	int getHpRegenerationFeeLvl8();
 	
 	@Key("HpRegenerationFeeLvl9")
-	Integer getHpRegenerationFeeLvl9();
+	int getHpRegenerationFeeLvl9();
 	
 	@Key("HpRegenerationFeeLvl10")
-	Integer getHpRegenerationFeeLvl10();
+	int getHpRegenerationFeeLvl10();
 	
 	@Key("HpRegenerationFeeLvl11")
-	Integer getHpRegenerationFeeLvl11();
+	int getHpRegenerationFeeLvl11();
 	
 	@Key("HpRegenerationFeeLvl12")
-	Integer getHpRegenerationFeeLvl12();
+	int getHpRegenerationFeeLvl12();
 	
 	@Key("HpRegenerationFeeLvl13")
-	Integer getHpRegenerationFeeLvl13();
+	int getHpRegenerationFeeLvl13();
 	
 	@Key("ExpRegenerationFunctionFeeRatio")
-	Long getExpRegenerationFunctionFeeRatio();
+	long getExpRegenerationFunctionFeeRatio();
 	
 	@Key("ExpRegenerationFeeLvl1")
-	Integer getExpRegenerationFeeLvl1();
+	int getExpRegenerationFeeLvl1();
 	
 	@Key("ExpRegenerationFeeLvl2")
-	Integer getExpRegenerationFeeLvl2();
+	int getExpRegenerationFeeLvl2();
 	
 	@Key("ExpRegenerationFeeLvl3")
-	Integer getExpRegenerationFeeLvl3();
+	int getExpRegenerationFeeLvl3();
 	
 	@Key("ExpRegenerationFeeLvl4")
-	Integer getExpRegenerationFeeLvl4();
+	int getExpRegenerationFeeLvl4();
 	
 	@Key("ExpRegenerationFeeLvl5")
-	Integer getExpRegenerationFeeLvl5();
+	int getExpRegenerationFeeLvl5();
 	
 	@Key("ExpRegenerationFeeLvl6")
-	Integer getExpRegenerationFeeLvl6();
+	int getExpRegenerationFeeLvl6();
 	
 	@Key("ExpRegenerationFeeLvl7")
-	Integer getExpRegenerationFeeLvl7();
+	int getExpRegenerationFeeLvl7();
 	
 	@Key("ItemCreationFunctionFeeRatio")
-	Long getItemCreationFunctionFeeRatio();
+	long getItemCreationFunctionFeeRatio();
 	
 	@Key("ItemCreationFunctionFeeLvl1")
-	Integer getItemCreationFunctionFeeLvl1();
+	int getItemCreationFunctionFeeLvl1();
 	
 	@Key("ItemCreationFunctionFeeLvl2")
-	Integer getItemCreationFunctionFeeLvl2();
+	int getItemCreationFunctionFeeLvl2();
 	
 	@Key("ItemCreationFunctionFeeLvl3")
-	Integer getItemCreationFunctionFeeLvl3();
+	int getItemCreationFunctionFeeLvl3();
 	
 	@Key("CurtainFunctionFeeRatio")
-	Long getCurtainFunctionFeeRatio();
+	long getCurtainFunctionFeeRatio();
 	
 	@Key("CurtainFunctionFeeLvl1")
-	Integer getCurtainFunctionFeeLvl1();
+	int getCurtainFunctionFeeLvl1();
 	
 	@Key("CurtainFunctionFeeLvl2")
-	Integer getCurtainFunctionFeeLvl2();
+	int getCurtainFunctionFeeLvl2();
 	
 	@Key("FrontPlatformFunctionFeeLvl1")
-	Integer getFrontPlatformFunctionFeeLvl1();
+	int getFrontPlatformFunctionFeeLvl1();
 	
 	@Key("FrontPlatformFunctionFeeLvl2")
-	Integer getFrontPlatformFunctionFeeLvl2();
+	int getFrontPlatformFunctionFeeLvl2();
 	
 	@Key("FrontPlatformFunctionFeeRatio")
-	Long getFrontPlatformFunctionFeeRatio();
+	long getFrontPlatformFunctionFeeRatio();
 	
 	@Key("MpBuffFree")
-	Boolean mpBuffFree();
+	boolean mpBuffFree();
 	
 	@Key("MinClanLevel")
-	Integer getMinClanLevel();
+	int getMinClanLevel();
 	
 	@Key("MaxAttackers")
-	Integer getMaxAttackers();
+	int getMaxAttackers();
 	
+	// TODO(Zoey76): Implement MaxFlagsPerClan configuration.
 	@Key("MaxFlagsPerClan")
-	Integer getMaxFlagsPerClan();
+	int getMaxFlagsPerClan();
 	
 	@Key("EnableFame")
-	Boolean enableFame();
+	boolean enableFame();
 	
 	@Key("FameAmount")
-	Integer getFameAmount();
+	int getFameAmount();
 	
 	@Key("FameFrequency")
-	Integer getFameFrequency();
+	int getFameFrequency();
 }
