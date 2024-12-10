@@ -90,7 +90,7 @@ public interface FortressConfiguration extends Reloadable {
 	
 	@Key("PeriodicUpdateFrequency")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getPeriodicUpdateFrequency();
+	long getPeriodicUpdateFrequency();
 	
 	@Key("BloodOathCount")
 	int getBloodOathCount();

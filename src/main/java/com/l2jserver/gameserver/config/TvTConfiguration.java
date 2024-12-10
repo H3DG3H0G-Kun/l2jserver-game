@@ -62,11 +62,11 @@ public interface TvTConfiguration extends Reloadable {
 	
 	@Key("Interval")
 	List<String> getInterval();
-
+	
 	// TODO(Zoey76): Convert to milliseconds.
 	@Key("ParticipationTime")
 	int getParticipationTime();
-
+	
 	// TODO(Zoey76): Convert to milliseconds.
 	@Key("RunningTime")
 	int getRunningTime();
@@ -96,11 +96,11 @@ public interface TvTConfiguration extends Reloadable {
 	
 	@Key("RespawnTeleportDelay")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getRespawnTeleportDelay();
+	long getRespawnTeleportDelay();
 	
 	@Key("StartLeaveTeleportDelay")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getStartLeaveTeleportDelay();
+	long getStartLeaveTeleportDelay();
 	
 	@Key("Team1Name")
 	String getTeam1Name();

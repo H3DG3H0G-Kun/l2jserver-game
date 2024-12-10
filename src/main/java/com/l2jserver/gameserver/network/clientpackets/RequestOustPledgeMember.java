@@ -19,7 +19,6 @@
 package com.l2jserver.gameserver.network.clientpackets;
 
 import static com.l2jserver.gameserver.config.Configuration.character;
-import static java.util.concurrent.TimeUnit.DAYS;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +32,12 @@ import com.l2jserver.gameserver.network.serverpackets.PledgeShowMemberListDelete
 import com.l2jserver.gameserver.network.serverpackets.SystemMessage;
 
 /**
+ * Request Oust Pledge Member client packet.
+ * @author JIV
+ * @author MELERIX
+ * @author Zoey76
+ * @author UnAfraid
+ * @author Kita
  * @since 2005/03/27 15:29:30
  */
 public final class RequestOustPledgeMember extends L2GameClientPacket {
@@ -79,8 +84,8 @@ public final class RequestOustPledgeMember extends L2GameClientPacket {
 		}
 		
 		// this also updates the database
-		clan.removeClanMember(member.getObjectId(), System.currentTimeMillis() + DAYS.toMillis(character().getDaysBeforeJoinAClan()));
-		clan.setCharPenaltyExpiryTime(System.currentTimeMillis() + DAYS.toMillis(character().getDaysBeforeJoinAClan()));
+		clan.removeClanMember(member.getObjectId(), System.currentTimeMillis() + character().getDaysBeforeJoinAClan());
+		clan.setCharPenaltyExpiryTime(System.currentTimeMillis() + character().getDaysBeforeJoinAClan());
 		clan.updateClanInDB();
 		
 		SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.CLAN_MEMBER_S1_EXPELLED);

@@ -299,7 +299,7 @@ public class FortSiege implements Siegable {
 			getFort().getZone().updateZoneStatusForCharactersInside();
 			
 			// Schedule a task to prepare auto siege end
-			_siegeEnd = ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleEndSiegeTask(), MINUTES.toMillis(fortSiege().getSiegeLength())); // Prepare auto end task
+			_siegeEnd = ThreadPoolManager.getInstance().scheduleGeneral(new ScheduleEndSiegeTask(), fortSiege().getSiegeLength());
 			
 			final SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.THE_FORTRESS_BATTLE_S1_HAS_BEGUN);
 			sm.addCastleId(getFort().getResidenceId());
@@ -1004,7 +1004,7 @@ public class FortSiege implements Siegable {
 	
 	@Override
 	public int getFameFrequency() {
-		return character().getFortressZoneFameTaskFrequency();
+		return (int) character().getFortressZoneFameTaskFrequency();
 	}
 	
 	@Override

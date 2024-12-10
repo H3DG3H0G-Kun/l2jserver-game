@@ -130,7 +130,7 @@ public interface CustomsConfiguration extends Reloadable {
 	
 	@Key("WeddingTeleportDuration")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getWeddingTeleportDuration();
+	long getWeddingTeleportDuration();
 	
 	@Key("WeddingAllowSameSex")
 	boolean weddingAllowSameSex();
@@ -201,7 +201,7 @@ public interface CustomsConfiguration extends Reloadable {
 	
 	@Key("ScreenWelcomeMessageTime")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getScreenWelcomeMessageTime();
+	long getScreenWelcomeMessageTime();
 	
 	@Key("AntiFeedEnable")
 	boolean antiFeedEnable();

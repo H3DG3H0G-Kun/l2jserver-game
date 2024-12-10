@@ -44,18 +44,18 @@ public interface TerritoryWarConfiguration extends Reloadable {
 	// TODO(Zoey76): Convert this to milliseconds.
 	@Key("WarLength")
 	long getWarLength();
-
+	
 	// TODO(Zoey76): Implement ClanMinLevel configuration.
 	@Key("ClanMinLevel")
 	int getClanMinLevel();
 	
 	@Key("PlayerMinLevel")
 	int getPlayerMinLevel();
-
+	
 	// TODO(Zoey76): Implement DefenderMaxClans configuration.
 	@Key("DefenderMaxClans")
 	int getDefenderMaxClans();
-
+	
 	// TODO(Zoey76): Implement DefenderMaxPlayers configuration.
 	@Key("DefenderMaxPlayers")
 	int getDefenderMaxPlayers();

@@ -22,7 +22,6 @@ import static com.l2jserver.gameserver.config.Configuration.character;
 import static com.l2jserver.gameserver.config.Configuration.clan;
 import static com.l2jserver.gameserver.model.base.AcquireSkillType.PLEDGE;
 import static com.l2jserver.gameserver.network.SystemMessageId.DO_NOT_HAVE_FURTHER_SKILLS_TO_LEARN_S1;
-import static java.util.concurrent.TimeUnit.DAYS;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -62,6 +61,7 @@ import com.l2jserver.gameserver.network.serverpackets.UserInfo;
 import com.l2jserver.gameserver.util.StringUtil;
 
 /**
+ * Village Master instance.
  * @since 2005/03/29 23:15:15
  */
 public class L2VillageMasterInstance extends L2NpcInstance {
@@ -695,7 +695,7 @@ public class L2VillageMasterInstance extends L2NpcInstance {
 			return;
 		}
 		
-		clan.setDissolvingExpiryTime(System.currentTimeMillis() + DAYS.toMillis(character().getDaysToPassToDissolveAClan()));
+		clan.setDissolvingExpiryTime(System.currentTimeMillis() + character().getDaysToPassToDissolveAClan());
 		clan.updateClanInDB();
 		
 		// The clan leader should take the XP penalty of a full death.

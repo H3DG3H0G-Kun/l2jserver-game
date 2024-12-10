@@ -34,6 +34,7 @@ import org.aeonbits.owner.Reloadable;
 
 import com.l2jserver.gameserver.config.converter.ClassMasterSetting;
 import com.l2jserver.gameserver.config.converter.ClassMasterSettingConverter;
+import com.l2jserver.gameserver.config.converter.Days2MillisecondsConverter;
 import com.l2jserver.gameserver.config.converter.MapIntegerIntegerConverter;
 import com.l2jserver.gameserver.config.converter.PatternConverter;
 import com.l2jserver.gameserver.config.converter.Seconds2MillisecondsConverter;
@@ -412,14 +413,14 @@ public interface CharacterConfiguration extends Reloadable {
 	
 	@Key("FortressZoneFameTaskFrequency")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getFortressZoneFameTaskFrequency();
+	long getFortressZoneFameTaskFrequency();
 	
 	@Key("FortressZoneFameAcquirePoints")
 	int getFortressZoneFameAcquirePoints();
 	
 	@Key("CastleZoneFameTaskFrequency")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getCastleZoneFameTaskFrequency();
+	long getCastleZoneFameTaskFrequency();
 	
 	@Key("CastleZoneFameAcquirePoints")
 	int getCastleZoneFameAcquirePoints();
@@ -476,33 +477,33 @@ public interface CharacterConfiguration extends Reloadable {
 	@Key("ClanLeaderInstantActivation")
 	boolean clanLeaderInstantActivation();
 	
-	// TODO(Zoey76): Convert to milliseconds.
 	@Key("DaysBeforeJoinAClan")
-	int getDaysBeforeJoinAClan();
-
-	// TODO(Zoey76): Convert to milliseconds.
+	@ConverterClass(Days2MillisecondsConverter.class)
+	long getDaysBeforeJoinAClan();
+	
 	@Key("DaysBeforeCreateAClan")
-	int getDaysBeforeCreateAClan();
-
-	// TODO(Zoey76): Convert to milliseconds.
+	@ConverterClass(Days2MillisecondsConverter.class)
+	long getDaysBeforeCreateAClan();
+	
 	@Key("DaysToPassToDissolveAClan")
-	int getDaysToPassToDissolveAClan();
-
-	// TODO(Zoey76): Convert to milliseconds.
+	@ConverterClass(Days2MillisecondsConverter.class)
+	long getDaysToPassToDissolveAClan();
+	
 	@Key("DaysBeforeJoiningAllianceAfterLeaving")
-	int getDaysBeforeJoiningAllianceAfterLeaving();
-
-	// TODO(Zoey76): Convert to milliseconds.
+	@ConverterClass(Days2MillisecondsConverter.class)
+	long getDaysBeforeJoiningAllianceAfterLeaving();
+	
 	@Key("DaysBeforeJoinAllyWhenDismissed")
-	int getDaysBeforeJoinAllyWhenDismissed();
-
-	// TODO(Zoey76): Convert to milliseconds.
+	@ConverterClass(Days2MillisecondsConverter.class)
+	long getDaysBeforeJoinAllyWhenDismissed();
+	
 	@Key("DaysBeforeAcceptNewClanWhenDismissed")
-	int getDaysBeforeAcceptNewClanWhenDismissed();
-
-	// TODO(Zoey76): Convert to milliseconds.
+	@ConverterClass(Days2MillisecondsConverter.class)
+	long getDaysBeforeAcceptNewClanWhenDismissed();
+	
 	@Key("DaysBeforeCreateNewAllyWhenDissolved")
-	int getDaysBeforeCreateNewAllyWhenDissolved();
+	@ConverterClass(Days2MillisecondsConverter.class)
+	long getDaysBeforeCreateNewAllyWhenDissolved();
 	
 	@Key("MaxNumOfClansInAlly")
 	int getMaxNumOfClansInAlly();
@@ -563,18 +564,18 @@ public interface CharacterConfiguration extends Reloadable {
 	
 	@Key("RaidLootRightsInterval")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getRaidLootRightsInterval();
+	long getRaidLootRightsInterval();
 	
 	@Key("RaidLootRightsCCSize")
 	int getRaidLootRightsCCSize();
 	
 	@Key("UnstuckInterval")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getUnstuckInterval();
+	long getUnstuckInterval();
 	
 	@Key("TeleportWatchdogTimeout")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getTeleportWatchdogTimeout();
+	long getTeleportWatchdogTimeout();
 	
 	@Key("PlayerSpawnProtection")
 	int getPlayerSpawnProtection();

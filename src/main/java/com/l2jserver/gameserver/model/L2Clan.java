@@ -22,7 +22,6 @@ import static com.l2jserver.gameserver.config.Configuration.character;
 import static com.l2jserver.gameserver.config.Configuration.clan;
 import static com.l2jserver.gameserver.config.Configuration.fortress;
 import static com.l2jserver.gameserver.config.Configuration.general;
-import static java.util.concurrent.TimeUnit.DAYS;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,6 +80,24 @@ import com.l2jserver.gameserver.network.serverpackets.UserInfo;
 import com.l2jserver.gameserver.util.EnumIntBitmask;
 import com.l2jserver.gameserver.util.Util;
 
+/**
+ * Clan.
+ * @author JIV
+ * @author janiii
+ * @author _DS_
+ * @author Gigiikun
+ * @author MELERIX
+ * @author Zoey76
+ * @author UnAfraid
+ * @author VlLight
+ * @author nBd
+ * @author Adry_85
+ * @author xban1x
+ * @author Nos
+ * @author Zealar
+ * @author HorridoJoho
+ * @author Kita
+ */
 public class L2Clan implements IIdentifiable, INamable {
 	private static final Logger LOG = LoggerFactory.getLogger(L2Clan.class);
 	
@@ -404,7 +421,7 @@ public class L2Clan implements IIdentifiable, INamable {
 			
 			if (player.isClanLeader()) {
 				SiegeManager.getInstance().removeSiegeSkills(player);
-				player.setClanCreateExpiryTime(System.currentTimeMillis() + DAYS.toMillis(character().getDaysBeforeCreateAClan()));
+				player.setClanCreateExpiryTime(System.currentTimeMillis() + character().getDaysBeforeCreateAClan());
 			}
 			// remove Clan skills from Player
 			removeSkillEffects(player);
@@ -430,7 +447,7 @@ public class L2Clan implements IIdentifiable, INamable {
 			// disable clan tab
 			player.sendPacket(PledgeShowMemberListDeleteAll.STATIC_PACKET);
 		} else {
-			removeMemberInDatabase(exMember.getObjectId(), clanJoinExpiryTime, getLeaderId() == objectId ? System.currentTimeMillis() + DAYS.toMillis(character().getDaysBeforeCreateAClan()) : 0);
+			removeMemberInDatabase(exMember.getObjectId(), clanJoinExpiryTime, getLeaderId() == objectId ? System.currentTimeMillis() + character().getDaysBeforeCreateAClan() : 0);
 		}
 		
 		// Notify to scripts
@@ -873,7 +890,7 @@ public class L2Clan implements IIdentifiable, INamable {
 					}
 					setCharPenaltyExpiryTime(clanData.getLong("char_penalty_expiry_time"));
 					
-					if ((getCharPenaltyExpiryTime() + DAYS.toMillis(character().getDaysBeforeJoinAClan())) < System.currentTimeMillis()) {
+					if ((getCharPenaltyExpiryTime() + character().getDaysBeforeJoinAClan()) < System.currentTimeMillis()) {
 						setCharPenaltyExpiryTime(0);
 					}
 					setDissolvingExpiryTime(clanData.getLong("dissolving_expiry_time"));
@@ -1905,7 +1922,7 @@ public class L2Clan implements IIdentifiable, INamable {
 		setAllyName(null);
 		changeAllyCrest(0, false);
 		
-		setAllyPenaltyExpiryTime(currentTime + DAYS.toMillis(character().getDaysBeforeCreateNewAllyWhenDissolved()), PENALTY_TYPE_DISSOLVE_ALLY);
+		setAllyPenaltyExpiryTime(currentTime + character().getDaysBeforeCreateNewAllyWhenDissolved(), PENALTY_TYPE_DISSOLVE_ALLY);
 		updateClanInDB();
 	}
 	

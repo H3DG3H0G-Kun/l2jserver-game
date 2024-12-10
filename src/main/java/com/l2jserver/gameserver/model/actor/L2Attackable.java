@@ -1387,11 +1387,13 @@ public class L2Attackable extends L2Npc {
 		return -Math.min(damage, getMaxHp()) / divider;
 	}
 	
-	/*
-	 * True if vitality rate for exp and sp should be applied
+	/**
+	 * Determines whether the vitality rate for EXP and SP should be applied.
+	 *
+	 * @return {@code true} if the vitality rate should be applied, {@code false} otherwise.
 	 */
 	public boolean useVitalityRate() {
-		return isChampion() ? customs().championEnableVitality() : true;
+	    return !isChampion() || customs().championEnableVitality();
 	}
 	
 	/** Return True if the L2Character is RaidBoss or his minion. */

@@ -175,7 +175,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("DeadLockCheckInterval")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getDeadLockCheckInterval();
+	long getDeadLockCheckInterval();
 	
 	@Key("RestartOnDeadlock")
 	boolean restartOnDeadlock();
@@ -215,7 +215,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("AutoDestroyHerbTime")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getAutoDestroyHerbTime();
+	long getAutoDestroyHerbTime();
 	
 	@Key("ProtectedItems")
 	Set<Integer> getProtectedItems();
@@ -229,7 +229,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("CharacterDataStoreInterval")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getCharacterDataStoreInterval();
+	long getCharacterDataStoreInterval();
 	
 	@Key("LazyItemsUpdate")
 	boolean lazyItemsUpdate();
@@ -251,7 +251,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("SaveDroppedItemInterval")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getSaveDroppedItemInterval();
+	long getSaveDroppedItemInterval();
 	
 	@Key("ClearDroppedItemTable")
 	boolean clearDroppedItemTable();
@@ -330,7 +330,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("WarehouseCacheTime")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getWarehouseCacheTime();
+	long getWarehouseCacheTime();
 	
 	@Key("AllowRefund")
 	boolean allowRefund();
@@ -346,7 +346,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("WearDelay")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getWearDelay();
+	long getWearDelay();
 	
 	@Key("WearPrice")
 	int getWearPrice();
@@ -359,7 +359,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("EjectDeadPlayerTime")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getEjectDeadPlayerTime();
+	long getEjectDeadPlayerTime();
 	
 	@Key("InstanceFinishTime")
 	int getInstanceFinishTime();
@@ -463,7 +463,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("ItemAuctionTimeExtendsOnBid")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getItemAuctionTimeExtendsOnBid();
+	long getItemAuctionTimeExtendsOnBid();
 	
 	// TODO(Zoey76): Implement RiftMinPartySize configuration.
 	@Key("RiftMinPartySize")
@@ -477,11 +477,11 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("AutoJumpsDelayMin")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getAutoJumpsDelayMin();
+	long getAutoJumpsDelayMin();
 	
 	@Key("AutoJumpsDelayMax")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getAutoJumpsDelayMax();
+	long getAutoJumpsDelayMax();
 	
 	@Key("BossRoomTimeMultiply")
 	float getBossRoomTimeMultiply();
@@ -512,20 +512,20 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("TimeOfAttack")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getTimeOfAttack();
+	long getTimeOfAttack();
 	
 	// TODO(Zoey76): Implement TimeOfCoolDown configuration.
 	@Key("TimeOfCoolDown")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getTimeOfCoolDown();
+	long getTimeOfCoolDown();
 	
 	@Key("TimeOfEntry")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getTimeOfEntry();
+	long getTimeOfEntry();
 	
 	@Key("TimeOfWarmUp")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getTimeOfWarmUp();
+	long getTimeOfWarmUp();
 	
 	// TODO(Zoey76): Move this four sepulchers to own configuration file.
 	@Key("NumberOfNecessaryPartyMembers")
@@ -536,7 +536,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("DefaultPunishParam")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getDefaultPunishParam();
+	long getDefaultPunishParam();
 	
 	@Key("OnlyGMItemsFree")
 	boolean onlyGMItemsFree();
@@ -612,7 +612,7 @@ public interface GeneralConfiguration extends Mutable, Reloadable {
 	
 	@Key("BotReportDelay")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getBotReportDelay();
+	long getBotReportDelay();
 	
 	@Key("AllowReportsFromSameClanMembers")
 	boolean allowReportsFromSameClanMembers();

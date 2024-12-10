@@ -364,7 +364,7 @@ public class GeoPathFinding extends PathFinding {
 					
 					byte rx = Byte.parseByte(parts[0]);
 					byte ry = Byte.parseByte(parts[1]);
-					LoadPathNodeFile(rx, ry);
+					loadPathNodeFile(rx, ry);
 				});
 		} catch (IOException e) {
 			LOG.warn(e.getMessage(), e);
@@ -372,7 +372,7 @@ public class GeoPathFinding extends PathFinding {
 		}
 	}
 	
-	private void LoadPathNodeFile(byte rx, byte ry) {
+	private void loadPathNodeFile(byte rx, byte ry) {
 		if ((rx < L2World.TILE_X_MIN) || (rx > L2World.TILE_X_MAX) || (ry < L2World.TILE_Y_MIN) || (ry > L2World.TILE_Y_MAX)) {
 			LOG.warn("Failed to Load PathNode File: invalid region {},{}{}", rx, ry, Configuration.EOL);
 			return;

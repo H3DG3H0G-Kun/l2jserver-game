@@ -1358,7 +1358,7 @@ public class Siege implements Siegable {
 	
 	@Override
 	public int getFameFrequency() {
-		return character().getCastleZoneFameTaskFrequency();
+		return (int) character().getCastleZoneFameTaskFrequency();
 	}
 	
 	@Override

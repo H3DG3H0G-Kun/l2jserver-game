@@ -48,5 +48,5 @@ public interface GraciaSeedsConfiguration extends Reloadable {
 	
 	@Key("Stage2Length")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getStage2Length();
+	long getStage2Length();
 }

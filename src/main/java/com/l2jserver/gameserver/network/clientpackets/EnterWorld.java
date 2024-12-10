@@ -488,7 +488,7 @@ public class EnterWorld extends L2GameClientPacket {
 		AutoLootExtension.onLogin(activeChar);
 		
 		if (customs().screenWelcomeMessageEnable()) {
-			activeChar.sendPacket(new ExShowScreenMessage(customs().getScreenWelcomeMessageText(), customs().getScreenWelcomeMessageTime()));
+			activeChar.sendPacket(new ExShowScreenMessage(customs().getScreenWelcomeMessageText(), (int) customs().getScreenWelcomeMessageTime()));
 		}
 		
 		final int birthday = activeChar.checkBirthDay();

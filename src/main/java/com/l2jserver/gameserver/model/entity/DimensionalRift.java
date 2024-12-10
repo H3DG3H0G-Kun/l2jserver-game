@@ -325,11 +325,10 @@ public class DimensionalRift {
 	}
 	
 	private long calcTimeToNextJump() {
-		int time = Rnd.get(general().getAutoJumpsDelayMin(), general().getAutoJumpsDelayMax());
+		final int time = Rnd.get((int) general().getAutoJumpsDelayMin(), (int) general().getAutoJumpsDelayMax());
 		if (isBossRoom) {
 			return (long) (time * general().getBossRoomTimeMultiply());
 		}
-		
 		return time;
 	}
 	

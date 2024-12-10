@@ -29,6 +29,7 @@ import org.aeonbits.owner.Config.LoadPolicy;
 import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.Reloadable;
 
+import com.l2jserver.gameserver.config.converter.Hours2MillisecondsConverter;
 import com.l2jserver.gameserver.config.converter.Minutes2MillisecondsConverter;
 
 /**
@@ -47,67 +48,67 @@ public interface GrandBossConfiguration extends Reloadable {
 	
 	@Key("AntharasWaitTime")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getAntharasWaitTime();
+	long getAntharasWaitTime();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfAntharasSpawn")
-	int getIntervalOfAntharasSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getIntervalOfAntharasSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfAntharasSpawn")
-	int getRandomOfAntharasSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getRandomOfAntharasSpawn();
 	
 	@Key("ValakasWaitTime")
 	@ConverterClass(Minutes2MillisecondsConverter.class)
-	int getValakasWaitTime();
+	long getValakasWaitTime();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfValakasSpawn")
-	int getIntervalOfValakasSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getIntervalOfValakasSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfValakasSpawn")
-	int getRandomOfValakasSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getRandomOfValakasSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfBaiumSpawn")
-	int getIntervalOfBaiumSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getIntervalOfBaiumSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfBaiumSpawn")
-	int getRandomOfBaiumSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getRandomOfBaiumSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfCoreSpawn")
-	int getIntervalOfCoreSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getIntervalOfCoreSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfCoreSpawn")
-	int getRandomOfCoreSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getRandomOfCoreSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfOrfenSpawn")
-	int getIntervalOfOrfenSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getIntervalOfOrfenSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfOrfenSpawn")
-	int getRandomOfOrfenSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getRandomOfOrfenSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfQueenAntSpawn")
-	int getIntervalOfQueenAntSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getIntervalOfQueenAntSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfQueenAntSpawn")
-	int getRandomOfQueenAntSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getRandomOfQueenAntSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("IntervalOfBelethSpawn")
-	int getIntervalOfBelethSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getIntervalOfBelethSpawn();
 	
-	// TODO(Zoey76): Convert hours to milliseconds.
 	@Key("RandomOfBelethSpawn")
-	int getRandomOfBelethSpawn();
+	@ConverterClass(Hours2MillisecondsConverter.class)
+	long getRandomOfBelethSpawn();
 	
 	@Key("BelethMinPlayers")
 	int getBelethMinPlayers();

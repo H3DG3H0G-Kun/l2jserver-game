@@ -48,7 +48,7 @@ public interface SevenSignsConfiguration extends Reloadable {
 	// TODO(Zoey76): Implement CastleForDawn configuration.
 	@Key("CastleForDawn")
 	boolean castleForDawn();
-
+	
 	// TODO(Zoey76): Implement CastleForDusk configuration.
 	@Key("CastleForDusk")
 	boolean castleForDusk();

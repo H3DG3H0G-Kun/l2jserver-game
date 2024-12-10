@@ -28,6 +28,8 @@ import org.aeonbits.owner.Config.LoadPolicy;
 import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.Reloadable;
 
+import com.l2jserver.gameserver.config.converter.Minutes2MillisecondsConverter;
+
 /**
  * Fort Siege Configuration.
  * @author Zoey76
@@ -42,8 +44,8 @@ import org.aeonbits.owner.Reloadable;
 @HotReload(value = 20, unit = MINUTES, type = ASYNC)
 public interface FortSiegeConfiguration extends Accessible, Reloadable {
 	
-	// TODO(Zoey76): Convert this to milliseconds.
 	@Key("SiegeLength")
+	@ConverterClass(Minutes2MillisecondsConverter.class)
 	long getSiegeLength();
 	
 	@Key("SuspiciousMerchantRespawnDelay")

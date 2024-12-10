@@ -91,7 +91,7 @@ public interface NPCConfiguration extends Reloadable {
 	List<Double> getSkillChancePenaltyForLvLDifferences();
 	
 	// Monsters
-
+	
 	// TODO(Zoey76): Implement DecayTimeTask configuration.
 	@Key("DecayTimeTask")
 	int getDecayTimeTask();
@@ -111,7 +111,7 @@ public interface NPCConfiguration extends Reloadable {
 	boolean guardAttackAggroMob();
 	
 	// Pets
-
+	
 	// TODO(Zoey76): Implement AllowWyvernUpgrader configuration.
 	@Key("AllowWyvernUpgrader")
 	int allowWyvernUpgrader();

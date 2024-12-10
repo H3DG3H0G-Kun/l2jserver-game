@@ -1362,7 +1362,7 @@ public final class TerritoryWarManager implements Siegable {
 	
 	@Override
 	public int getFameFrequency() {
-		return character().getCastleZoneFameTaskFrequency();
+		return (int) character().getCastleZoneFameTaskFrequency();
 	}
 	
 	@Override

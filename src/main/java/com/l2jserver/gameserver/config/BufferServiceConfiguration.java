@@ -49,7 +49,7 @@ public interface BufferServiceConfiguration extends Reloadable {
 	
 	@Key("HealCooldown")
 	@ConverterClass(Seconds2MillisecondsConverter.class)
-	int getHealCooldown();
+	long getHealCooldown();
 	
 	@Key("MaxUniqueLists")
 	int getMaxUniqueLists();

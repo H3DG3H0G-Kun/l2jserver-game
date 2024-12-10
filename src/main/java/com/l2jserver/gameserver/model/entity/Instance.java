@@ -76,7 +76,7 @@ public final class Instance {
 	
 	private final int _id;
 	private String _name;
-	private int _ejectTime = general().getEjectDeadPlayerTime();
+	private int _ejectTime = (int) general().getEjectDeadPlayerTime();
 	/** Allow random walk for NPCs, global parameter. */
 	private boolean _allowRandomWalk = true;
 	private final List<Integer> _players = new CopyOnWriteArrayList<>();

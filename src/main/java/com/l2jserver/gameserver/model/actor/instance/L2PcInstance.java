@@ -8720,8 +8720,8 @@ public final class L2PcInstance extends L2Playable {
 	// Also worthy of note is the fact the code to find the hook landing position was also striped.
 	// The stripped code was moved into fishing.java.
 	// In my opinion it makes more sense for it to be there since all other skill related checks were also there.
-	// Last but not least, moving the zone check there, fixed a bug where baits would always be consumed no matter if fishing actualy took place.
-	// startFishing() now takes up 3 arguments, wich are acurately described as being the hook landing coordinates.
+	// Last but not least, moving the zone check there, fixed a bug where baits would always be consumed no matter if fishing actually took place.
+	// startFishing() now takes up 3 arguments, which are accurately described as being the hook landing coordinates.
 	public void startFishing(int _x, int _y, int _z) {
 		stopMove(null);
 		setIsImmobilized(true);
@@ -8747,7 +8747,7 @@ public final class L2PcInstance extends L2Playable {
 		if (!GameTimeController.getInstance().isNight() && _lure.isNightLure()) {
 			_fish.setFishGroup(-1);
 		}
-		// sendMessage("Hook x,y: " + _x + "," + _y + " - Water Z, Player Z:" + _z + ", " + getZ()); //debug line, uncoment to show coordinates used in fishing.
+		// sendMessage("Hook x,y: " + _x + "," + _y + " - Water Z, Player Z:" + _z + ", " + getZ()); //debug line, uncomment to show coordinates used in fishing.
 		broadcastPacket(new ExFishingStart(this, _fish.getFishGroup(), _x, _y, _z, _lure.isNightLure()));
 		sendPacket(Music.SF_P_01.getPacket());
 		startLookingForFishTask();
@@ -8866,7 +8866,7 @@ public final class L2PcInstance extends L2Playable {
 							type = 3;
 						}
 						break;
-					case 6522: // all theese lures (purple) are prefered by fat fish (type 0)
+					case 6522: // all these lures (purple) are preferred by fat fish (type 0)
 					case 8508:
 					case 6523:
 					case 6524:
@@ -8881,7 +8881,7 @@ public final class L2PcInstance extends L2Playable {
 							type = 3;
 						}
 						break;
-					case 6525: // all theese lures (yellow) are prefered by ugly fish (type 2)
+					case 6525: // all these lures (yellow) are preferred by ugly fish (type 2)
 					case 8511:
 					case 6526:
 					case 6527:

@@ -176,7 +176,7 @@ public interface RatesConfiguration extends Reloadable {
 	
 	@Key("PetXpRate")
 	double getPetXpRate();
-
+	
 	// TODO(Zoey76): Should PetFoodRate be float?
 	@Key("PetFoodRate")
 	int getPetFoodRate();
