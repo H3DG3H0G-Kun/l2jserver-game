@@ -297,6 +297,9 @@ public interface CustomsConfiguration extends Reloadable {
 	@Key("AllowChangePassword")
 	boolean allowChangePassword();
 	
+	@Key("AllowXpHandler")
+	boolean allowXpHandler();
+	
 	@Key("AllowCastleHandler")
 	boolean allowCastleHandler();
 	
