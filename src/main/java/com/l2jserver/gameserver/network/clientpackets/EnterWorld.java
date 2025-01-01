@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2024 L2J Server
+ * Copyright © 2004-2025 L2J Server
  * 
  * This file is part of L2J Server.
  * 
@@ -398,8 +398,8 @@ public class EnterWorld extends L2GameClientPacket {
 		
 		activeChar.sendMessage(getText("VGhpcyBzZXJ2ZXIgdXNlcyBMMkosIGEgcHJvamVjdCBmb3VuZGVkIGJ5IEwyQ2hlZg=="));
 		activeChar.sendMessage(getText("YW5kIGRldmVsb3BlZCBieSBMMkogVGVhbSBhdCB3d3cubDJqc2VydmVyLmNvbQ=="));
-		activeChar.sendMessage(getText("Q29weXJpZ2h0IDIwMDQtMjAyMg"));
-		activeChar.sendMessage(getText("VGhhbmsgeW91IGZvciAxOCB5ZWFycyE"));
+		activeChar.sendMessage(getText("Q29weXJpZ2h0IDIwMDQtMjAyNQ=="));
+		activeChar.sendMessage(getText("VGhhbmsgeW91IGZvciAyMSB5ZWFycyE="));
 		
 		SevenSigns.getInstance().sendCurrentPeriodMsg(activeChar);
 		AnnouncementsTable.getInstance().showAnnouncements(activeChar);
@@ -565,7 +565,7 @@ public class EnterWorld extends L2GameClientPacket {
 		}
 	}
 	
-	private String getText(String string) {
+	private static String getText(String string) {
 		return new String(Base64.getDecoder().decode(string));
 	}
 	
