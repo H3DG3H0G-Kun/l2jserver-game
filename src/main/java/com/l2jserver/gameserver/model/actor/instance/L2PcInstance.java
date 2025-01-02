@@ -36,6 +36,7 @@ import static com.l2jserver.gameserver.network.SystemMessageId.EQUIPMENT_S1_S2_R
 import static com.l2jserver.gameserver.network.SystemMessageId.S1_DISARMED;
 import static com.l2jserver.gameserver.network.SystemMessageId.S1_EQUIPPED;
 import static com.l2jserver.gameserver.network.SystemMessageId.S1_S2_EQUIPPED;
+import static com.l2jserver.gameserver.network.SystemMessageId.YOU_EARNED_S1_EXP_BONUS_S2_AND_S3_SP_BONUS_S4;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.util.ArrayList;
@@ -4778,14 +4779,17 @@ public final class L2PcInstance extends L2Playable {
 			addToSp = (int) (addToSp * ratioTakenByPlayer);
 		}
 		
-		getSubStat().addExp(addToExp);
+		final var gainedExp = getSubStat().addExp(addToExp);
 		getSubStat().addSp(addToSp);
 		
-		SystemMessage sm = null;
-		
-		sm = SystemMessage.getSystemMessage(SystemMessageId.YOU_EARNED_S1_EXP_BONUS_S2_AND_S3_SP_BONUS_S4);
-		sm.addLong(addToExp);
-		sm.addLong(addToExp - baseExp);
+		final var sm = SystemMessage.getSystemMessage(YOU_EARNED_S1_EXP_BONUS_S2_AND_S3_SP_BONUS_S4);
+		if (gainedExp) {
+			sm.addLong(addToExp);
+			sm.addLong(addToExp - baseExp);
+		} else {
+			sm.addLong(0);
+			sm.addLong(0);
+		}
 		sm.addInt(addToSp);
 		sm.addInt(addToSp - baseSp);
 		

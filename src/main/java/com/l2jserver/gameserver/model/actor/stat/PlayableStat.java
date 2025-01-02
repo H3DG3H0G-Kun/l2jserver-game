@@ -92,7 +92,7 @@ public class PlayableStat extends CharStat {
 	public boolean addExp(long value) {
 		final long currentExp = getExp();
 		final long totalExp = currentExp + value;
-		final TerminateReturn term = EventDispatcher.getInstance().notifyEvent(new PlayableExpChanged(getActiveChar(), currentExp, totalExp), getActiveChar(), TerminateReturn.class);
+		final var term = EventDispatcher.getInstance().notifyEvent(new PlayableExpChanged(getActiveChar(), currentExp, totalExp), getActiveChar(), TerminateReturn.class);
 		if ((term != null) && term.terminate()) {
 			return false;
 		}
