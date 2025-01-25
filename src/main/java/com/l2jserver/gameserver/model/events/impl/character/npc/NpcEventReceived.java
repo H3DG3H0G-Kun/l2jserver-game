@@ -30,7 +30,7 @@ import com.l2jserver.gameserver.model.events.impl.BaseEvent;
  * @author UnAfraid
  * @author Zoey76
  */
-public record NpcEventReceived(String eventName, L2Npc sender, L2Npc receiver, L2Object reference) implements BaseEvent {
+public record NpcEventReceived(String eventName, L2Npc sender, L2Npc receiver, L2Object reference, int arg1, int arg2) implements BaseEvent {
 	@Override
 	public EventType getType() {
 		return NPC_EVENT_RECEIVED;

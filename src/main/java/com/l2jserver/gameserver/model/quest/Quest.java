@@ -63,6 +63,7 @@ import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jserver.gameserver.model.actor.instance.L2TrapInstance;
 import com.l2jserver.gameserver.model.base.ClassId;
 import com.l2jserver.gameserver.model.events.AbstractScript;
+import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLearnSkillRequested;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerMenuSelected;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerOneSkillSelected;
@@ -711,21 +712,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Notify Event Received event.
-	 * @param eventName the name of event
-	 * @param sender the NPC, who sent event
-	 * @param receiver the NPC, who received event
-	 * @param reference the reference object to pass, if needed
-	 */
-	public final void notifyEventReceived(String eventName, L2Npc sender, L2Npc receiver, L2Object reference) {
-		try {
-			onEventReceived(eventName, sender, receiver, reference);
-		} catch (Exception ex) {
-			LOG.warn("Exception on onEventReceived() in notifyEventReceived()", ex);
-		}
-	}
-	
-	/**
 	 * Notify Enter Zone event.
 	 * @param creature the creature
 	 * @param zoneType the zone type
@@ -1139,14 +1125,11 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * @param eventName - name of event
-	 * @param sender - NPC, who sent event
-	 * @param receiver - NPC, who received event
-	 * @param reference - L2Object to pass, if needed
-	 * @return
+	 * On Event Received event.
+	 * @param event the event received
 	 */
-	public String onEventReceived(String eventName, L2Npc sender, L2Npc receiver, L2Object reference) {
-		return null;
+	public void onEventReceived(NpcEventReceived event) {
+		
 	}
 	
 	/**
@@ -1854,7 +1837,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindEventReceived(int... npcIds) {
-		setNpcEventReceivedId(event -> notifyEventReceived(event.eventName(), event.sender(), event.receiver(), event.reference()), npcIds);
+		setNpcEventReceivedId(event -> onEventReceived(event), npcIds);
 	}
 	
 	/**
@@ -1862,7 +1845,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindEventReceived(Collection<Integer> npcIds) {
-		setNpcEventReceivedId(event -> notifyEventReceived(event.eventName(), event.sender(), event.receiver(), event.reference()), npcIds);
+		setNpcEventReceivedId(event -> onEventReceived(event), npcIds);
 	}
 	
 	/**
@@ -2302,16 +2285,49 @@ public class Quest extends AbstractScript implements IIdentifiable {
 		player.sendPacket(new NpcHtmlMessage(npc != null ? npc.getObjectId() : 0, content));
 	}
 	
+	/**
+	 * Displays a quest-specific HTML file to the specified player.<br>
+	 * The method fetches the HTML content, ensures it exists, and sends it as an {@link NpcQuestHtmlMessage} to the player.
+	 * @param player the player to whom the HTML content will be displayed
+	 * @param fileName the name of the HTML file to be shown
+	 * @param questId the ID of the quest associated with the HTML content
+	 */
 	public void showQuestPage(L2PcInstance player, String fileName, int questId) {
-		final var content = getHtm(player.getHtmlPrefix(), fileName);
-		if (content != null) {
-			final var npc = player.getLastFolkNPC();
-			player.sendPacket(new NpcQuestHtmlMessage(npc != null ? npc.getObjectId() : 0, questId, content));
-		}
+		showQuestFHTML(player, fileName, questId, Map.of());
 	}
 	
+	/**
+	 * Displays a quest-specific HTML file to the specified player with dynamic mappings applied.<br>
+	 * This method fetches the HTML content, replaces placeholders with the provided mappings, and sends the processed content as an {@link NpcQuestHtmlMessage} to the player.
+	 * @param player the player to whom the HTML content will be displayed
+	 * @param fileName the name of the HTML file to be shown
+	 * @param questId the ID of the quest associated with the HTML content
+	 * @param mappings a map of placeholders and their corresponding values to replace in the HTML content
+	 */
+	public void showQuestFHTML(L2PcInstance player, String fileName, int questId, Map<String, Object> mappings) {
+		var content = getHtm(player.getHtmlPrefix(), fileName);
+		if (content == null) {
+			LOG.warn("Player {} requested inexistent file {}!", player, fileName);
+			return;
+		}
+		
+		for (var mapping : mappings.entrySet()) {
+			content = content.replace(mapping.getKey(), mapping.getValue().toString());
+		}
+		
+		final var npc = player.getLastFolkNPC();
+		player.sendPacket(new NpcQuestHtmlMessage(npc != null ? npc.getObjectId() : 0, questId, content));
+	}
+	
+	/**
+	 * Displays a tutorial-specific HTML file to the specified player.<br>
+	 * This method retrieves the HTML content based on the provided file name and the player's language preference.<br>
+	 * If the file exists, the content is sent to the player as a {@link TutorialShowHtml} packet.
+	 * @param player the player to whom the tutorial HTML content will be displayed
+	 * @param fileName the name of the tutorial HTML file to be shown
+	 */
 	public void showTutorialHTML(L2PcInstance player, String fileName) {
-		String content = getHtm(player.getHtmlPrefix(), fileName);
+		final var content = getHtm(player.getHtmlPrefix(), fileName);
 		if (content != null) {
 			player.sendPacket(new TutorialShowHtml(content));
 		}

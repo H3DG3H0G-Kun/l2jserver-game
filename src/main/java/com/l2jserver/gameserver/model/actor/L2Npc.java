@@ -25,6 +25,7 @@ import static com.l2jserver.gameserver.config.Configuration.npc;
 import static com.l2jserver.gameserver.config.Configuration.olympiad;
 import static com.l2jserver.gameserver.config.Configuration.rates;
 import static com.l2jserver.gameserver.enums.InstanceType.L2Npc;
+import static com.l2jserver.gameserver.model.events.EventType.NPC_EVENT_RECEIVED;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -1373,27 +1374,61 @@ public class L2Npc extends L2Character {
 	}
 	
 	/**
-	 * Send an "event" to all NPC's within given radius
-	 * @param eventName - name of event
-	 * @param radius - radius to send event
-	 * @param reference - L2Object to pass, if needed
+	 * Broadcasts a script event to all NPCs within a specified radius of the current object.
+	 * @param eventName the name of the event to broadcast
+	 * @param radius the radius within which to search for NPCs
 	 */
-	public void broadcastEvent(String eventName, int radius, L2Object reference) {
-		for (L2Object obj : L2World.getInstance().getVisibleObjects(this, radius)) {
-			if (obj.isNpc() && obj.hasListener(EventType.NPC_EVENT_RECEIVED)) {
-				EventDispatcher.getInstance().notifyEventAsync(new NpcEventReceived(eventName, this, (L2Npc) obj, reference), obj);
+	public void broadcastScriptEvent(String eventName, int radius) {
+		broadcastScriptEvent(eventName, radius, null, 0, 0);
+	}
+	
+	/**
+	 * Broadcasts a script event to all NPCs within a specified radius of the current object.
+	 * @param eventName the name of the event to broadcast
+	 * @param radius the radius within which to search for NPCs
+	 * @param reference an optional reference object to provide additional context for the event
+	 */
+	public void broadcastScriptEvent(String eventName, int radius, L2Object reference) {
+		broadcastScriptEvent(eventName, radius, reference, 0, 0);
+	}
+	
+	/**
+	 * Broadcasts a script event to all NPCs within a specified radius of the current object.
+	 * @param eventName the name of the event to broadcast
+	 * @param radius the radius within which to search for NPCs
+	 * @param arg1 an integer argument associated with the event
+	 */
+	public void broadcastScriptEvent(String eventName, int radius, int arg1) {
+		broadcastScriptEvent(eventName, radius, null, arg1, 0);
+	}
+	
+	/**
+	 * Broadcasts a script event to all NPCs within a specified radius of the current object.<br>
+	 * NPCs that are within the radius and have registered a listener for the {@code NPC_EVENT_RECEIVED} event will receive the event asynchronously.<br>
+	 * This method also supports passing a reference object and additional arguments.
+	 * @param eventName the name of the event to broadcast
+	 * @param radius the radius within which to search for NPCs
+	 * @param reference an optional reference object to provide additional context for the event
+	 * @param arg1 an integer argument associated with the event
+	 * @param arg2 an integer argument associated with the event
+	 */
+	public void broadcastScriptEvent(String eventName, int radius, L2Object reference, int arg1, int arg2) {
+		for (var obj : L2World.getInstance().getVisibleObjects(this, radius)) {
+			if (obj instanceof L2Npc npc && npc.hasListener(NPC_EVENT_RECEIVED)) {
+				EventDispatcher.getInstance().notifyEventAsync(new NpcEventReceived(eventName, this, npc, reference, arg1, arg2), npc);
 			}
 		}
 	}
 	
 	/**
-	 * Sends an event to a given object.
-	 * @param eventName the event name
-	 * @param receiver the receiver
-	 * @param reference the reference
+	 * Sends a script event to a specific receiver asynchronously.<br>
+	 * This method triggers the {@code NPC_EVENT_RECEIVED} event for the specified receiver.
+	 * @param eventName the name of the event to send
+	 * @param receiver the {@link L2Object} that will receive the event
+	 * @param reference an optional reference object to provide additional context for the event
 	 */
 	public void sendScriptEvent(String eventName, L2Object receiver, L2Object reference) {
-		EventDispatcher.getInstance().notifyEventAsync(new NpcEventReceived(eventName, this, (L2Npc) receiver, reference), receiver);
+		EventDispatcher.getInstance().notifyEventAsync(new NpcEventReceived(eventName, this, (L2Npc) receiver, reference, 0, 0), receiver);
 	}
 	
 	/**
