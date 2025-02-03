@@ -21,7 +21,6 @@ package com.l2jserver.gameserver.model.events;
 import static com.l2jserver.gameserver.config.Configuration.character;
 import static com.l2jserver.gameserver.config.Configuration.rates;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_AGGRO_RANGE_ENTER;
-import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_ATTACK;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_KILL;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_FINISH;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_OWNER_CHANGE;
@@ -29,7 +28,6 @@ import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_START
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_KILL;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_EXIT;
-import static com.l2jserver.gameserver.model.events.EventType.FACTION_CALL;
 import static com.l2jserver.gameserver.model.events.EventType.ITEM_BYPASS;
 import static com.l2jserver.gameserver.model.events.EventType.ITEM_TALK;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_CAN_BE_SEEN;
@@ -41,9 +39,6 @@ import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_FINISHED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_NODE_ARRIVED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_ROUTE_FINISHED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_QUEST_START;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_SKILL_FINISHED;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_SKILL_SEE;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_SPAWN;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_TALK;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_TELEPORT;
 import static com.l2jserver.gameserver.model.events.EventType.OLYMPIAD_MATCH_RESULT;
@@ -57,7 +52,6 @@ import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_CLIENT_EVENT;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_CMD;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_QUESTION_MARK;
-import static com.l2jserver.gameserver.model.events.EventType.TRAP_ACTION;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.CASTLE;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.GLOBAL;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.ITEM;
@@ -138,15 +132,10 @@ import com.l2jserver.gameserver.model.events.impl.character.npc.NpcFirstTalk;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveFinished;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveNodeArrived;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveRouteFinished;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillFinished;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillSee;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSpawn;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcTeleport;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAggroRangeEnter;
-import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAttack;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableHate;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableKill;
-import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogin;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogout;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfessionCancel;
@@ -157,7 +146,6 @@ import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutoria
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialClientEvent;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialCmd;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialQuestionMark;
-import com.l2jserver.gameserver.model.events.impl.character.trap.OnTrapAction;
 import com.l2jserver.gameserver.model.events.impl.item.ItemBypass;
 import com.l2jserver.gameserver.model.events.impl.item.ItemTalk;
 import com.l2jserver.gameserver.model.events.impl.olympiad.OlympiadMatchResult;
@@ -503,72 +491,6 @@ public abstract class AbstractScript implements INamable {
 	// ---------------------------------------------------------------------------------------------------------------------------
 	
 	/**
-	 * Provides instant callback operation when L2Npc sees skill from a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcSkillSeeId(Consumer<NpcSkillSee> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_SKILL_SEE, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when L2Npc sees skill from a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcSkillSeeId(Consumer<NpcSkillSee> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_SKILL_SEE, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when L2Npc casts skill on a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcSkillFinishedId(Consumer<NpcSkillFinished> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_SKILL_FINISHED, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when L2Npc casts skill on a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcSkillFinishedId(Consumer<NpcSkillFinished> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_SKILL_FINISHED, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when L2Npc is spawned.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcSpawnId(Consumer<NpcSpawn> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_SPAWN, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when L2Npc is spawned.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcSpawnId(Consumer<NpcSpawn> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_SPAWN, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
 	 * Provides instant callback operation when {@link L2Npc} receives event from another {@link L2Npc}
 	 * @param callback
 	 * @param npcIds
@@ -763,50 +685,6 @@ public abstract class AbstractScript implements INamable {
 	// ---------------------------------------------------------------------------------------------------------------------------
 	
 	/**
-	 * Provides instant callback operation when L2Attackable is under attack to other clan mates.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setFactionCallId(Consumer<FactionCall> callback, int... npcIds) {
-		return registerConsumer(callback, FACTION_CALL, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when L2Attackable is under attack to other clan mates.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setFactionCallId(Consumer<FactionCall> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, FACTION_CALL, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when L2Attackable is attacked from a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setAttackableAttackId(Consumer<AttackableAttack> callback, int... npcIds) {
-		return registerConsumer(callback, ATTACKABLE_ATTACK, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when L2Attackable is attacked from a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setAttackableAttackId(Consumer<AttackableAttack> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, ATTACKABLE_ATTACK, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
 	 * Provides instant callback operation when {@link L2PcInstance} enters in {@link L2Attackable}'s aggressive range.
 	 * @param callback
 	 * @param npcIds
@@ -934,28 +812,6 @@ public abstract class AbstractScript implements INamable {
 	 */
 	protected final List<AbstractEventListener> setCreatureZoneExitId(Consumer<CreatureZoneExit> callback, Collection<Integer> npcIds) {
 		return registerConsumer(callback, CREATURE_ZONE_EXIT, ZONE, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link com.l2jserver.gameserver.model.actor.instance.L2TrapInstance} acts.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setTrapActionId(Consumer<OnTrapAction> callback, int... npcIds) {
-		return registerConsumer(callback, TRAP_ACTION, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link com.l2jserver.gameserver.model.actor.instance.L2TrapInstance} acts.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setTrapActionId(Consumer<OnTrapAction> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, TRAP_ACTION, NPC, npcIds);
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------
