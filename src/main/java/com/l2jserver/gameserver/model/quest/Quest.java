@@ -50,7 +50,6 @@ import com.l2jserver.commons.util.Util;
 import com.l2jserver.gameserver.cache.HtmCache;
 import com.l2jserver.gameserver.enums.CategoryType;
 import com.l2jserver.gameserver.enums.Race;
-import com.l2jserver.gameserver.enums.TrapAction;
 import com.l2jserver.gameserver.enums.audio.IAudio;
 import com.l2jserver.gameserver.instancemanager.QuestManager;
 import com.l2jserver.gameserver.model.L2Object;
@@ -60,7 +59,6 @@ import com.l2jserver.gameserver.model.actor.L2Character;
 import com.l2jserver.gameserver.model.actor.L2Npc;
 import com.l2jserver.gameserver.model.actor.L2Summon;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jserver.gameserver.model.actor.instance.L2TrapInstance;
 import com.l2jserver.gameserver.model.base.ClassId;
 import com.l2jserver.gameserver.model.events.AbstractScript;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived;
@@ -70,6 +68,7 @@ import com.l2jserver.gameserver.model.events.impl.character.player.PlayerMenuSel
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerOneSkillSelected;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerQuestAccepted;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerSkillLearned;
+import com.l2jserver.gameserver.model.events.impl.character.trap.OnTrapAction;
 import com.l2jserver.gameserver.model.events.listeners.AbstractEventListener;
 import com.l2jserver.gameserver.model.events.returns.TerminateReturn;
 import com.l2jserver.gameserver.model.interfaces.IIdentifiable;
@@ -414,26 +413,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 			showResult(player, result);
 		} catch (Exception ex) {
 			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Trap Action event.
-	 * @param trap the trap instance which triggers the notification
-	 * @param trigger the character which makes effect on the trap
-	 * @param action 0: trap casting its skill. 1: trigger detects the trap. 2: trigger removes the trap
-	 */
-	public final void notifyTrapAction(L2TrapInstance trap, L2Character trigger, TrapAction action) {
-		try {
-			final var result = onTrapAction(trap, trigger, action);
-			if (trigger.getActingPlayer() != null) {
-				showResult(trigger.getActingPlayer(), result);
-			}
-		} catch (Exception ex) {
-			if (trigger.getActingPlayer() != null) {
-				showError(trigger.getActingPlayer(), ex);
-			}
-			LOG.warn("Exception on onTrapAction() in notifyTrapAction()", ex);
 		}
 	}
 	
@@ -984,14 +963,11 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever a trap action is performed.
-	 * @param trap this parameter contains a reference to the exact instance of the trap that was activated.
-	 * @param trigger this parameter contains a reference to the exact instance of the character that triggered the action.
-	 * @param action this parameter contains a reference to the action that was triggered.
-	 * @return
+	 * On Trap Action event.
+	 * @param event the event
 	 */
-	public String onTrapAction(L2TrapInstance trap, L2Character trigger, TrapAction action) {
-		return null;
+	public void onTrapAction(OnTrapAction event) {
+		
 	}
 	
 	/**
@@ -1706,7 +1682,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindTrapAction(int... npcIds) {
-		setTrapActionId(event -> notifyTrapAction(event.trap(), event.trigger(), event.action()), npcIds);
+		setTrapActionId(event -> onTrapAction(event), npcIds);
 	}
 	
 	/**
@@ -1714,7 +1690,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindTrapAction(Collection<Integer> npcIds) {
-		setTrapActionId(event -> notifyTrapAction(event.trap(), event.trigger(), event.action()), npcIds);
+		setTrapActionId(event -> onTrapAction(event), npcIds);
 	}
 	
 	/**
