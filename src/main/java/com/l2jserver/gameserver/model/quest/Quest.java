@@ -630,23 +630,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Notify Skill See event.
-	 * @param npc the npc
-	 * @param caster the player
-	 * @param skill the skill
-	 * @param targets the targets
-	 * @param isSummon if the caster is a summoned creature
-	 */
-	public final void notifySkillSee(L2Npc npc, L2PcInstance caster, Skill skill, List<L2Object> targets, boolean isSummon) {
-		try {
-			final var result = onSkillSee(npc, caster, skill, targets, isSummon);
-			showResult(caster, result);
-		} catch (Exception ex) {
-			showError(caster, ex);
-		}
-	}
-	
-	/**
 	 * Notify Faction Call event.
 	 * @param npc the npc
 	 * @param caller the caller npc
@@ -987,10 +970,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param skill the actual skill that was used
 	 * @param targets an array of all objects (can be any type of object, including mobs and players) that were affected by the skill
 	 * @param isSummon if {@code true}, the skill was actually cast by the player's summon, not the player himself
-	 * @return
 	 */
-	public String onSkillSee(L2Npc npc, L2PcInstance caster, Skill skill, List<L2Object> targets, boolean isSummon) {
-		return null;
+	public void onSkillSee(L2Npc npc, L2PcInstance caster, Skill skill, List<L2Object> targets, boolean isSummon) {
+		
 	}
 	
 	/**
@@ -1692,7 +1674,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSkillSee(int... npcIds) {
-		setNpcSkillSeeId(event -> notifySkillSee(event.npc(), event.caster(), event.skill(), event.targets(), event.isSummon()), npcIds);
+		setNpcSkillSeeId(event -> onSkillSee(event.npc(), event.caster(), event.skill(), event.targets(), event.isSummon()), npcIds);
 	}
 	
 	/**
@@ -1700,7 +1682,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSkillSee(Collection<Integer> npcIds) {
-		setNpcSkillSeeId(event -> notifySkillSee(event.npc(), event.caster(), event.skill(), event.targets(), event.isSummon()), npcIds);
+		setNpcSkillSeeId(event -> onSkillSee(event.npc(), event.caster(), event.skill(), event.targets(), event.isSummon()), npcIds);
 	}
 	
 	/**
