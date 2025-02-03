@@ -63,6 +63,7 @@ import com.l2jserver.gameserver.model.base.ClassId;
 import com.l2jserver.gameserver.model.events.AbstractScript;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillFinished;
+import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLearnSkillRequested;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerMenuSelected;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerOneSkillSelected;
@@ -597,22 +598,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Notify Faction Call event.
-	 * @param npc the npc
-	 * @param caller the caller npc
-	 * @param attacker the attacker player
-	 * @param isSummon if the attacker is a summoned creature
-	 */
-	public final void notifyFactionCall(L2Npc npc, L2Npc caller, L2PcInstance attacker, boolean isSummon) {
-		try {
-			final var result = onFactionCall(npc, caller, attacker, isSummon);
-			showResult(attacker, result);
-		} catch (Exception ex) {
-			showError(attacker, ex);
-		}
-	}
-	
-	/**
 	 * Notify Aggro Range Enter event.
 	 * @param npc the npc
 	 * @param player the player
@@ -943,7 +928,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * On Spell Finished event.
+	 * On Spell Finished event triggered when an NPC finishes casting a skill.
 	 * @param event the event
 	 */
 	public void onSpellFinished(NpcSkillFinished event) {
@@ -951,7 +936,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * On Trap Action event.
+	 * On Trap Action event triggered when a trap action is triggered.
 	 * @param event the event
 	 */
 	public void onTrapAction(OnTrapAction event) {
@@ -968,22 +953,19 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever an NPC is teleport.<br>
-	 * @param npc this parameter contains a reference to the exact instance of the NPC who just teleport.
+	 * This function is called whenever an NPC is teleport.
+	 * @param npc the npc
 	 */
 	protected void onTeleport(L2Npc npc) {
+		
 	}
 	
 	/**
-	 * This function is called whenever an NPC is called by another NPC in the same faction.
-	 * @param npc this parameter contains a reference to the exact instance of the NPC who is being asked for help.
-	 * @param caller this parameter contains a reference to the exact instance of the NPC who is asking for help.<br>
-	 * @param attacker this parameter contains a reference to the exact instance of the player who attacked.
-	 * @param isSummon this parameter if it's {@code false} it denotes that the attacker was indeed the player, else it specifies that the attacker was the player's summon.
-	 * @return
+	 * On Faction Call event triggered when an NPC ask for help.
+	 * @param event the event
 	 */
-	public String onFactionCall(L2Npc npc, L2Npc caller, L2PcInstance attacker, boolean isSummon) {
-		return null;
+	public void onFactionCall(FactionCall event) {
+		
 	}
 	
 	/**
@@ -1684,7 +1666,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindFactionCall(int... npcIds) {
-		setAttackableFactionIdId(event -> notifyFactionCall(event.npc(), event.caller(), event.attacker(), event.isSummon()), npcIds);
+		setFactionCallId(event -> onFactionCall(event), npcIds);
 	}
 	
 	/**
@@ -1692,7 +1674,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindFactionCall(Collection<Integer> npcIds) {
-		setAttackableFactionIdId(event -> notifyFactionCall(event.npc(), event.caller(), event.attacker(), event.isSummon()), npcIds);
+		setFactionCallId(event -> onFactionCall(event), npcIds);
 	}
 	
 	/**

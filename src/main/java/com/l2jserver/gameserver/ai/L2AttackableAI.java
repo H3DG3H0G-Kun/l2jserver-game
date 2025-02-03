@@ -59,8 +59,8 @@ import com.l2jserver.gameserver.model.actor.instance.L2RiftInvaderInstance;
 import com.l2jserver.gameserver.model.actor.instance.L2StaticObjectInstance;
 import com.l2jserver.gameserver.model.effects.L2EffectType;
 import com.l2jserver.gameserver.model.events.EventDispatcher;
-import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableFactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableHate;
+import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.returns.TerminateReturn;
 import com.l2jserver.gameserver.model.skills.AbnormalVisualEffect;
 import com.l2jserver.gameserver.model.skills.Skill;
@@ -693,7 +693,7 @@ public class L2AttackableAI extends L2CharacterAI {
 									// By default, when a faction member calls for help, attack the caller's attacker.
 									// Notify the AI with EVT_AGGRESSION
 									called.getAI().notifyEvent(CtrlEvent.EVT_AGGRESSION, originalAttackTarget, 1);
-									EventDispatcher.getInstance().notifyEventAsync(new AttackableFactionCall(called, getActor(), originalAttackTarget.getActingPlayer(), originalAttackTarget.isSummon()), called);
+									EventDispatcher.getInstance().notifyEventAsync(new FactionCall(called, getActor(), originalAttackTarget.getActingPlayer(), originalAttackTarget.isSummon()), called);
 								} else if ((called instanceof L2Attackable attackable) && (getAttackTarget() != null) && (called.getAI()._intention != AI_INTENTION_ATTACK)) {
 									attackable.addDamageHate(getAttackTarget(), 0, actor.getHating(getAttackTarget()));
 									called.getAI().setIntention(AI_INTENTION_ATTACK, getAttackTarget());

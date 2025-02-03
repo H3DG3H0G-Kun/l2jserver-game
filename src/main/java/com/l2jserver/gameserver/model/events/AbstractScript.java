@@ -22,7 +22,6 @@ import static com.l2jserver.gameserver.config.Configuration.character;
 import static com.l2jserver.gameserver.config.Configuration.rates;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_AGGRO_RANGE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_ATTACK;
-import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_FACTION_CALL;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_KILL;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_FINISH;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_OWNER_CHANGE;
@@ -30,6 +29,7 @@ import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_START
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_KILL;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_EXIT;
+import static com.l2jserver.gameserver.model.events.EventType.FACTION_CALL;
 import static com.l2jserver.gameserver.model.events.EventType.ITEM_BYPASS;
 import static com.l2jserver.gameserver.model.events.EventType.ITEM_TALK;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_CAN_BE_SEEN;
@@ -144,9 +144,9 @@ import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSpawn;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcTeleport;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAggroRangeEnter;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAttack;
-import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableFactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableHate;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableKill;
+import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogin;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogout;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfessionCancel;
@@ -768,8 +768,8 @@ public abstract class AbstractScript implements INamable {
 	 * @param npcIds
 	 * @return
 	 */
-	protected final List<AbstractEventListener> setAttackableFactionIdId(Consumer<AttackableFactionCall> callback, int... npcIds) {
-		return registerConsumer(callback, ATTACKABLE_FACTION_CALL, NPC, npcIds);
+	protected final List<AbstractEventListener> setFactionCallId(Consumer<FactionCall> callback, int... npcIds) {
+		return registerConsumer(callback, FACTION_CALL, NPC, npcIds);
 	}
 	
 	/**
@@ -778,8 +778,8 @@ public abstract class AbstractScript implements INamable {
 	 * @param npcIds
 	 * @return
 	 */
-	protected final List<AbstractEventListener> setAttackableFactionIdId(Consumer<AttackableFactionCall> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, ATTACKABLE_FACTION_CALL, NPC, npcIds);
+	protected final List<AbstractEventListener> setFactionCallId(Consumer<FactionCall> callback, Collection<Integer> npcIds) {
+		return registerConsumer(callback, FACTION_CALL, NPC, npcIds);
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------

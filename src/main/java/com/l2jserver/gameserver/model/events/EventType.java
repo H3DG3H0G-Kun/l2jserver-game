@@ -43,9 +43,9 @@ import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSpawn;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcTeleport;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAggroRangeEnter;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAttack;
-import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableFactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableHate;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableKill;
+import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.playable.PlayableExpChanged;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerAugment;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerBypass;
@@ -124,7 +124,7 @@ public enum EventType {
 	// Attackable events
 	ATTACKABLE_AGGRO_RANGE_ENTER(AttackableAggroRangeEnter.class, void.class),
 	ATTACKABLE_ATTACK(AttackableAttack.class, void.class),
-	ATTACKABLE_FACTION_CALL(AttackableFactionCall.class, void.class),
+	FACTION_CALL(FactionCall.class, void.class),
 	ATTACKABLE_KILL(AttackableKill.class, void.class),
 	
 	// Castle events
