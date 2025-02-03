@@ -417,18 +417,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Notify Spawn event.
-	 * @param npc the spawned NPC
-	 */
-	public final void notifySpawn(L2Npc npc) {
-		try {
-			onSpawn(npc);
-		} catch (Exception ex) {
-			LOG.warn("Exception on onSpawn() in notifySpawn()", ex);
-		}
-	}
-	
-	/**
 	 * Notify Teleport event.
 	 * @param npc the teleport NPC
 	 */
@@ -972,13 +960,11 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	
 	/**
 	 * This function is called whenever an NPC spawns or re-spawns and passes a reference to the newly (re)spawned NPC.<br>
-	 * Currently, the only function that has no reference to a player.<br>
 	 * It is useful for initializations, starting quest timers, displaying chat (NpcSay), and more.
-	 * @param npc this parameter contains a reference to the exact instance of the NPC who just (re)spawned.
-	 * @return
+	 * @param npc the npc
 	 */
-	public String onSpawn(L2Npc npc) {
-		return null;
+	public void onSpawn(L2Npc npc) {
+		
 	}
 	
 	/**
@@ -1634,7 +1620,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSpawn(int... npcIds) {
-		setNpcSpawnId(event -> notifySpawn(event.npc()), npcIds);
+		setNpcSpawnId(event -> onSpawn(event.npc()), npcIds);
 	}
 	
 	/**
@@ -1642,7 +1628,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSpawn(Collection<Integer> npcIds) {
-		setNpcSpawnId(event -> notifySpawn(event.npc()), npcIds);
+		setNpcSpawnId(event -> onSpawn(event.npc()), npcIds);
 	}
 	
 	/**
