@@ -20,7 +20,6 @@ package com.l2jserver.gameserver.model.events;
 
 import static com.l2jserver.gameserver.config.Configuration.character;
 import static com.l2jserver.gameserver.config.Configuration.rates;
-import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_AGGRO_RANGE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_KILL;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_FINISH;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_OWNER_CHANGE;
@@ -133,7 +132,6 @@ import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveFinished;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveNodeArrived;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveRouteFinished;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcTeleport;
-import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAggroRangeEnter;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableHate;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableKill;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogin;
@@ -680,28 +678,6 @@ public abstract class AbstractScript implements INamable {
 	 */
 	protected final List<AbstractEventListener> setNpcCreatureSeeId(Consumer<NpcCreatureSee> callback, Collection<Integer> npcIds) {
 		return registerConsumer(callback, NPC_CREATURE_SEE, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link L2PcInstance} enters in {@link L2Attackable}'s aggressive range.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setAttackableAggroRangeEnterId(Consumer<AttackableAggroRangeEnter> callback, int... npcIds) {
-		return registerConsumer(callback, ATTACKABLE_AGGRO_RANGE_ENTER, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link L2PcInstance} enters in {@link L2Attackable}'s aggressive range.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setAttackableAggroRangeEnterId(Consumer<AttackableAggroRangeEnter> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, ATTACKABLE_AGGRO_RANGE_ENTER, NPC, npcIds);
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------

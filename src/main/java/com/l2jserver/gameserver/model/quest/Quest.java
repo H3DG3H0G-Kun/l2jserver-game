@@ -19,6 +19,7 @@
 package com.l2jserver.gameserver.model.quest;
 
 import static com.l2jserver.gameserver.config.Configuration.general;
+import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_AGGRO_RANGE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_ATTACK;
 import static com.l2jserver.gameserver.model.events.EventType.FACTION_CALL;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_SKILL_FINISHED;
@@ -71,6 +72,7 @@ import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillFinished;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillSee;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSpawn;
+import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAggroRangeEnter;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAttack;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLearnSkillRequested;
@@ -590,21 +592,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Notify Aggro Range Enter event.
-	 * @param npc the npc
-	 * @param player the player
-	 * @param isSummon if the aggressor is a summoned creature
-	 */
-	public final void notifyAggroRangeEnter(L2Npc npc, L2PcInstance player, boolean isSummon) {
-		try {
-			final var result = onAggroRangeEnter(npc, player, isSummon);
-			showResult(player, result);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
 	 * Notify See Creature event.
 	 * @param npc the NPC that sees the creature
 	 * @param creature the creature seen by the NPC
@@ -957,14 +944,11 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever a player enters an NPC aggression range.
-	 * @param npc this parameter contains a reference to the exact instance of the NPC whose aggression range is being transgressed.
-	 * @param player this parameter contains a reference to the exact instance of the player who is entering the NPC's aggression range.
-	 * @param isSummon this parameter if it's {@code false} it denotes that the character that entered the aggression range was indeed the player, else it specifies that the character was the player's summon.
-	 * @return
+	 * On Aggro Range Enter event triggered when a player enters an NPC aggression range.
+	 * @param event the event
 	 */
-	public String onAggroRangeEnter(L2Npc npc, L2PcInstance player, boolean isSummon) {
-		return null;
+	public void onAggroRangeEnter(AttackableAggroRangeEnter event) {
+		
 	}
 	
 	/**
@@ -1670,7 +1654,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindAggroRangeEnter(int... npcIds) {
-		setAttackableAggroRangeEnterId(event -> notifyAggroRangeEnter(event.npc(), event.player(), event.isSummon()), npcIds);
+		registerConsumer((AttackableAggroRangeEnter event) -> onAggroRangeEnter(event), ATTACKABLE_AGGRO_RANGE_ENTER, NPC, npcIds);
 	}
 	
 	/**
@@ -1678,7 +1662,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindAggroRangeEnter(Collection<Integer> npcIds) {
-		setAttackableAggroRangeEnterId(event -> notifyAggroRangeEnter(event.npc(), event.player(), event.isSummon()), npcIds);
+		registerConsumer((AttackableAggroRangeEnter event) -> onAggroRangeEnter(event), ATTACKABLE_AGGRO_RANGE_ENTER, NPC, npcIds);
 	}
 	
 	/**
