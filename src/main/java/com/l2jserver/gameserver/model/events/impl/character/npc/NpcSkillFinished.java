@@ -27,11 +27,11 @@ import com.l2jserver.gameserver.model.events.impl.BaseEvent;
 import com.l2jserver.gameserver.model.skills.Skill;
 
 /**
- * Npc Skill Finished event.
+ * NPC Skill Finished event.
  * @author UnAfraid
  * @author Zoey76
  */
-public record NpcSkillFinished(L2Npc caster, L2PcInstance target, Skill skill) implements BaseEvent {
+public record NpcSkillFinished(L2Npc npc, L2PcInstance player, Skill skill) implements BaseEvent {
 	@Override
 	public EventType getType() {
 		return NPC_SKILL_FINISHED;

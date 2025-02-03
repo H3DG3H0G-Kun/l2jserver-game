@@ -64,6 +64,7 @@ import com.l2jserver.gameserver.model.actor.instance.L2TrapInstance;
 import com.l2jserver.gameserver.model.base.ClassId;
 import com.l2jserver.gameserver.model.events.AbstractScript;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived;
+import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillFinished;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLearnSkillRequested;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerMenuSelected;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerOneSkillSelected;
@@ -410,21 +411,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	public final void notifyItemUse(L2Item item, L2PcInstance player) {
 		try {
 			final var result = onItemUse(item, player);
-			showResult(player, result);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Spell Finished event.
-	 * @param npc the npc
-	 * @param player the player
-	 * @param skill the skill
-	 */
-	public final void notifySpellFinished(L2Npc npc, L2PcInstance player, Skill skill) {
-		try {
-			final var result = onSpellFinished(npc, player, skill);
 			showResult(player, result);
 		} catch (Exception ex) {
 			showError(player, ex);
@@ -1008,14 +994,11 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever an NPC finishes casting a skill.
-	 * @param npc the NPC that cast the skill
-	 * @param player the player who is the target of the skill, can be {@code null}
-	 * @param skill the actual skill that was used by the NPC
-	 * @return
+	 * On Spell Finished event.
+	 * @param event the event
 	 */
-	public String onSpellFinished(L2Npc npc, L2PcInstance player, Skill skill) {
-		return null;
+	public void onSpellFinished(NpcSkillFinished event) {
+		
 	}
 	
 	/**
@@ -1725,7 +1708,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSpellFinished(int... npcIds) {
-		setNpcSkillFinishedId(event -> notifySpellFinished(event.caster(), event.target(), event.skill()), npcIds);
+		setNpcSkillFinishedId(event -> onSpellFinished(event), npcIds);
 	}
 	
 	/**
@@ -1733,7 +1716,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSpellFinished(Collection<Integer> npcIds) {
-		setNpcSkillFinishedId(event -> notifySpellFinished(event.caster(), event.target(), event.skill()), npcIds);
+		setNpcSkillFinishedId(event -> onSpellFinished(event), npcIds);
 	}
 	
 	/**
