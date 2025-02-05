@@ -25,38 +25,24 @@ import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_FINIS
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_OWNER_CHANGE;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_START;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_KILL;
-import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_ENTER;
-import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_EXIT;
-import static com.l2jserver.gameserver.model.events.EventType.ITEM_BYPASS;
 import static com.l2jserver.gameserver.model.events.EventType.ITEM_TALK;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_CAN_BE_SEEN;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_CREATURE_SEE;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_EVENT_RECEIVED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_FIRST_TALK;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_HATE;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_FINISHED;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_NODE_ARRIVED;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_ROUTE_FINISHED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_QUEST_START;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_TALK;
-import static com.l2jserver.gameserver.model.events.EventType.NPC_TELEPORT;
 import static com.l2jserver.gameserver.model.events.EventType.OLYMPIAD_MATCH_RESULT;
-import static com.l2jserver.gameserver.model.events.EventType.PLAYER_LOGIN;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_LOGOUT;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_PROFESSION_CANCEL;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_PROFESSION_CHANGE;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_SUMMON_SPAWN;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_SUMMON_TALK;
-import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL;
-import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_CLIENT_EVENT;
-import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_CMD;
-import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_QUESTION_MARK;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.CASTLE;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.GLOBAL;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.ITEM;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.NPC;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.OLYMPIAD;
-import static com.l2jserver.gameserver.model.events.ListenerRegisterType.ZONE;
 import static com.l2jserver.gameserver.model.quest.QuestDroplist.singleDropItem;
 
 import java.lang.annotation.Annotation;
@@ -122,29 +108,16 @@ import com.l2jserver.gameserver.model.events.annotations.RegisterEvent;
 import com.l2jserver.gameserver.model.events.annotations.RegisterType;
 import com.l2jserver.gameserver.model.events.impl.BaseEvent;
 import com.l2jserver.gameserver.model.events.impl.character.CreatureKill;
-import com.l2jserver.gameserver.model.events.impl.character.CreatureZoneEnter;
-import com.l2jserver.gameserver.model.events.impl.character.CreatureZoneExit;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcCanBeSeen;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcCreatureSee;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcFirstTalk;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveFinished;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveNodeArrived;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveRouteFinished;
-import com.l2jserver.gameserver.model.events.impl.character.npc.NpcTeleport;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableHate;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableKill;
-import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogin;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogout;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfessionCancel;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfessionChange;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerSummonSpawn;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerSummonTalk;
-import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorial;
-import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialClientEvent;
-import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialCmd;
-import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialQuestionMark;
-import com.l2jserver.gameserver.model.events.impl.item.ItemBypass;
 import com.l2jserver.gameserver.model.events.impl.item.ItemTalk;
 import com.l2jserver.gameserver.model.events.impl.olympiad.OlympiadMatchResult;
 import com.l2jserver.gameserver.model.events.impl.sieges.castle.CastleSiegeFinish;
@@ -408,24 +381,6 @@ public abstract class AbstractScript implements INamable {
 	
 	// ---------------------------------------------------------------------------------------------------------------------------
 	
-	protected final List<AbstractEventListener> setPlayerTutorialEvent(Consumer<PlayerTutorial> callback) {
-		return registerConsumer(callback, PLAYER_TUTORIAL, GLOBAL);
-	}
-	
-	protected final List<AbstractEventListener> setPlayerTutorialClientEvent(Consumer<PlayerTutorialClientEvent> callback) {
-		return registerConsumer(callback, PLAYER_TUTORIAL_CLIENT_EVENT, GLOBAL);
-	}
-	
-	protected final List<AbstractEventListener> setPlayerTutorialQuestionMark(Consumer<PlayerTutorialQuestionMark> callback) {
-		return registerConsumer(callback, PLAYER_TUTORIAL_QUESTION_MARK, GLOBAL);
-	}
-	
-	protected final List<AbstractEventListener> setPlayerTutorialCmd(Consumer<PlayerTutorialCmd> callback) {
-		return registerConsumer(callback, PLAYER_TUTORIAL_CMD, GLOBAL);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
 	/**
 	 * Provides instant callback operation when {@link L2PcInstance} talk to {@link L2Npc}.
 	 * @param npcIds
@@ -442,28 +397,6 @@ public abstract class AbstractScript implements INamable {
 	 */
 	protected final List<AbstractEventListener> setNpcTalkId(int... npcIds) {
 		return registerDummy(NPC_TALK, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when teleport {@link L2Npc}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcTeleportId(Consumer<NpcTeleport> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_TELEPORT, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when teleport {@link L2Npc}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcTeleportId(Consumer<NpcTeleport> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_TELEPORT, NPC, npcIds);
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------
@@ -506,72 +439,6 @@ public abstract class AbstractScript implements INamable {
 	 */
 	protected final List<AbstractEventListener> setNpcEventReceivedId(Consumer<NpcEventReceived> callback, Collection<Integer> npcIds) {
 		return registerConsumer(callback, NPC_EVENT_RECEIVED, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link L2Npc} finishes to move.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcMoveFinishedId(Consumer<NpcMoveFinished> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_MOVE_FINISHED, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link L2Npc} finishes to move.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcMoveFinishedId(Consumer<NpcMoveFinished> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_MOVE_FINISHED, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link L2Npc} arrive to node of its route
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcMoveNodeArrivedId(Consumer<NpcMoveNodeArrived> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_MOVE_NODE_ARRIVED, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link L2Npc} arrive to node of its route
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcMoveNodeArrivedId(Consumer<NpcMoveNodeArrived> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_MOVE_NODE_ARRIVED, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link L2Npc} finishes to move on its route.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcMoveRouteFinishedId(Consumer<NpcMoveRouteFinished> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_MOVE_ROUTE_FINISHED, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link L2Npc} finishes to move on its route.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcMoveRouteFinishedId(Consumer<NpcMoveRouteFinished> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_MOVE_ROUTE_FINISHED, NPC, npcIds);
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------
@@ -661,28 +528,6 @@ public abstract class AbstractScript implements INamable {
 	// ---------------------------------------------------------------------------------------------------------------------------
 	
 	/**
-	 * Provides instant callback operation when {@link L2Npc} sees another creature.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcCreatureSeeId(Consumer<NpcCreatureSee> callback, int... npcIds) {
-		return registerConsumer(callback, NPC_CREATURE_SEE, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link L2Npc} sees another creature.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setNpcCreatureSeeId(Consumer<NpcCreatureSee> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, NPC_CREATURE_SEE, NPC, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
 	 * Provides instant callback operation when {@link L2PcInstance} summons a servitor or a pet
 	 * @param callback
 	 * @param npcIds
@@ -731,85 +576,8 @@ public abstract class AbstractScript implements INamable {
 	 * @param callback
 	 * @return
 	 */
-	protected final List<AbstractEventListener> setPlayerLoginId(Consumer<PlayerLogin> callback) {
-		return registerConsumer(callback, PLAYER_LOGIN, GLOBAL);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link L2PcInstance} summons a servitor or a pet
-	 * @param callback
-	 * @return
-	 */
 	protected final List<AbstractEventListener> setPlayerLogoutId(Consumer<PlayerLogout> callback) {
 		return registerConsumer(callback, PLAYER_LOGOUT, GLOBAL);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link com.l2jserver.gameserver.model.actor.L2Character} Enters on a {@link L2ZoneType}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setCreatureZoneEnterId(Consumer<CreatureZoneEnter> callback, int... npcIds) {
-		return registerConsumer(callback, CREATURE_ZONE_ENTER, ZONE, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link com.l2jserver.gameserver.model.actor.L2Character} Enters on a {@link L2ZoneType}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setCreatureZoneEnterId(Consumer<CreatureZoneEnter> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, CREATURE_ZONE_ENTER, ZONE, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link com.l2jserver.gameserver.model.actor.L2Character} Exits on a {@link L2ZoneType}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setCreatureZoneExitId(Consumer<CreatureZoneExit> callback, int... npcIds) {
-		return registerConsumer(callback, CREATURE_ZONE_EXIT, ZONE, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link com.l2jserver.gameserver.model.actor.L2Character} Exits on a {@link L2ZoneType}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setCreatureZoneExitId(Consumer<CreatureZoneExit> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, CREATURE_ZONE_EXIT, ZONE, npcIds);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link L2Item} receives an event from {@link L2PcInstance}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setItemBypass(Consumer<ItemBypass> callback, int... npcIds) {
-		return registerConsumer(callback, ITEM_BYPASS, ITEM, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link L2Item} receives an event from {@link L2PcInstance}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setItemBypassEvenId(Consumer<ItemBypass> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, ITEM_BYPASS, ITEM, npcIds);
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------

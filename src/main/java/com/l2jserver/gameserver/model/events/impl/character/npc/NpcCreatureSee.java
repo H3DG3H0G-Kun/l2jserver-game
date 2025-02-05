@@ -26,11 +26,11 @@ import com.l2jserver.gameserver.model.events.EventType;
 import com.l2jserver.gameserver.model.events.impl.BaseEvent;
 
 /**
- * Npc Creature See event.
+ * NPC Creature See event.
  * @author UnAfraid
  * @author Zoey76
  */
-public record NpcCreatureSee(L2Npc npc, L2Character creature, boolean isSummon) implements BaseEvent {
+public record NpcCreatureSee(L2Npc npc, L2Character creature) implements BaseEvent {
 	@Override
 	public EventType getType() {
 		return NPC_CREATURE_SEE;

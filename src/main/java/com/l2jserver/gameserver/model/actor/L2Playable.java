@@ -33,7 +33,6 @@ import com.l2jserver.gameserver.model.entity.Instance;
 import com.l2jserver.gameserver.model.events.EventDispatcher;
 import com.l2jserver.gameserver.model.events.impl.character.CreatureKill;
 import com.l2jserver.gameserver.model.events.returns.TerminateReturn;
-import com.l2jserver.gameserver.model.quest.QuestState;
 import com.l2jserver.gameserver.model.skills.Skill;
 import com.l2jserver.gameserver.model.zone.ZoneId;
 import com.l2jserver.gameserver.network.serverpackets.EtcStatusUpdate;
@@ -149,8 +148,8 @@ public abstract class L2Playable extends L2Character {
 		L2PcInstance actingPlayer = getActingPlayer();
 		
 		if (!actingPlayer.isNotifyQuestOfDeathEmpty()) {
-			for (QuestState qs : actingPlayer.getNotifyQuestOfDeath()) {
-				qs.getQuest().notifyDeath((killer == null ? this : killer), this, qs);
+			for (var qs : actingPlayer.getNotifyQuestOfDeath()) {
+				qs.getQuest().onDeath((killer == null ? this : killer), this, qs);
 			}
 		}
 		// Notify instance

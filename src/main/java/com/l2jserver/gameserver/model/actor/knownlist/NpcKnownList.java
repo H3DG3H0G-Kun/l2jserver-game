@@ -47,8 +47,7 @@ public class NpcKnownList extends CharKnownList {
 		}
 		
 		if (getActiveObject().isNpc() && (object instanceof L2Character)) {
-			// Notify to scripts
-			EventDispatcher.getInstance().notifyEventAsync(new NpcCreatureSee(getActiveChar(), (L2Character) object, object.isSummon()), getActiveChar());
+			EventDispatcher.getInstance().notifyEventAsync(new NpcCreatureSee(getActiveChar(), (L2Character) object), getActiveChar());
 		}
 		return true;
 	}

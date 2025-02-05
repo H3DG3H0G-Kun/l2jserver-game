@@ -21,17 +21,32 @@ package com.l2jserver.gameserver.model.quest;
 import static com.l2jserver.gameserver.config.Configuration.general;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_AGGRO_RANGE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_ATTACK;
+import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_ENTER;
+import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_EXIT;
 import static com.l2jserver.gameserver.model.events.EventType.FACTION_CALL;
+import static com.l2jserver.gameserver.model.events.EventType.ITEM_BYPASS;
+import static com.l2jserver.gameserver.model.events.EventType.NPC_CREATURE_SEE;
+import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_FINISHED;
+import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_NODE_ARRIVED;
+import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_ROUTE_FINISHED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_SKILL_FINISHED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_SKILL_SEE;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_SPAWN;
+import static com.l2jserver.gameserver.model.events.EventType.NPC_TELEPORT;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_LEARN_SKILL_REQUESTED;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_LOGIN;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_MENU_SELECTED;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_QUEST_ACCEPTED;
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_SKILL_LEARNED;
+import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL;
+import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_CLIENT_EVENT;
+import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_CMD;
+import static com.l2jserver.gameserver.model.events.EventType.PLAYER_TUTORIAL_QUESTION_MARK;
 import static com.l2jserver.gameserver.model.events.EventType.TRAP_ACTION;
+import static com.l2jserver.gameserver.model.events.ListenerRegisterType.GLOBAL;
+import static com.l2jserver.gameserver.model.events.ListenerRegisterType.ITEM;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.NPC;
+import static com.l2jserver.gameserver.model.events.ListenerRegisterType.ZONE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,19 +83,32 @@ import com.l2jserver.gameserver.model.actor.L2Summon;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jserver.gameserver.model.base.ClassId;
 import com.l2jserver.gameserver.model.events.AbstractScript;
+import com.l2jserver.gameserver.model.events.impl.character.CreatureZoneEnter;
+import com.l2jserver.gameserver.model.events.impl.character.CreatureZoneExit;
+import com.l2jserver.gameserver.model.events.impl.character.npc.NpcCreatureSee;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived;
+import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveFinished;
+import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveNodeArrived;
+import com.l2jserver.gameserver.model.events.impl.character.npc.NpcMoveRouteFinished;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillFinished;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSkillSee;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSpawn;
+import com.l2jserver.gameserver.model.events.impl.character.npc.NpcTeleport;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAggroRangeEnter;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAttack;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLearnSkillRequested;
+import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogin;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerMenuSelected;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerOneSkillSelected;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerQuestAccepted;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerSkillLearned;
+import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorial;
+import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialClientEvent;
+import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialCmd;
+import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialQuestionMark;
 import com.l2jserver.gameserver.model.events.impl.character.trap.OnTrapAction;
+import com.l2jserver.gameserver.model.events.impl.item.ItemBypass;
 import com.l2jserver.gameserver.model.events.listeners.AbstractEventListener;
 import com.l2jserver.gameserver.model.events.returns.TerminateReturn;
 import com.l2jserver.gameserver.model.interfaces.IIdentifiable;
@@ -383,47 +411,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	// These are methods to call within the core to call the quest events.
 	
 	/**
-	 * Notify Death event.
-	 * @param killer the character that killed the {@code victim}
-	 * @param victim the character that was killed by the {@code killer}
-	 * @param qs the quest state object of the player to be notified of this event
-	 */
-	public final void notifyDeath(L2Character killer, L2Character victim, QuestState qs) {
-		try {
-			final var res = onDeath(killer, victim, qs);
-			showResult(qs.getPlayer(), res);
-		} catch (Exception ex) {
-			showError(qs.getPlayer(), ex);
-		}
-	}
-	
-	/**
-	 * Notify Item Use event.
-	 * @param item the item
-	 * @param player the player
-	 */
-	public final void notifyItemUse(L2Item item, L2PcInstance player) {
-		try {
-			final var result = onItemUse(item, player);
-			showResult(player, result);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Teleport event.
-	 * @param npc the teleport NPC
-	 */
-	public final void notifyTeleport(L2Npc npc) {
-		try {
-			onTeleport(npc);
-		} catch (Exception ex) {
-			LOG.warn("Exception on onTeleport() in notifyTeleport()", ex);
-		}
-	}
-	
-	/**
 	 * Notify Event.
 	 * @param event the event
 	 * @param npc the NPC
@@ -433,73 +420,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 		try {
 			final var result = onEvent(event, npc, player);
 			showResult(player, result, npc);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Enter World event.
-	 * @param player the player entering the world
-	 */
-	public final void notifyEnterWorld(L2PcInstance player) {
-		try {
-			final var result = onEnterWorld(player);
-			showResult(player, result);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Tutorial event.
-	 * @param player the player
-	 * @param command the command
-	 */
-	public final void notifyTutorialEvent(L2PcInstance player, String command) {
-		try {
-			onTutorialEvent(player, command);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Tutorial Client event.
-	 * @param player the player
-	 * @param event the event
-	 */
-	public final void notifyTutorialClientEvent(L2PcInstance player, int event) {
-		try {
-			onTutorialClientEvent(player, event);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Tutorial Question Mark event.
-	 * @param player the player
-	 * @param number the number
-	 */
-	public final void notifyTutorialQuestionMark(L2PcInstance player, int number) {
-		try {
-			final var result = onTutorialQuestionMark(player, number);
-			showResult(player, result);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify Tutorial Command event.
-	 * @param player the player
-	 * @param command the command
-	 */
-	public final void notifyTutorialCmd(L2PcInstance player, String command) {
-		try {
-			final var result = onTutorialCmd(player, command);
-			showResult(player, result);
 		} catch (Exception ex) {
 			showError(player, ex);
 		}
@@ -571,148 +491,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 		}
 	}
 	
-	/**
-	 * Notify Item event.
-	 * @param item the item
-	 * @param player the player
-	 * @param event the event
-	 */
-	public final void notifyItemEvent(L2ItemInstance item, L2PcInstance player, String event) {
-		try {
-			final var result = onItemEvent(item, player, event);
-			if (result != null) {
-				if (result.equalsIgnoreCase("true") || result.equalsIgnoreCase("false")) {
-					return;
-				}
-			}
-			showResult(player, result);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
-	/**
-	 * Notify See Creature event.
-	 * @param npc the NPC that sees the creature
-	 * @param creature the creature seen by the NPC
-	 * @param isSummon if the seen creature is a summoned creature
-	 */
-	public final void notifySeeCreature(L2Npc npc, L2Character creature, boolean isSummon) {
-		final var player = creature.getActingPlayer();
-		try {
-			final var result = onSeeCreature(npc, creature, isSummon);
-			if (player != null) {
-				showResult(player, result);
-			}
-		} catch (Exception ex) {
-			if (player != null) {
-				showError(player, ex);
-			}
-		}
-	}
-	
-	/**
-	 * Notify Enter Zone event.
-	 * @param creature the creature
-	 * @param zoneType the zone type
-	 */
-	public final void notifyEnterZone(L2Character creature, L2ZoneType zoneType) {
-		final var player = creature.getActingPlayer();
-		try {
-			final var result = onEnterZone(creature, zoneType);
-			if (player != null) {
-				showResult(player, result);
-			}
-		} catch (Exception ex) {
-			if (player != null) {
-				showError(player, ex);
-			}
-		}
-	}
-	
-	/**
-	 * Notify Exit Zone event.
-	 * @param creature the creature
-	 * @param zoneType the zone type
-	 */
-	public final void notifyExitZone(L2Character creature, L2ZoneType zoneType) {
-		final var player = creature.getActingPlayer();
-		try {
-			final var result = onExitZone(creature, zoneType);
-			if (player != null) {
-				showResult(player, result);
-			}
-		} catch (Exception ex) {
-			if (player != null) {
-				showError(player, ex);
-			}
-		}
-	}
-	
-	/**
-	 * Notify Olympiad Match event.
-	 * @param winner the winner
-	 * @param loser the loser
-	 */
-	public final void notifyOlympiadMatch(Participant winner, Participant loser, CompetitionType type) {
-		try {
-			onOlympiadMatchFinish(winner, loser, type);
-		} catch (Exception ex) {
-			LOG.warn("Execution on onOlympiadMatchFinish() in notifyOlympiadMatch()", ex);
-		}
-	}
-	
-	/**
-	 * Notify Move Finished event.
-	 * @param npc the npc
-	 */
-	public final void notifyMoveFinished(L2Npc npc) {
-		try {
-			onMoveFinished(npc);
-		} catch (Exception ex) {
-			LOG.warn("Exception on onMoveFinished() in notifyMoveFinished()", ex);
-		}
-	}
-	
-	/**
-	 * Notify Node Arrived event.
-	 * @param npc the npc
-	 */
-	public final void notifyNodeArrived(L2Npc npc) {
-		try {
-			onNodeArrived(npc);
-		} catch (Exception ex) {
-			LOG.warn("Exception on onNodeArrived() in notifyNodeArrived()", ex);
-		}
-	}
-	
-	/**
-	 * Notify Router Finished event.
-	 * @param npc the npc
-	 */
-	public final void notifyRouteFinished(L2Npc npc) {
-		try {
-			onRouteFinished(npc);
-		} catch (Exception ex) {
-			LOG.warn("Exception on onRouteFinished() in notifyRouteFinished()", ex);
-		}
-	}
-	
-	/**
-	 * Notify On Can See Me event.
-	 * @param npc the npc
-	 * @param player the player
-	 * @return {@code true} if player can see this npc, {@code false} otherwise
-	 */
-	public final boolean notifyOnCanSeeMe(L2Npc npc, L2PcInstance player) {
-		try {
-			return onCanSeeMe(npc, player);
-		} catch (Exception ex) {
-			LOG.warn("Exception on onCanSeeMe() in notifyOnCanSeeMe()", ex);
-		}
-		return false;
-	}
-	
 	// These are methods that java calls to invoke scripts.
 	
 	/**
@@ -744,10 +522,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param killer this parameter contains a reference to the exact instance of the NPC that <b>killed</b> the character.
 	 * @param victim this parameter contains a reference to the exact instance of the character that got killed.
 	 * @param qs this parameter contains a reference to the QuestState of whomever was interested (waiting) for this kill.
-	 * @return
 	 */
-	public String onDeath(L2Character killer, L2Character victim, QuestState qs) {
-		return onEvent("", ((killer instanceof L2Npc) ? ((L2Npc) killer) : null), qs.getPlayer());
+	public void onDeath(L2Character killer, L2Character victim, QuestState qs) {
+		onEvent("", ((killer instanceof L2Npc) ? ((L2Npc) killer) : null), qs.getPlayer());
 	}
 	
 	/**
@@ -826,12 +603,10 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	
 	/**
 	 * On Item event.
-	 * @param item the item
-	 * @param player the player
 	 * @param event the event
 	 */
-	public String onItemEvent(L2ItemInstance item, L2PcInstance player, String event) {
-		return null;
+	public void onItemEvent(ItemBypass event) {
+		
 	}
 	
 	/**
@@ -879,10 +654,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * TODO: complete this documentation and unhardcode it to work with all item uses not with those listed.
 	 * @param item the quest item that the player used
 	 * @param player the player who used the item
-	 * @return
 	 */
-	public String onItemUse(L2Item item, L2PcInstance player) {
-		return null;
+	public void onItemUse(L2Item item, L2PcInstance player) {
+		
 	}
 	
 	/**
@@ -952,57 +726,54 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever a NPC "sees" a creature.
+	 * On See Creature event triggered when an NPC sees a creature.
 	 * @param npc the NPC who sees the creature
 	 * @param creature the creature seen by the NPC
-	 * @param isSummon this parameter if it's {@code false} it denotes that the character seen by the NPC was indeed the player, else it specifies that the character was the player's summon
-	 * @return
 	 */
-	public String onSeeCreature(L2Npc npc, L2Character creature, boolean isSummon) {
-		return null;
+	public void onSeeCreature(L2Npc npc, L2Character creature) {
+		
 	}
 	
 	/**
 	 * This function is called whenever a player enters the game.
 	 * @param player this parameter contains a reference to the exact instance of the player who is entering to the world.
-	 * @return
 	 */
-	public String onEnterWorld(L2PcInstance player) {
-		return null;
+	public void onEnterWorld(L2PcInstance player) {
+		
 	}
 	
 	public void onTutorialEvent(L2PcInstance player, String command) {
+		
 	}
 	
 	public void onTutorialClientEvent(L2PcInstance player, int event) {
+		
 	}
 	
-	public String onTutorialQuestionMark(L2PcInstance player, int number) {
-		return null;
+	public void onTutorialQuestionMark(L2PcInstance player, int number) {
+		
 	}
 	
-	public String onTutorialCmd(L2PcInstance player, String command) {
-		return null;
+	public void onTutorialCmd(L2PcInstance player, String command) {
+		
 	}
 	
 	/**
 	 * This function is called whenever a character enters a registered zone.
 	 * @param creature the creature who is entering the zone.
 	 * @param zoneType this parameter contains a reference to the zone.
-	 * @return
 	 */
-	public String onEnterZone(L2Character creature, L2ZoneType zoneType) {
-		return null;
+	public void onEnterZone(L2Character creature, L2ZoneType zoneType) {
+		
 	}
 	
 	/**
 	 * This function is called whenever a character exits a registered zone.
 	 * @param creature the character who is exiting the zone
 	 * @param zoneType the zone.
-	 * @return
 	 */
-	public String onExitZone(L2Character creature, L2ZoneType zoneType) {
-		return null;
+	public void onExitZone(L2Character creature, L2ZoneType zoneType) {
+		
 	}
 	
 	/**
@@ -1081,9 +852,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * @param npc
-	 * @param player
-	 * @return {@code true} if player can see this npc, {@code false} otherwise.
+	 * On Can See Me event.
+	 * @param npc the NPC
+	 * @param player the player
 	 */
 	public boolean onCanSeeMe(L2Npc npc, L2PcInstance player) {
 		return false;
@@ -1478,7 +1249,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param itemIds the IDs of the Item
 	 */
 	public void bindItemBypass(int... itemIds) {
-		setItemBypass(event -> notifyItemEvent(event.item(), event.player(), event.event()), itemIds);
+		registerConsumer((ItemBypass event) -> onItemEvent(event), ITEM_BYPASS, ITEM, itemIds);
 	}
 	
 	/**
@@ -1486,7 +1257,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param itemIds the IDs of the Item
 	 */
 	public void bindItemBypass(Collection<Integer> itemIds) {
-		setItemBypassEvenId(event -> notifyItemEvent(event.item(), event.player(), event.event()), itemIds);
+		registerConsumer((ItemBypass event) -> onItemEvent(event), ITEM_BYPASS, ITEM, itemIds);
 	}
 	
 	/**
@@ -1558,7 +1329,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindTeleport(int... npcIds) {
-		setNpcTeleportId(event -> notifyTeleport(event.npc()), npcIds);
+		registerConsumer((NpcTeleport event) -> onTeleport(event.npc()), NPC_TELEPORT, NPC, npcIds);
 	}
 	
 	/**
@@ -1566,7 +1337,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindTeleport(Collection<Integer> npcIds) {
-		setNpcTeleportId(event -> notifyTeleport(event.npc()), npcIds);
+		registerConsumer((NpcTeleport event) -> onTeleport(event.npc()), NPC_TELEPORT, NPC, npcIds);
 	}
 	
 	/**
@@ -1670,7 +1441,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSeeCreature(int... npcIds) {
-		setNpcCreatureSeeId(event -> notifySeeCreature(event.npc(), event.creature(), event.isSummon()), npcIds);
+		registerConsumer((NpcCreatureSee event) -> onSeeCreature(event.npc(), event.creature()), NPC_CREATURE_SEE, NPC, npcIds);
 	}
 	
 	/**
@@ -1678,7 +1449,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindSeeCreature(Collection<Integer> npcIds) {
-		setNpcCreatureSeeId(event -> notifySeeCreature(event.npc(), event.creature(), event.isSummon()), npcIds);
+		registerConsumer((NpcCreatureSee event) -> onSeeCreature(event.npc(), event.creature()), NPC_CREATURE_SEE, NPC, npcIds);
 	}
 	
 	/**
@@ -1686,7 +1457,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param zoneIds the IDs of the zones
 	 */
 	public void bindEnterZone(int... zoneIds) {
-		setCreatureZoneEnterId(event -> notifyEnterZone(event.creature(), event.zone()), zoneIds);
+		registerConsumer((CreatureZoneEnter event) -> onEnterZone(event.creature(), event.zone()), CREATURE_ZONE_ENTER, ZONE, zoneIds);
 	}
 	
 	/**
@@ -1694,7 +1465,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param zoneIds the IDs of the zones
 	 */
 	public void bindEnterZone(Collection<Integer> zoneIds) {
-		setCreatureZoneEnterId(event -> notifyEnterZone(event.creature(), event.zone()), zoneIds);
+		registerConsumer((CreatureZoneEnter event) -> onEnterZone(event.creature(), event.zone()), CREATURE_ZONE_ENTER, ZONE, zoneIds);
 	}
 	
 	/**
@@ -1702,7 +1473,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param zoneIds the IDs of the zones
 	 */
 	public void bindExitZone(int... zoneIds) {
-		setCreatureZoneExitId(event -> notifyExitZone(event.creature(), event.zone()), zoneIds);
+		registerConsumer((CreatureZoneExit event) -> onExitZone(event.creature(), event.zone()), CREATURE_ZONE_EXIT, ZONE, zoneIds);
 	}
 	
 	/**
@@ -1710,7 +1481,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param zoneIds the IDs of the zones
 	 */
 	public void bindExitZone(Collection<Integer> zoneIds) {
-		setCreatureZoneExitId(event -> notifyExitZone(event.creature(), event.zone()), zoneIds);
+		registerConsumer((CreatureZoneExit event) -> onExitZone(event.creature(), event.zone()), CREATURE_ZONE_EXIT, ZONE, zoneIds);
 	}
 	
 	/**
@@ -1734,7 +1505,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindMoveFinished(int... npcIds) {
-		setNpcMoveFinishedId(event -> notifyMoveFinished(event.npc()), npcIds);
+		registerConsumer((NpcMoveFinished event) -> onMoveFinished(event.npc()), NPC_MOVE_FINISHED, NPC, npcIds);
 	}
 	
 	/**
@@ -1742,7 +1513,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindMoveFinished(Collection<Integer> npcIds) {
-		setNpcMoveFinishedId(event -> notifyMoveFinished(event.npc()), npcIds);
+		registerConsumer((NpcMoveFinished event) -> onMoveFinished(event.npc()), NPC_MOVE_FINISHED, NPC, npcIds);
 	}
 	
 	/**
@@ -1750,7 +1521,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindNodeArrived(int... npcIds) {
-		setNpcMoveNodeArrivedId(event -> notifyNodeArrived(event.npc()), npcIds);
+		registerConsumer((NpcMoveNodeArrived event) -> onNodeArrived(event.npc()), NPC_MOVE_NODE_ARRIVED, NPC, npcIds);
 	}
 	
 	/**
@@ -1758,7 +1529,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindNodeArrived(Collection<Integer> npcIds) {
-		setNpcMoveNodeArrivedId(event -> notifyNodeArrived(event.npc()), npcIds);
+		registerConsumer((NpcMoveNodeArrived event) -> onNodeArrived(event.npc()), NPC_MOVE_NODE_ARRIVED, NPC, npcIds);
 	}
 	
 	/**
@@ -1766,7 +1537,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindRouteFinished(int... npcIds) {
-		setNpcMoveRouteFinishedId(event -> notifyRouteFinished(event.npc()), npcIds);
+		registerConsumer((NpcMoveRouteFinished event) -> onRouteFinished(event.npc()), NPC_MOVE_ROUTE_FINISHED, NPC, npcIds);
 	}
 	
 	/**
@@ -1774,7 +1545,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindRouteFinished(Collection<Integer> npcIds) {
-		setNpcMoveRouteFinishedId(event -> notifyRouteFinished(event.npc()), npcIds);
+		registerConsumer((NpcMoveRouteFinished event) -> onRouteFinished(event.npc()), NPC_MOVE_ROUTE_FINISHED, NPC, npcIds);
 	}
 	
 	/**
@@ -1830,7 +1601,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindCanSeeMe(int... npcIds) {
-		addNpcHateId(event -> new TerminateReturn(!notifyOnCanSeeMe(event.npc(), event.player()), false, false), npcIds);
+		addNpcHateId(event -> new TerminateReturn(!onCanSeeMe(event.npc(), event.player()), false, false), npcIds);
 	}
 	
 	/**
@@ -1838,19 +1609,19 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindCanSeeMe(Collection<Integer> npcIds) {
-		addNpcHateId(event -> new TerminateReturn(!notifyOnCanSeeMe(event.npc(), event.player()), false, false), npcIds);
+		addNpcHateId(event -> new TerminateReturn(!onCanSeeMe(event.npc(), event.player()), false, false), npcIds);
 	}
 	
 	/**
 	 * Binds the Quest to the Olympiad Match Finish event.
 	 */
 	public void bindOlympiadMatchFinish() {
-		setOlympiadMatchResult(event -> notifyOlympiadMatch(event.winner(), event.loser(), event.competitionType()));
+		setOlympiadMatchResult(event -> onOlympiadMatchFinish(event.winner(), event.loser(), event.competitionType()));
 	}
 	
 	public void setOnEnterWorld(boolean state) {
 		if (state) {
-			setPlayerLoginId(event -> notifyEnterWorld(event.player()));
+			registerConsumer((PlayerLogin event) -> onEnterWorld(event.player()), PLAYER_LOGIN, GLOBAL);
 		} else {
 			getListeners().stream().filter(listener -> listener.getType() == PLAYER_LOGIN).forEach(AbstractEventListener::unregisterMe);
 		}
@@ -1860,28 +1631,28 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * Binds the Quest to the Tutorial event.
 	 */
 	public void bindTutorial() {
-		setPlayerTutorialEvent(event -> notifyTutorialEvent(event.player(), event.command()));
+		registerConsumer((PlayerTutorial event) -> onTutorialEvent(event.player(), event.command()), PLAYER_TUTORIAL, GLOBAL);
 	}
 	
 	/**
 	 * Binds the Quest to the Tutorial Client event.
 	 */
 	public void bindTutorialClient() {
-		setPlayerTutorialClientEvent(event -> notifyTutorialClientEvent(event.player(), event.event()));
+		registerConsumer((PlayerTutorialClientEvent event) -> onTutorialClientEvent(event.player(), event.event()), PLAYER_TUTORIAL_CLIENT_EVENT, GLOBAL);
 	}
 	
 	/**
 	 * Binds the Quest to the Tutorial Question Mark event.
 	 */
 	public void bindTutorialQuestionMark() {
-		setPlayerTutorialQuestionMark(event -> notifyTutorialQuestionMark(event.player(), event.number()));
+		registerConsumer((PlayerTutorialQuestionMark event) -> onTutorialQuestionMark(event.player(), event.number()), PLAYER_TUTORIAL_QUESTION_MARK, GLOBAL);
 	}
 	
 	/**
 	 * Binds the Quest to the Tutorial Cmd event.
 	 */
 	public void bindTutorialCmd() {
-		setPlayerTutorialCmd(event -> notifyTutorialCmd(event.player(), event.command()));
+		registerConsumer((PlayerTutorialCmd event) -> onTutorialCmd(event.player(), event.command()), PLAYER_TUTORIAL_CMD, GLOBAL);
 	}
 	
 	/**
