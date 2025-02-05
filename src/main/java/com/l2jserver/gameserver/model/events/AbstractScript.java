@@ -20,7 +20,6 @@ package com.l2jserver.gameserver.model.events;
 
 import static com.l2jserver.gameserver.config.Configuration.character;
 import static com.l2jserver.gameserver.config.Configuration.rates;
-import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_KILL;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_FINISH;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_OWNER_CHANGE;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_START;
@@ -112,7 +111,6 @@ import com.l2jserver.gameserver.model.events.impl.character.npc.NpcCanBeSeen;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcEventReceived;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcFirstTalk;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableHate;
-import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableKill;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogout;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfessionCancel;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfessionChange;
@@ -302,28 +300,6 @@ public abstract class AbstractScript implements INamable {
 	}
 	
 	public abstract ScriptManager<?> getManager();
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides delayed (Depending on {@link com.l2jserver.gameserver.model.actor.L2Attackable#getOnKillDelay()}) callback operation when L2Attackable dies from a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setAttackableKillId(Consumer<AttackableKill> callback, int... npcIds) {
-		return registerConsumer(callback, ATTACKABLE_KILL, NPC, npcIds);
-	}
-	
-	/**
-	 * Provides delayed (Depending on {@link com.l2jserver.gameserver.model.actor.L2Attackable#getOnKillDelay()}) callback operation when L2Attackable dies from a player.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setAttackableKillId(Consumer<AttackableKill> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, ATTACKABLE_KILL, NPC, npcIds);
-	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------
 	

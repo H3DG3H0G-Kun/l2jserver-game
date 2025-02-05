@@ -41,7 +41,7 @@ public final class OnKillNotifyTask implements Runnable {
 	@Override
 	public void run() {
 		if ((_quest != null) && (_attackable != null) && (_killer != null)) {
-			_quest.notifyKill(_attackable, _killer, _isSummon);
+			_quest.onKill(_attackable, _killer, _isSummon);
 		}
 	}
 }

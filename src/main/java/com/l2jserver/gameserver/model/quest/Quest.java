@@ -21,6 +21,7 @@ package com.l2jserver.gameserver.model.quest;
 import static com.l2jserver.gameserver.config.Configuration.general;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_AGGRO_RANGE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_ATTACK;
+import static com.l2jserver.gameserver.model.events.EventType.ATTACKABLE_KILL;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_ENTER;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_EXIT;
 import static com.l2jserver.gameserver.model.events.EventType.FACTION_CALL;
@@ -96,6 +97,7 @@ import com.l2jserver.gameserver.model.events.impl.character.npc.NpcSpawn;
 import com.l2jserver.gameserver.model.events.impl.character.npc.NpcTeleport;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAggroRangeEnter;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableAttack;
+import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.AttackableKill;
 import com.l2jserver.gameserver.model.events.impl.character.npc.attackable.FactionCall;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLearnSkillRequested;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerLogin;
@@ -127,6 +129,7 @@ import com.l2jserver.gameserver.scripting.ScriptManager;
 /**
  * Quest main class.
  * @author Luis Arias
+ * @author Zoey76
  */
 public class Quest extends AbstractScript implements IIdentifiable {
 	
@@ -426,21 +429,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Notify Kill event.
-	 * @param npc the npc
-	 * @param killer the player
-	 * @param isSummon if the killer is a summoned creature
-	 */
-	public final void notifyKill(L2Npc npc, L2PcInstance killer, boolean isSummon) {
-		try {
-			final var result = onKill(npc, killer, isSummon);
-			showResult(killer, result);
-		} catch (Exception ex) {
-			showError(killer, ex);
-		}
-	}
-	
-	/**
 	 * Notify Talk event.
 	 * @param npc the npc
 	 * @param player the player
@@ -551,14 +539,13 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever a player kills a NPC that is registered for the quest.
-	 * @param npc this parameter contains a reference to the exact instance of the NPC that got killed.
-	 * @param killer this parameter contains a reference to the exact instance of the player who killed the NPC.
-	 * @param isSummon this parameter if it's {@code false} it denotes that the attacker was indeed the player, else it specifies that the killer was the player's pet.
-	 * @return the text returned by the event (maybe {@code null}, a filename or just text)
+	 * On Kill event triggered when a player kills a NPC.
+	 * @param npc the NPC
+	 * @param player the player
+	 * @param isSummon if {@code true} the killer is the summon
 	 */
-	public String onKill(L2Npc npc, L2PcInstance killer, boolean isSummon) {
-		return null;
+	public void onKill(L2Npc npc, L2PcInstance player, boolean isSummon) {
+		
 	}
 	
 	/**
@@ -1297,7 +1284,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindKill(int... npcIds) {
-		setAttackableKillId(kill -> notifyKill(kill.target(), kill.attacker(), kill.isSummon()), npcIds);
+		registerConsumer((AttackableKill event) -> onKill(event.target(), event.attacker(), event.isSummon()), ATTACKABLE_KILL, NPC, npcIds);
 	}
 	
 	/**
@@ -1305,7 +1292,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npcIds the IDs of the NPCs
 	 */
 	public void bindKill(Collection<Integer> npcIds) {
-		setAttackableKillId(kill -> notifyKill(kill.target(), kill.attacker(), kill.isSummon()), npcIds);
+		registerConsumer((AttackableKill event) -> onKill(event.target(), event.attacker(), event.isSummon()), ATTACKABLE_KILL, NPC, npcIds);
 	}
 	
 	/**
