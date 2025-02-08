@@ -905,30 +905,6 @@ public final class QuestState {
 	}
 	
 	/**
-	 * Send an HTML file to the specified player.
-	 * @param filename the name of the HTML file to show
-	 * @return the contents of the HTML file that was sent to the player
-	 * @see #showHtmlFile(String, L2Npc)
-	 * @see Quest#showHtmlFile(L2PcInstance, String)
-	 * @see Quest#showHtmlFile(L2PcInstance, String, L2Npc)
-	 */
-	public String showHtmlFile(String filename) {
-		return showHtmlFile(filename, null);
-	}
-	
-	/**
-	 * Send an HTML file to the specified player.
-	 * @param filename the name of the HTML file to show
-	 * @param npc the NPC that is showing the HTML file
-	 * @return the contents of the HTML file that was sent to the player
-	 * @see Quest#showHtmlFile(L2PcInstance, String)
-	 * @see Quest#showHtmlFile(L2PcInstance, String, L2Npc)
-	 */
-	public String showHtmlFile(String filename, L2Npc npc) {
-		return getQuest().showHtmlFile(_player, filename, npc);
-	}
-	
-	/**
 	 * Set condition to 1, state to STARTED and play the "ItemSound.quest_accept".<br>
 	 * Works only if state is CREATED and the quest is not a custom quest.
 	 * @return the newly created {@code QuestState} object

@@ -473,7 +473,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	public final void notifyItemTalk(L2ItemInstance item, L2PcInstance player) {
 		try {
 			final var result = onItemTalk(item, player);
-			showResult(player, result);
+			showResult(player, result, null);
 		} catch (Exception ex) {
 			showError(player, ex);
 		}
@@ -860,19 +860,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 		}
 		if ((player != null) && player.getAccessLevel().isGm()) {
 			final var result = "<html><body><title>Script error</title>" + Util.getStackTrace(t) + "</body></html>";
-			return showResult(player, result);
+			return showResult(player, result, null);
 		}
 		return false;
-	}
-	
-	/**
-	 * @param player the player to whom to show the result
-	 * @param res the message to show to the player
-	 * @return {@code false} if the message was sent, {@code true} otherwise
-	 * @see #showResult(L2PcInstance, String, L2Npc)
-	 */
-	public boolean showResult(L2PcInstance player, String res) {
-		return showResult(player, res, null);
 	}
 	
 	/**
@@ -889,7 +879,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param res the message to show to the player
 	 * @return {@code false} if the message was sent, {@code true} otherwise
 	 */
-	public boolean showResult(L2PcInstance player, String res, L2Npc npc) {
+	protected boolean showResult(L2PcInstance player, String res, L2Npc npc) {
 		if ((res == null) || res.isEmpty() || (player == null)) {
 			return true;
 		}
@@ -1914,27 +1904,11 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param fileName the name of the HTML file to be shown
 	 */
 	public void showPage(L2PcInstance player, String fileName) {
-		showPage(player, fileName, false);
-	}
-	
-	/**
-	 * Displays an HTML page to the specified player, optionally including quest-related information.<br>
-	 * If a quest is involved and the player has an associated NPC, the NPC's object ID is inserted into the content.
-	 * @param player the player to whom the HTML content will be displayed
-	 * @param fileName the name of the HTML file to be shown
-	 * @param haveQuest whether the page should include quest-related placeholders
-	 */
-	public void showPage(L2PcInstance player, String fileName, boolean haveQuest) {
-		var content = getHtm(player.getHtmlPrefix(), fileName);
+		final var content = getHtm(player.getHtmlPrefix(), fileName);
 		if (content == null) {
 			return;
 		}
-		
-		final var npc = player.getLastFolkNPC();
-		if (haveQuest && (npc != null)) {
-			content = content.replace("%objectId%", npc.getObjectId() + "");
-		}
-		player.sendPacket(new NpcHtmlMessage(npc != null ? npc.getObjectId() : 0, content));
+		player.sendPacket(new NpcHtmlMessage(content));
 	}
 	
 	/**
@@ -1986,18 +1960,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Sends an HTML file to the specified player.<br>
-	 * This method retrieves the HTML content associated with the given file name and sends it to the player.
-	 * @param player the player to send the HTML content to
-	 * @param filename the name of the HTML file to show
-	 * @return the contents of the HTML file that was sent to the player
-	 * @see #showHtmlFile(L2PcInstance, String, L2Npc)
-	 */
-	public String showHtmlFile(L2PcInstance player, String filename) {
-		return showHtmlFile(player, filename, null);
-	}
-	
-	/**
 	 * Sends an HTML file to the specified player, optionally associating it with an NPC.<br>
 	 * If an NPC is provided, its object ID is included in the content.<br>
 	 * If the file is related to a quest, it will be displayed as a quest window.
@@ -2006,7 +1968,8 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param npc the NPC that is showing the HTML file, or {@code null} if none
 	 * @return the contents of the HTML file that was sent to the player
 	 */
-	public String showHtmlFile(L2PcInstance player, String filename, L2Npc npc) {
+	@Deprecated
+	private String showHtmlFile(L2PcInstance player, String filename, L2Npc npc) {
 		boolean questWindow = !filename.endsWith(".html");
 		int questId = getId();
 		
