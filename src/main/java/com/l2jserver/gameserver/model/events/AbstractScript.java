@@ -2533,29 +2533,36 @@ public abstract class AbstractScript implements INamable {
 	}
 	
 	/**
-	 * @param player
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Displays a radar marker for the specified player at the given coordinates.
+	 * @param player the player
+	 * @param x the X coordinate of the radar marker
+	 * @param y the Y coordinate of the radar marker
+	 * @param z the Z coordinate of the radar marker
+	 * @param type the type of the radar marker
 	 */
-	public static void addRadar(L2PcInstance player, int x, int y, int z) {
-		player.getRadar().addMarker(x, y, z);
+	public void showRadar(L2PcInstance player, int x, int y, int z, int type) {
+		player.getRadar().showRadar(x, y, z, type);
 	}
 	
 	/**
-	 * @param player
-	 * @param x
-	 * @param y
-	 * @param z
+	 * Deletes a specific radar marker for the specified player at the given coordinates.
+	 * @param player the player
+	 * @param x the X coordinate of the radar marker
+	 * @param y the Y coordinate of the radar marker
+	 * @param z the Z coordinate of the radar marker
+	 * @param type the type of the radar marker
 	 */
-	public void removeRadar(L2PcInstance player, int x, int y, int z) {
-		player.getRadar().removeMarker(x, y, z);
+	public void deleteRadar(L2PcInstance player, int x, int y, int z, int type) {
+		player.getRadar().deleteRadar(x, y, z, type);
 	}
 	
 	/**
-	 * @param player
+	 * Deletes all radar markers of a specific type for the specified player.
+	 * @param player the player
+	 * @param type the type of radar markers to delete
 	 */
-	public void clearRadar(L2PcInstance player) {
-		player.getRadar().removeAllMarkers();
+	public void deleteAllRadar(L2PcInstance player, int type) {
+		player.getRadar().deleteAllRadar(type);
 	}
+	
 }

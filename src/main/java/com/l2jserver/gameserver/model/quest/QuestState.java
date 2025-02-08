@@ -673,22 +673,6 @@ public final class QuestState {
 		return AbstractScript.giveItemRandomly(_player, npc, itemId, minAmount, maxAmount, limit, dropChance, playSound);
 	}
 	
-	// TODO: More radar functions need to be added when the radar class is complete.
-	// BEGIN STUFF THAT WILL PROBABLY BE CHANGED
-	public void addRadar(int x, int y, int z) {
-		_player.getRadar().addMarker(x, y, z);
-	}
-	
-	public void removeRadar(int x, int y, int z) {
-		_player.getRadar().removeMarker(x, y, z);
-	}
-	
-	public void clearRadar() {
-		_player.getRadar().removeAllMarkers();
-	}
-	
-	// END STUFF THAT WILL PROBABLY BE CHANGED
-	
 	/**
 	 * Remove items from player's inventory when talking to NPC in order to have rewards.<br>
 	 * Actions:<br>

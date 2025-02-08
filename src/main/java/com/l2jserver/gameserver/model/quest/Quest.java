@@ -1907,10 +1907,23 @@ public class Quest extends AbstractScript implements IIdentifiable {
 		return true;
 	}
 	
+	/**
+	 * Displays an HTML page to the specified player.<br>
+	 * This method fetches the HTML content associated with the given file name and sends it as an {@link NpcHtmlMessage} to the player.
+	 * @param player the player to whom the HTML content will be displayed
+	 * @param fileName the name of the HTML file to be shown
+	 */
 	public void showPage(L2PcInstance player, String fileName) {
 		showPage(player, fileName, false);
 	}
 	
+	/**
+	 * Displays an HTML page to the specified player, optionally including quest-related information.<br>
+	 * If a quest is involved and the player has an associated NPC, the NPC's object ID is inserted into the content.
+	 * @param player the player to whom the HTML content will be displayed
+	 * @param fileName the name of the HTML file to be shown
+	 * @param haveQuest whether the page should include quest-related placeholders
+	 */
 	public void showPage(L2PcInstance player, String fileName, boolean haveQuest) {
 		var content = getHtm(player.getHtmlPrefix(), fileName);
 		if (content == null) {
@@ -1946,7 +1959,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	public void showQuestFHTML(L2PcInstance player, String fileName, int questId, Map<String, Object> mappings) {
 		var content = getHtm(player.getHtmlPrefix(), fileName);
 		if (content == null) {
-			LOG.warn("Player {} requested inexistent file {}!", player, fileName);
+			LOG.warn("Player {} requested non-existent file {}!", player, fileName);
 			return;
 		}
 		
@@ -1973,8 +1986,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Send an HTML file to the specified player.
-	 * @param player the player to send the HTML to
+	 * Sends an HTML file to the specified player.<br>
+	 * This method retrieves the HTML content associated with the given file name and sends it to the player.
+	 * @param player the player to send the HTML content to
 	 * @param filename the name of the HTML file to show
 	 * @return the contents of the HTML file that was sent to the player
 	 * @see #showHtmlFile(L2PcInstance, String, L2Npc)
@@ -1984,31 +1998,32 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * Send an HTML file to the specified player.
+	 * Sends an HTML file to the specified player, optionally associating it with an NPC.<br>
+	 * If an NPC is provided, its object ID is included in the content.<br>
+	 * If the file is related to a quest, it will be displayed as a quest window.
 	 * @param player the player to send the HTML file to
 	 * @param filename the name of the HTML file to show
-	 * @param npc the NPC that is showing the HTML file
+	 * @param npc the NPC that is showing the HTML file, or {@code null} if none
 	 * @return the contents of the HTML file that was sent to the player
-	 * @see #showHtmlFile(L2PcInstance, String, L2Npc)
 	 */
 	public String showHtmlFile(L2PcInstance player, String filename, L2Npc npc) {
-		boolean questwindow = !filename.endsWith(".html");
+		boolean questWindow = !filename.endsWith(".html");
 		int questId = getId();
 		
-		// Create handler to file linked to the quest
+		// Retrieve the HTML content linked to the quest or NPC
 		String content = getHtm(player.getHtmlPrefix(), filename);
 		
-		// Send message to client if message not empty
+		// Send content to the player if it's not empty
 		if (content != null) {
 			var npcObjId = 0;
 			if (npc != null) {
-				content = content.replaceAll("%objectId%", String.valueOf(npc.getObjectId()));
+				content = content.replace("%objectId%", String.valueOf(npc.getObjectId()));
 				npcObjId = npc.getObjectId();
 			}
 			
-			content = content.replaceAll("%playername%", player.getName());
+			content = content.replace("%playername%", player.getName());
 			
-			if (questwindow && (questId > 0) && (questId < 20000) && (questId != 999)) {
+			if (questWindow && (questId > 0) && (questId < 20000) && (questId != 999)) {
 				player.sendPacket(new NpcQuestHtmlMessage(npcObjId, questId, content));
 			} else {
 				player.sendPacket(new NpcHtmlMessage(npcObjId, content));
@@ -2307,10 +2322,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	
 	public static void playSound(L2PcInstance player, IAudio sound) {
 		player.sendPacket(sound.getPacket());
-	}
-	
-	public void showRadar(L2PcInstance player, int x, int y, int z, int type) {
-		player.getRadar().addMarker(x, y, z);
 	}
 	
 	public boolean isVisibleInQuestWindow() {
