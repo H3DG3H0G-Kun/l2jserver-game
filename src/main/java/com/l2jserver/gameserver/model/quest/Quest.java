@@ -699,7 +699,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * On See Creature event triggered when an NPC sees a creature.
+	 * On See Creature event is triggered when an NPC sees a creature.
 	 * @param npc the NPC who sees the creature
 	 * @param creature the creature seen by the NPC
 	 */
@@ -708,49 +708,69 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever a player enters the game.
-	 * @param player this parameter contains a reference to the exact instance of the player who is entering to the world.
+	 * On Enter World event is triggered when a player enters the game.
+	 * @param player the player who is entering the world
 	 */
 	public void onEnterWorld(L2PcInstance player) {
 		
 	}
 	
+	/**
+	 * On Tutorial Event is triggered by a tutorial event and the associated command.
+	 * @param player the player who triggered the tutorial event
+	 * @param command the command associated with the tutorial event
+	 */
 	public void onTutorialEvent(L2PcInstance player, String command) {
 		
 	}
 	
+	/**
+	 * On Tutorial Client Event is triggered by a tutorial event and the associated client event.
+	 * @param player the player who triggered the tutorial client event
+	 * @param event the client event associated with the tutorial
+	 */
 	public void onTutorialClientEvent(L2PcInstance player, int event) {
 		
 	}
 	
+	/**
+	 * On Tutorial Question Mark event is triggered when a tutorial question mark appears for the player.
+	 * @param player the player who sees the tutorial question mark
+	 * @param number the identifier of the tutorial question mark
+	 */
 	public void onTutorialQuestionMark(L2PcInstance player, int number) {
 		
 	}
 	
+	/**
+	 * On Tutorial Command event is triggered when a tutorial command is entered by the player.
+	 * @param player the player who entered the tutorial command
+	 * @param command the command entered by the player
+	 */
 	public void onTutorialCmd(L2PcInstance player, String command) {
 		
 	}
 	
 	/**
-	 * This function is called whenever a character enters a registered zone.
-	 * @param creature the creature who is entering the zone.
-	 * @param zoneType this parameter contains a reference to the zone.
+	 * On Enter Zone event is triggered when a character enters a registered zone.
+	 * @param creature the character entering the zone
+	 * @param zoneType the zone that the character is entering
 	 */
 	public void onEnterZone(L2Character creature, L2ZoneType zoneType) {
 		
 	}
 	
 	/**
-	 * This function is called whenever a character exits a registered zone.
-	 * @param creature the character who is exiting the zone
-	 * @param zoneType the zone.
+	 * On Exit Zone event is triggered when a character exits a registered zone.
+	 * @param creature the character exiting the zone
+	 * @param zoneType the zone that the character is exiting
 	 */
 	public void onExitZone(L2Character creature, L2ZoneType zoneType) {
 		
 	}
 	
 	/**
-	 * On Event Received event.
+	 * On Event Received event is triggered when an event is received by the NPC.
 	 * @param event the event received
 	 */
 	public void onEventReceived(NpcEventReceived event) {
@@ -758,9 +778,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever a player wins an Olympiad Game
-	 * @param winner in this match
-	 * @param loser in this match
+	 * On Olympiad Match Finish event is triggered when a player wins an Olympiad Game.
+	 * @param winner the player who won the match
+	 * @param loser the player who lost the match
 	 * @param type the competition type
 	 */
 	public void onOlympiadMatchFinish(Participant winner, Participant loser, CompetitionType type) {
@@ -768,66 +788,70 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * This function is called whenever a player looses an Olympiad Game.
-	 * @param loser this parameter contains a reference to the exact instance of the player who lose the competition.
-	 * @param type this parameter contains a reference to the competition type.
+	 * On Olympiad Lose event is triggered when a player loses an Olympiad Game.
+	 * @param loser the player who lost the match
+	 * @param type the competition type
 	 */
 	public void onOlympiadLose(L2PcInstance loser, CompetitionType type) {
 		
 	}
 	
 	/**
-	 * This function is called whenever a NPC finishes moving
-	 * @param npc registered NPC
+	 * On Move Finished event is triggered when an NPC finishes moving.
+	 * @param npc the NPC who finished moving
 	 */
 	public void onMoveFinished(L2Npc npc) {
 		
 	}
 	
 	/**
-	 * This function is called whenever a walker NPC (controlled by WalkingManager) arrive a walking node
-	 * @param npc registered NPC
+	 * On Node Arrived event is triggered when a walker NPC arrives at a walking node.
+	 * @param npc the NPC who arrived at the node
 	 */
 	public void onNodeArrived(L2Npc npc) {
 		
 	}
 	
 	/**
-	 * This function is called whenever a walker NPC (controlled by WalkingManager) arrive to last node
-	 * @param npc registered NPC
+	 * On Route Finished event is triggered when a walker NPC finishes its route.
+	 * @param npc the NPC who finished its route
 	 */
 	public void onRouteFinished(L2Npc npc) {
 		
 	}
 	
 	/**
-	 * @param mob
-	 * @param player
-	 * @param isSummon
-	 * @return {@code true} if npc can hate the playable, {@code false} otherwise.
+	 * On NPC Hate event is triggered when an NPC determines if it can hate a playable.
+	 * @param mob the NPC who may hate the playable
+	 * @param player the player being considered for hate
+	 * @param isSummon whether the hate is on the summon
+	 * @return {@code true} if the NPC can hate the playable, {@code false} otherwise
 	 */
 	public boolean onNpcHate(L2Attackable mob, L2PcInstance player, boolean isSummon) {
 		return true;
 	}
 	
 	/**
-	 * @param summon
+	 * On Summon Spawn event is triggered when a summon spawns.
+	 * @param summon the summon that spawned
 	 */
 	public void onSummonSpawn(L2Summon summon) {
 		
 	}
 	
 	/**
-	 * @param summon
+	 * On Summon Talk event is triggered when a summon is being talked.
+	 * @param summon the summon that is talking
 	 */
 	public void onSummonTalk(L2Summon summon) {
 		
 	}
 	
 	/**
-	 * On Can See Me event.
-	 * @param npc the NPC
-	 * @param player the player
+	 * On Can See Me event is triggered when an NPC checks if it can see a player.
+	 * @param npc the NPC performing the check
+	 * @param player the player being checked
+	 * @return {@code true} if the NPC can see the player, {@code false} otherwise
 	 */
 	public boolean onCanSeeMe(L2Npc npc, L2PcInstance player) {
 		return false;
