@@ -24,7 +24,6 @@ import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_FINIS
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_OWNER_CHANGE;
 import static com.l2jserver.gameserver.model.events.EventType.CASTLE_SIEGE_START;
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_KILL;
-import static com.l2jserver.gameserver.model.events.EventType.ITEM_TALK;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_CAN_BE_SEEN;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_EVENT_RECEIVED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_FIRST_TALK;
@@ -39,7 +38,6 @@ import static com.l2jserver.gameserver.model.events.EventType.PLAYER_SUMMON_SPAW
 import static com.l2jserver.gameserver.model.events.EventType.PLAYER_SUMMON_TALK;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.CASTLE;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.GLOBAL;
-import static com.l2jserver.gameserver.model.events.ListenerRegisterType.ITEM;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.NPC;
 import static com.l2jserver.gameserver.model.events.ListenerRegisterType.OLYMPIAD;
 import static com.l2jserver.gameserver.model.quest.QuestDroplist.singleDropItem;
@@ -116,7 +114,6 @@ import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfess
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerProfessionChange;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerSummonSpawn;
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerSummonTalk;
-import com.l2jserver.gameserver.model.events.impl.item.ItemTalk;
 import com.l2jserver.gameserver.model.events.impl.olympiad.OlympiadMatchResult;
 import com.l2jserver.gameserver.model.events.impl.sieges.castle.CastleSiegeFinish;
 import com.l2jserver.gameserver.model.events.impl.sieges.castle.CastleSiegeOwnerChange;
@@ -554,28 +551,6 @@ public abstract class AbstractScript implements INamable {
 	 */
 	protected final List<AbstractEventListener> setPlayerLogoutId(Consumer<PlayerLogout> callback) {
 		return registerConsumer(callback, PLAYER_LOGOUT, GLOBAL);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Provides instant callback operation when {@link L2PcInstance} talk to {@link L2Item}.
-	 * @param callback
-	 * @param npcIds
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setItemTalkId(Consumer<ItemTalk> callback, int... npcIds) {
-		return registerConsumer(callback, ITEM_TALK, ITEM, npcIds);
-	}
-	
-	/**
-	 * Provides instant callback operation when {@link L2PcInstance} talk to {@link L2Item}.
-	 * @param callback the event callback
-	 * @param npcIds the NPC Ids
-	 * @return
-	 */
-	protected final List<AbstractEventListener> setItemTalkId(Consumer<ItemTalk> callback, Collection<Integer> npcIds) {
-		return registerConsumer(callback, ITEM_TALK, ITEM, npcIds);
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------

@@ -26,6 +26,7 @@ import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_ENTE
 import static com.l2jserver.gameserver.model.events.EventType.CREATURE_ZONE_EXIT;
 import static com.l2jserver.gameserver.model.events.EventType.FACTION_CALL;
 import static com.l2jserver.gameserver.model.events.EventType.ITEM_BYPASS;
+import static com.l2jserver.gameserver.model.events.EventType.ITEM_TALK;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_CREATURE_SEE;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_FINISHED;
 import static com.l2jserver.gameserver.model.events.EventType.NPC_MOVE_NODE_ARRIVED;
@@ -111,11 +112,11 @@ import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutoria
 import com.l2jserver.gameserver.model.events.impl.character.player.PlayerTutorialQuestionMark;
 import com.l2jserver.gameserver.model.events.impl.character.trap.OnTrapAction;
 import com.l2jserver.gameserver.model.events.impl.item.ItemBypass;
+import com.l2jserver.gameserver.model.events.impl.item.ItemTalk;
 import com.l2jserver.gameserver.model.events.listeners.AbstractEventListener;
 import com.l2jserver.gameserver.model.events.returns.TerminateReturn;
 import com.l2jserver.gameserver.model.interfaces.IIdentifiable;
 import com.l2jserver.gameserver.model.items.L2Item;
-import com.l2jserver.gameserver.model.items.instance.L2ItemInstance;
 import com.l2jserver.gameserver.model.olympiad.CompetitionType;
 import com.l2jserver.gameserver.model.olympiad.Participant;
 import com.l2jserver.gameserver.model.skills.Skill;
@@ -465,20 +466,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 		}
 	}
 	
-	/**
-	 * Notify Item Talk event.
-	 * @param item the item
-	 * @param player the player
-	 */
-	public final void notifyItemTalk(L2ItemInstance item, L2PcInstance player) {
-		try {
-			final var result = onItemTalk(item, player);
-			showResult(player, result, null);
-		} catch (Exception ex) {
-			showError(player, ex);
-		}
-	}
-	
 	// These are methods that java calls to invoke scripts.
 	
 	/**
@@ -580,12 +567,11 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * On Item Talk event.
-	 * @param item the item
-	 * @param player the player
+	 * On Item Talk event triggered when an item bypass is called.
+	 * @param event the event
 	 */
-	public String onItemTalk(L2ItemInstance item, L2PcInstance player) {
-		return null;
+	public void onItemTalk(ItemTalk event) {
+		
 	}
 	
 	/**
@@ -1242,7 +1228,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param itemIds the IDs of the Item
 	 */
 	public void bindItemTalk(int... itemIds) {
-		setItemTalkId(event -> notifyItemTalk(event.item(), event.player()), itemIds);
+		registerConsumer((ItemTalk event) -> onItemTalk(event), ITEM_TALK, ITEM, itemIds);
 	}
 	
 	/**
@@ -1250,7 +1236,7 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param itemIds the IDs of the Item
 	 */
 	public void addItemTalk(Collection<Integer> itemIds) {
-		setItemTalkId(event -> notifyItemTalk(event.item(), event.player()), itemIds);
+		registerConsumer((ItemTalk event) -> onItemTalk(event), ITEM_TALK, ITEM, itemIds);
 	}
 	
 	/**
