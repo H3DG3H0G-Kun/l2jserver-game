@@ -320,7 +320,7 @@ public final class QuestState {
 		_player.sendPacket(new QuestList());
 		
 		final Quest q = getQuest();
-		if (!q.isCustomQuest() && (cond > 0)) {
+		if (!q.isCustom() && (cond > 0)) {
 			_player.sendPacket(new ExShowQuestMark(q.getId()));
 		}
 	}
@@ -929,7 +929,7 @@ public final class QuestState {
 	 * @return the quest state
 	 */
 	public QuestState startQuest(boolean playSound, int cond) {
-		if (isCreated() && !getQuest().isCustomQuest()) {
+		if (isCreated() && !getQuest().isCustom()) {
 			set("cond", cond);
 			setState(State.STARTED);
 			if (playSound) {

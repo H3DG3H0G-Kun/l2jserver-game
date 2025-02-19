@@ -150,10 +150,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	
 	private final int _questId;
 	private final String _name;
-	private final String _description;
 	private final byte _initialState = State.CREATED;
 	protected boolean _onEnterWorld = false;
-	private boolean _isCustom = false;
+	private final String customName;
 	
 	private int[] _questItemIds = null;
 	
@@ -167,17 +166,29 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	private static final int RESET_MINUTES = 30;
 	
 	/**
-	 * The Quest object constructor.<br>
-	 * Constructing a quest also calls the {@code init_LoadGlobalData} convenience method.
-	 * @param questId ID of the quest
-	 * @param name String corresponding to the name of the quest
-	 * @param description String for the description of the quest
+	 * Script constructor.
 	 */
-	public Quest(int questId, String name, String description) {
-		_questId = questId;
-		_name = name;
-		_description = description;
-		if (questId > 0) {
+	public Quest() {
+		this(-1);
+	}
+	
+	/**
+	 * Quest constructor.
+	 * @param id the ID of the quest
+	 */
+	public Quest(int id) {
+		this(id, null);
+	}
+	
+	/**
+	 * Custom quest constructor.
+	 * @param id the ID of the quest
+	 */
+	public Quest(int id, String customName) {
+		_questId = id;
+		_name = getClass().getSimpleName();
+		this.customName = customName;
+		if (id > 0) {
 			QuestManager.getInstance().addQuest(this);
 		} else {
 			QuestManager.getInstance().addScript(this);
@@ -266,13 +277,6 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	@Override
 	public String getName() {
 		return _name;
-	}
-	
-	/**
-	 * @return the description of the quest
-	 */
-	public String getDescr() {
-		return _description;
 	}
 	
 	/**
@@ -2103,20 +2107,19 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	}
 	
 	/**
-	 * If a quest is set as custom, it will display its name in the NPC Quest List.<br>
-	 * Retail quests are unhardcoded to display the name using a client string.
-	 * @param val if {@code true} the quest script will be set as custom quest.
+	 * Checks if this is a custom quest.
+	 * @return {@code true} if the quest is a custom quest, {@code false} otherwise
 	 */
-	public void setIsCustom(boolean val) {
-		_isCustom = val;
+	public boolean isCustom() {
+		return customName != null;
 	}
 	
 	/**
-	 * Verifies if this is a custom quest.
-	 * @return {@code true} if the quest script is a custom quest, {@code false} otherwise.
+	 * Gets the quest's custom name.
+	 * @return the custom name
 	 */
-	public boolean isCustomQuest() {
-		return _isCustom;
+	public String getCustomName() {
+		return customName;
 	}
 	
 	/**

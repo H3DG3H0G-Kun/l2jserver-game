@@ -82,9 +82,7 @@ public class LongTimeEvent extends Quest {
 		}
 	}
 	
-	public LongTimeEvent(String name, String descr) {
-		super(-1, name, descr);
-		
+	public LongTimeEvent() {
 		loadConfig();
 		
 		if (_eventPeriod != null) {

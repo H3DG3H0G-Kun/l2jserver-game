@@ -35,7 +35,7 @@ class QuestTest {
 	
 	@BeforeEach
 	void setUp() {
-		quest = new Quest(1, "Test quest", "A test quest");
+		quest = new Quest(1);
 	}
 	
 	@Test
