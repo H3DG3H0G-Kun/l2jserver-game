@@ -73,6 +73,7 @@ public final class Fort extends AbstractResidence {
 	private Calendar _siegeDate;
 	private Calendar _lastOwnedTime;
 	private L2SiegeZone _zone;
+	private int _ownerId = 0;
 	private L2Clan _fortOwner = null;
 	private int _fortType = 0;
 	private int _state = 0;
@@ -465,7 +466,6 @@ public final class Fort extends AbstractResidence {
 		try (var con = ConnectionFactory.getInstance().getConnection();
 			var ps = con.prepareStatement("SELECT * FROM fort WHERE id = ?")) {
 			ps.setInt(1, getResidenceId());
-			int ownerId = 0;
 			try (var rs = ps.executeQuery()) {
 				while (rs.next()) {
 					setName(rs.getString("name"));
@@ -474,15 +474,15 @@ public final class Fort extends AbstractResidence {
 					_lastOwnedTime = Calendar.getInstance();
 					_siegeDate.setTimeInMillis(rs.getLong("siegeDate"));
 					_lastOwnedTime.setTimeInMillis(rs.getLong("lastOwnedTime"));
-					ownerId = rs.getInt("owner");
+					_ownerId = rs.getInt("owner");
 					_fortType = rs.getInt("fortType");
 					_state = rs.getInt("state");
 					_castleId = rs.getInt("castleId");
 					_supplyLvL = rs.getInt("supplyLvL");
 				}
 			}
-			if (ownerId > 0) {
-				L2Clan clan = ClanTable.getInstance().getClan(ownerId); // Try to find clan instance
+			if (_ownerId > 0) {
+				final var clan = ClanTable.getInstance().getClan(_ownerId);
 				clan.setFortId(getResidenceId());
 				setOwnerClan(clan);
 				int runCount = getOwnedTime() / (int) MILLISECONDS.toSeconds(fortress().getPeriodicUpdateFrequency());
@@ -502,7 +502,6 @@ public final class Fort extends AbstractResidence {
 			} else {
 				setOwnerClan(null);
 			}
-			
 		} catch (Exception e) {
 			LOG.warn("Exception: loadFortData(): {}", e.getMessage(), e);
 		}
@@ -690,6 +689,10 @@ public final class Fort extends AbstractResidence {
 		} catch (Exception e) {
 			LOG.warn("Exception: updateOwnerInDB(L2Clan clan): {}", e.getMessage(), e);
 		}
+	}
+	
+	public int getOwnerId() {
+		return _ownerId;
 	}
 	
 	public L2Clan getOwnerClan() {

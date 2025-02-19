@@ -1914,9 +1914,18 @@ public class Quest extends AbstractScript implements IIdentifiable {
 	 * @param fileName the name of the HTML file to be shown
 	 */
 	public void showPage(L2PcInstance player, String fileName) {
-		final var content = getHtm(player.getHtmlPrefix(), fileName);
+		showFHTML(player, fileName, Map.of());
+	}
+	
+	public void showFHTML(L2PcInstance player, String fileName, Map<String, Object> mappings) {
+		var content = getHtm(player.getHtmlPrefix(), fileName);
 		if (content == null) {
+			LOG.warn("Player {} requested non-existent file {}!", player, fileName);
 			return;
+		}
+		
+		for (var mapping : mappings.entrySet()) {
+			content = content.replace(mapping.getKey(), mapping.getValue().toString());
 		}
 		player.sendPacket(new NpcHtmlMessage(content));
 	}
