@@ -957,7 +957,8 @@ public class Quest extends AbstractScript implements IIdentifiable {
 						String var = rs.getString("var");
 						String value = rs.getString("value");
 						// Get the QuestState saved in the loop before
-						QuestState qs = player.getQuestState(questId);
+						Quest q = QuestManager.getInstance().getQuest(questId);
+						QuestState qs = q.getQuestState(player, true);
 						if (qs == null) {
 							LOG.warn("Lost variable {} in quest {} for player {}!", var, questId, player.getName());
 							if (general().autoDeleteInvalidQuestData()) {
@@ -1931,7 +1932,9 @@ public class Quest extends AbstractScript implements IIdentifiable {
 		for (var mapping : mappings.entrySet()) {
 			content = content.replace(mapping.getKey(), mapping.getValue().toString());
 		}
-		player.sendPacket(new NpcHtmlMessage(content));
+		
+		final var npc = player.getLastFolkNPC();
+		player.sendPacket(new NpcHtmlMessage(npc != null ? npc.getObjectId() : 0, content));
 	}
 	
 	/**
