@@ -579,7 +579,11 @@ class AffectScopeTest {
 		when(skill.getAffectObject()).thenReturn(affectObject);
 		
 		when(L2World.getInstance()).thenReturn(world);
-		when(world.getVisibleObjectsStream(target, AFFECT_RANGE, true)).thenReturn(Stream.of(object1, servitor, player2, player3, player4, player5, player6, player7, player8));
+		when(world.getVisibleObjectsStream(target, AFFECT_RANGE, false)).thenReturn(Stream.of(target, object1, servitor, player2, player3, player4, player5, player6, player7, player8));
+
+		when(target.isCharacter()).thenReturn(true);
+		when(target.isDead()).thenReturn(false);
+		when(affectObject.affectObject(caster, target)).thenReturn(true);
 		
 		when(object1.isCharacter()).thenReturn(false);
 		
@@ -602,11 +606,7 @@ class AffectScopeTest {
 		when(player5.isDead()).thenReturn(false);
 		when(affectObject.affectObject(caster, player5)).thenReturn(true);
 		
-		when(player6.isCharacter()).thenReturn(true);
-		when(player6.isDead()).thenReturn(false);
-		when(affectObject.affectObject(caster, player6)).thenReturn(false);
-		
-		assertEquals(List.of(player2, player3, player4, player5), RANGE.affectTargets(caster, target, skill));
+		assertEquals(List.of(target, player2, player3, player4, player5), RANGE.affectTargets(caster, target, skill));
 	}
 	
 	@Test

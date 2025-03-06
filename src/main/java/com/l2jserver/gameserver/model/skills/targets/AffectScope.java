@@ -393,7 +393,7 @@ public enum AffectScope {
 		public List<L2Object> affectTargets(L2Character caster, L2Object target, Skill skill) {
 			final var affectLimit = skill.getAffectLimit();
 			return L2World.getInstance()
-				.getVisibleObjectsStream(target, skill.getAffectRange(), true)
+				.getVisibleObjectsStream(target, skill.getAffectRange(), false)
 				.filter(L2Object::isCharacter)
 				.map(o -> (L2Character) o)
 				.filter(c -> !c.isDead())
