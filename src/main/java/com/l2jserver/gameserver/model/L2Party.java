@@ -508,7 +508,7 @@ public class L2Party extends AbstractPlayerGroup {
 	 * distribute item(s) to party members
 	 */
 	public void distributeItem(L2PcInstance player, L2ItemInstance item) {
-		if (isItemToEvenlyDistribute(item.getId())) {
+		if (isItemToEvenlyDistribute(item.getId()) && item.getCount() > 1) {
 			distributeItemEvenly(player, item.getId(), item.getCount(), player);
 			ItemTable.getInstance().destroyItem("Party", item, player, null);
 			return;
@@ -543,7 +543,7 @@ public class L2Party extends AbstractPlayerGroup {
 	 * @param target the NPC target
 	 */
 	public void distributeItem(L2PcInstance player, int itemId, long itemCount, boolean spoil, L2Attackable target) {
-		if (isItemToEvenlyDistribute(itemId)) {
+		if (isItemToEvenlyDistribute(itemId) && itemCount > 1) {
 			distributeItemEvenly(player, itemId, itemCount, target);
 			return;
 		}
