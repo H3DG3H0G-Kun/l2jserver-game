@@ -241,6 +241,8 @@ public class CharSelectionInfo extends L2GameServerPacket {
 		charInfopackage.setClanId(chardata.getInt("clanid"));
 		
 		charInfopackage.setRace(chardata.getInt("race"));
+
+		charInfopackage.setContributionPoints(chardata.getInt("contribution_points"));
 		
 		final int baseClassId = chardata.getInt("base_class");
 		final int activeClassId = chardata.getInt("classid");

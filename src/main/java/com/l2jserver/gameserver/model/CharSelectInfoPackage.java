@@ -59,6 +59,7 @@ public class CharSelectInfoPackage {
 	private String _htmlPrefix = null;
 	private int _vitalityPoints = 0;
 	private int _accessLevel = 0;
+	private int _contributionPoints =0;
 	
 	/**
 	 * Constructor for CharSelectInfoPackage.
@@ -341,5 +342,13 @@ public class CharSelectInfoPackage {
 	
 	public int getVitalityPoints() {
 		return _vitalityPoints;
+	}
+
+	public int getContributionPoints() {
+		return _contributionPoints;
+	}
+
+	public void setContributionPoints(int points) {
+		_contributionPoints = points;
 	}
 }

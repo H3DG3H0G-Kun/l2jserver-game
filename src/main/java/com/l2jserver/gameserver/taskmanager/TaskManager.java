@@ -34,24 +34,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 
+import com.l2jserver.gameserver.taskmanager.tasks.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.l2jserver.commons.database.ConnectionFactory;
 import com.l2jserver.gameserver.ThreadPoolManager;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskBirthday;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskClanLeaderApply;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskCleanUp;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskDailySkillReuseClean;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskGlobalVariablesSave;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskHuntingSystem;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskOlympiadSave;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskRaidPointsReset;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskRecom;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskRestart;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskScript;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskSevenSignsUpdate;
-import com.l2jserver.gameserver.taskmanager.tasks.TaskShutdown;
 
 /**
  * Task Manager.
@@ -164,6 +152,7 @@ public final class TaskManager {
 	}
 	
 	private void initializate() {
+		registerTask(new TaskContributionPointsReset());
 		registerTask(new TaskBirthday());
 		registerTask(new TaskClanLeaderApply());
 		registerTask(new TaskCleanUp());
